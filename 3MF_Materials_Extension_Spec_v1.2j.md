@@ -48,7 +48,6 @@ Replaceable items, that is, an item intended to be replaced by a value, are form
 
 Notes are formatted as follows:
 
-|
-| **Note: This is a note.**
-|
+| Note: This is a note. |
+| --- |
 
