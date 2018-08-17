@@ -1,26 +1,20 @@
 # ![3mf logo](images/3mf_logo_50px.png) 3D Manufacturing Format
 
-## Materials and Properties Extension
-
-
-
-
-
-
-
-
-
-
+# Materials and Properties Extension
 
 | **Version** | 1.2 |
 | --- | --- |
 | **Status** | Draft |
 
+
 ## Disclaimer
 
 THESE MATERIALS ARE PROVIDED "AS IS." The contributors expressly disclaim any warranties (express, implied, or otherwise), including implied warranties of merchantability, non-infringement, fitness for a particular purpose, or title, related to the materials. The entire risk as to implementing or otherwise using the materials is assumed by the implementer and user. IN NO EVENT WILL ANY MEMBER BE LIABLE TO ANY OTHER PARTY FOR LOST PROFITS OR ANY FORM OF INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES OF ANY CHARACTER FROM ANY CAUSES OF ACTION OF ANY KIND WITH RESPECT TO THIS DELIVERABLE OR ITS GOVERNING AGREEMENT, WHETHER BASED ON BREACH OF CONTRACT, TORT (INCLUDING NEGLIGENCE), OR OTHERWISE, AND WHETHER OR NOT THE OTHER MEMBER HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+
 ## Table of Contents
+
+
 
 ## Preface
 
@@ -77,7 +71,7 @@ Editing applications are subject to all of the above rules.
 # Part I. 3MF Documents
 
 
-# Chapter 1. Overview of Additions
+## Chapter 1. Overview of Additions
 
 **add image**
 
@@ -88,11 +82,11 @@ As a general idea, the following resource groups will determine different ways o
 As there are existing file formats and use cases which need multiple pieces of information per triangle, it is possible to define multiple properties per triangle (see chapter 5). Consumers MUST be strict in obeying the mixing rules as laid out in the corresponding paragraphs to avoid ambiguous interpretation of the design intent.
 
 
-## 1.1. Resources
+### 1.1. Resources
 
 All the new elements defined in this 3MF extension specification live under the <resources> element from the core 3MF specification. The <object> and <basematerials> elements are from the core spec, while the rest are defined in the following chapters. The ordering shown here is not enforced in the schema, as these extension elements all fall under the <any> element from the core spec.
 
-## 1.2. sRGB and linear color values
+### 1.2. sRGB and linear color values
 
 The 3MF core specification (Chapter 5.1.1) mentions that whenever 3MF uses colors that are expressed as #RRGGBB hexadecimal quantities with 8 bits per color channel, they are assumed to be in sRGB color space. 3MF uses sRGB as specified by the World Wide Web Consortium (http://www.w3.org/Graphics/Color/sRGB).
 
@@ -122,11 +116,11 @@ The forward color component transfer function from linear to sRGB color space is
 
 This equation MUST be applied separately to each channel in the C_linear  triplet. sRGB values should be kept in the [0, 1] range while applying interpolations. To return sRGB to an 8-bit triplet (before persisting to disk, for example), it is necessary to multiply each channel by the required bits per channel (255, for 8-bit) and round to the nearest integer.
 
-## 1.3. Material Gradients and Interpolation Methods
+### 1.3. Material Gradients and Interpolation Methods
 
 The 3MF core specification (Chapter 4.1.4: Triangles) describes properties e.g. color to be specified for each vertex of a triangle. Specifically, an sRGB triplet can be assigned to each vertex of a triangle. Color gradients within a triangle should be calculated by performing an interpolation in sRGB using a barycentric interpolation method. Performing color vertex interpolations in sRGB space corresponds to common practices in 2D and 3D imaging applications and is closer to an interpolation in a perceptual uniform space than an interpolation in a linear RGB space would be. 
 
-## 1.4. Base Materials 
+### 1.4. Base Materials 
 
 The 3MF core specification (Chapter 5: Material Resources) describes a base material type. This extension adds an additional attribute to the base material element representing display properties that allow realistic rendering of materials to a display.
 
