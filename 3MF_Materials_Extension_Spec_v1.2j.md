@@ -14,6 +14,94 @@ THESE MATERIALS ARE PROVIDED "AS IS." The contributors expressly disclaim any wa
 
 ## Table of Contents
 
+Preface
+
+About this Specification
+
+Document Conventions
+
+Language Notes
+
+Software Conformance
+
+Part I: 3MF Documents
+
+Chapter 1. Overview of Additions
+
+1.1. Resources
+
+1.2. sRGB and linear color values
+
+1.3. Material Gradients and Interpolation Methods
+
+1.4. Base Materials
+
+Chapter 2. Color Groups
+
+2.1. Color
+
+Chapter 3. Texture 2D Groups
+
+3.1. Texture 2D Coordinate
+
+Chapter 4. Composite Materials
+
+4.1. Composite
+
+Chapter 5. Multi-Properties
+
+5.1. Multi
+
+Chapter 6. Texture 2d
+
+Chapter 7. Display Properties Overview
+
+7.1. Specular Display Properties
+
+7.1.1. Specular
+
+7.2. Metallic Display Properties
+
+7.2.1. Metallic
+
+7.3. Specular Texture Display Properties
+
+7.4. Metallic Texture Display Properties
+
+7.5. Translucent Display Properties
+
+7.5.1. Translucent
+
+Part II. Appendixes
+
+Appendix A. Glossary
+
+Appendix B. 3MF XSD Schema (Core + Materials)
+
+Appendix C. 3MF Samples
+
+C.1 – Physically Based Material sample
+
+C.2. Translucent Material Sample
+
+Appendix D. Micro-facet Surface Model and BRDF
+
+D.1. Normal Distribution Function – D(h)
+
+D.2. Geometric Occlusion Term – G(l, v, h)
+
+D.3. Fresnel Term – F(l, h)
+
+Appendix E. Standard Namespaces and Content Types
+
+E.1	Content Types
+
+E.2	Relationship Types
+
+E.3	Namespaces
+
+References
+
 
 
 ## Preface
