@@ -320,4 +320,154 @@ Imagine the surface as a set of infinitesimally small micro-facets, half of the 
 
 When physically printing, a material and display properties MAY be ignored. But when rendering on screen, the display color and display properties SHOULD be blended to provide a realistic preview.
 
+### 5.1. Multi
+
+Element **\<multi>**
+
+##### Attributes
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| pindices | **ST_ResourceIndices** | required |  | A space-delimited list of ST_ResourceIndex values of the constituents |
+| @anyAttribute | | | | |
+
+If the pindices list is shorter than the pids list, consumers MUST use a default index of zero for any unspecified pindices. Extra pindices MUST be ignored. To avoid integer overflows, a multi property group MUST contain less than 2^31 elements.
+
+## Chapter 6. Texture 2d
+
+Element **\<texture2d>**
+
+##### Attributes
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| id | **ST_ResourceID** | required |  | Specifies a unique identifier for this texture resource. |
+| path | **ST_UriReference** | required |  | Specifies the part name of the texture data. |
+| contenttype | **ST_ContentType** | required |  | Specifies the content type of the 2D Texture part referenced by the path attribute. Valid values are image/jpeg and image/png. |
+| tilestyleu | **ST_TileStyle** |  | wrap | Specifies how tiling should occur in the u axis in order to fill the overall requested area. Valid values are wrap, mirror, clamp, none. |
+| tilestylev | **ST_TileStyle** |  | wrap | Specifies how tiling should occur in the v axis in order to fill the overall requested area. Valid values are wrap, mirror, clamp, none. |
+| filter | **ST_Filter** |  | auto | Specifies the texture filter to apply when scaling the source texture.  Allowed values are “auto”, “linear”, “nearest” |
+| @anyAttribute | | | | |
+
+A 2D texture resource provides information about texture image data, found via the provided path reference, which MUST also be the target of a 3D Texture relationship from the 3D Model part.
+
+The following table shows the logical interpretation of possible input pixel layouts. The meaning of symbols is as follows: R – red, G – green, B – blue, A – alpha, Y – grayscale.
+
+For example, if the specification says that a certain value is sampled from the texture’s R channel, but the referenced texture is only monochromatic then grayscale channel is interpreted as the R color channel. Similarly, color values sampled from a monochromatic texture are interpreted as if all R, G, B color channels shared the same grayscale value.
+
+Logical interpretation as a RGBA value:
+
+| Input pixel layout | | | | |
+| --- | --- | --- | --- | --- |
+| RGBA* | R | G | B | A |
+| RGB | R | G | B | #FF |
+| YA* | Y | Y | Y | A |
+| Y | Y | Y | Y | #FF |
+* *These pixel layouts are only supported by the PNG format.
+
+If there is no alpha channel present in the texture, the default value #FF SHOULD be used. Unless specified otherwise, alpha channel is assumed to be in linear space while color and grayscale channels are assumed to be in sRGB color space. Texture filtering should be performed in sRGB, but a client SHOULD perform conversion to linear RGB (see Chapter 1.2.) before linear operations such as multi property blending take place.
+
+The box attribute was DEPRECATED in version 1.2. Producers SHOULD NOT generate it and consumer SHOULD ignore it.
+
+tilestyleu, tilestylev - The tile style of wrap essentially means that the same texture SHOULD be repeated in the specified axis (both in the positive and negative directions), for the axis value. The tile style of mirror means that each time the texture width or height is exceeded, the next repetition of the texture SHOULD be reflected across a plane perpendicular to the axis in question. The tile style of clamp means all Texture 2D Coordinates outside of the range zero to one will be assigned the color of the nearest edge pixel. The tile style of none means that all Texture 2D Coordinates outside the range zero to one will be assigned the color of the default object color. If the default object color is not defined the choice for the color is left to the consumer.
+
+The only supported content types are JPEG and PNG, as more specifically specified in the 3MF core spec under the Thumbnails section.
+filter - The producer MAY require the use of a specific filter type by specifying either “linear” for bilinear interpolation or “nearest” for nearest neighbor interpolation. The producer SHOULD use “auto” to indicate to the consumer to use the highest quality filter available. If source texture is scaled with the model, the specified filter type MUST be applied to the scaling operation. The default value is “auto”.
+
+The following example shows how the filter MUST be applied to the texture. Figure 6-1 shows an example of a small texture which is tiled by vertically mirroring and horizontally wrapping. It illustrates that that the texture pixels are located at the center of each cell. All the filter operations should be performed in sRGB.
+
+*Figure 6-1:  The image and tiling used as example, showing where the texture pixels are located.
+
+**image**
+
+Finally, Figure 6-2 shows the nearest and the linear filters output by filling the cells.
+*Figure 6-2:  Texture filtering of a 3 x 2 image (Figure 1a) with tilestyleu=WRAP and tilestylev=MIRROR.
+
+**image**
+
+## Chapter 7. Display Properties Overview
+
+Display properties contain extra information about the material to help how to describe it so that a material can be realistically and consistently rendered on the screen. For example, a metal material will be highly shiny and reflective, where a translucent material will allow light to pass through. This information is useful mainly for display purposes.
+
+Physically based rendering (PBR) is an approach to real-time rendering of materials that delivers physically plausible surface reflections in a variety of lighting conditions. It can be viewed as an extension of color where the surface is defined also by its specular reflectance and roughness.
+
+Most real-world materials fall into two categories:
+
+1.	Non-metals (dielectrics). Materials like plastics or ceramics tend to be less reflective and the light that penetrates the surface is usually scattered and reemitted back into the environment. Because of that their diffuse reflectance can be extremely high while their specular reflectance is usually only around 4%. Specular reflections are usually uncolored.
+
+2.	Metals (conductors). These materials tend to be very reflective and they usually absorb rather than scatter any light that happens to penetrate the surface. Therefore, their specular reflectance is extremely high and their diffuse reflectance approaches zero. Specular reflections can be color tinted, e.g. in case of gold and copper. 
+
+Because of this duality, some systems adopted the so-called metallic workflow in which the material is defined by its surface color and the degree to which it behaves as a metal. Another widely adopted approach is the so-called specular workflow in which both the diffuse reflectance and the specular reflectance are defined explicitly as sRGB color triplets. 
+
+Both workflows use an additional parameter that specifies surface roughness, or its complimentary value called shininess (or smoothness). In this document, the terms ‘metallic workflow’ and ‘metallic representation’ as well as ‘specular workflow’ and ‘specular representation’ are used interchangeably.
+
+For both workflows 3MF defines both “plain” and “textured” representation of the material.
+
+Physically based materials specify only the appearance of material at the surface of the object. They do not describe the distribution of the material through the volume of the object. Similarly, they do not describe the chemical composition of the material.
+
+Translucent materials have the quality of allowing light to pass through, unlike opaque materials which reflect some portions of electromagnetic spectrum while absorbing others. The portion of light that is not reflected into the environment is refracted and gradually absorbed as it travels through the material. Object thickness plays a significant role in how much light is absorbed. While transparent materials only affect the amount of light they let through, translucent ones can even alter its path, resulting in more diffuse appearance. Such appearance can be attributed to a combination of two factors – surface scattering due to object’s surface roughness and volume scattering due to microscopic non-uniformities in the material. In the latter case, the light does not follow a straight path but bounces many times inside the object before it is absorbed or reemitted somewhere else.
+
+Display properties are represented by these five types – specular, metallic, specular with texture, metallic with texture, and translucent.
+
+“metallic”, “specular”, and “translucent” types are only valid for <basematerials>, <compositematerials> and <colorgroup>. Where “metallictexture” and “speculartexture” are only valid for <texture2dgroup>.
+    
+The properties defined on a triangle that are from a display properties group MUST NOT form gradients, as interpolation between physically based materials is not defined in this specification. A consumer MUST apply the p1 property to the entire triangle. Properties p2 and p3 MUST be either unspecified or they MUST be equal to p1.
+
+### 7.1. Specular Display Properties
+
+Element **\<pbspeculardisplayproperties>**
+
+#### Attributes
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| id | **ST_ResourceID** | required |  | Unique ID among all resources (which could include elements from extensions to the spec). |
+| @anyAttribute | | | | |
+    
+
+##### Elements
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| pbspecular | **CT_PBSpecular** | required |   |   |
+
+The <pbspeculardisplayproperties> are located under <resources> and contain a set of properties describing how to realistically display a specular material. They are optionally associated with specific materials through a “displaypropertiesid” attribute.
+
+<pbspeculardisplayproperties> is a container for one or more <pbspecular> elements.
+    
+The order and count of the elements forms an implicit 0-based index in the same as the order and count of elements of the associated material group. For example, if a <basematerials> group includes a “displaypropertiesid” attribute pointing to a <pbspeculardisplayproperties> element, there will be the same number of <pbspecular> elements as <basematerial> elements where the first <pbspecular> element describes the first <basematerial> in the group.
+
+### 7.1.1. Specular
+
+Element **\<pbspecular>**
+
+#### Attributes
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| name | **xs:string** | required |  | Specifies the material name |
+| specularcolor | **ST_ColorValue** |   | #383838 | Specular reflectance value |
+| glossiness | **ST_Number** |   | 0 | Surface glossiness (smoothness) value |
+| @anyAttribute | | | | |
+    
+The <pbspecular> element infers a diffuse color from the color attribute of the material it is associated with. For example, when <pbspecular> display properties are associated with a <basematerial>, the “displaycolor” attribute from basematerial specifies a diffuse color to apply using pbspecular display properties. Similarly, when <pbspecular> display properties are associated with a <color> material, the “color” attribute specifies the diffuse color to apply.
+ 
+The diffuse color describes the surface color. It is an sRGB color triplet that specifies diffuse reflectance of the surface. It represents the proportion of light which is reflected off the surface in diffuse fashion in respective red, green and blue wavelength regions. Diffuse reflection is an idealized concept in which the incident light scatters in all directions independently of the angle at which it arrives. 
+    
+In order to obtain RGB coefficients in the 0..1 range that can be used in lighting calculations, the inverse color component transfer function (see  Chapter 1.2. sRGB and linear RGB color values) MUST be applied to convert colors from sRGB color space to linear RGB space.
+
+**Name**
+    
+Material name is intended to convey design intent. Producers SHOULD avoid machine-specific naming in favor of more portable descriptions. 
+
+**Specularcolor**
+
+Specular color is a sRGB color triplet that specifies specular reflectance of the surface at normal incidence (the condition in which the light beam is perpendicular to the surface). It represents the proportion of light which is reflected off the surface in mirror-like fashion in respective red, green and blue wavelength regions. Unlike diffuse reflection, specular reflection depends on the position of the observer and the angle of incidence. Intuitively, the parameter describes the intensity and color tint of surface reflections.
+
+The default value #383838 corresponds to a linear specular reflectance value of (0.04, 0.04, 0.04) common for plastics and other dielectric materials.
+
+In order to obtain linear RGB coefficients in the 0..1 range that can be used for lighting calculations, the inverse color component transfer function (see  Chapter 1.2. sRGB and linear RGB color values) MUST be applied.
+
+**Glossiness**
+
+Glossiness is a scalar surface property in 0..1 range that specifies how smooth the surface is. Real-world surfaces have microscopic imperfections which can cause scattering of incident light. Because these imperfections are beyond the resolution of common 3D printers and displays, it is assumed that their scattering properties can be modeled statistically using micro-facet surface model (see Appendix D. Micro-facet Surface Model and BRDF) in which the surface consists of infinitesimally small, mirror-like facets which only reflect light in a single direction according to their orientation (normal). A value of 1 means that the surface is ideally smooth, with micro-facet normals oriented the same way as the surface normal. A value of 0 means a very rough surface for which the distribution of micro-facet normals is a uniform hemisphere. 
+
+A consumer SHOULD follow the GLTF specified behavior for determining surface reflectance properties from the roughness / glossiness material parameter to obtain consistent visual results. For more information, refer to Appendix D. Micro-facet Surface Model and BRDF or to the GLTF 2.0 specification Appendix B: BRDF Implementation.
+
+### 7.2. Metallic Display Properties
 
