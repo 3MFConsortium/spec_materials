@@ -134,4 +134,41 @@ Element **\<basematerials>**
 | Attributes described in Core spec | ... | ... | ... | ... |
 | displaypropertiesid | **ST_ResourceID** | optional | | Reference to a <displayproperties> element providing additional information about how to display the material on a device display |
 
+## Chapter 2. Color Groups
+
+Element **\<colorgroup>**
+
+##### Attributes
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| id | **ST_ResourceID** | required |  | Unique ID among all resources (which could include elements from extensions to the spec). |
+| displaypropertiesid | **ST_ResourceID** | optional | | Reference to a <displayproperties> element providing additional information about how to display the material on a device display |
+| @anyAttribute | | | | |
+    
+A <colorgroup> element acts as a container for color properties.
+    
+The order of the color elements forms an implicit 0-based index that is referenced by other elements, such as the <object> and <triangle> elements. 
+
+A producer MAY define multiple <colorgroup> containers to help organize the file, for instance by grouping colors related to specific objects.
+    
+The displaypropertiesid attribute references a <displayproperties> group containing additional properties that describe how best to display a mesh with this material on a device display.
+    
+A <colorgroup> describes a set of surface color properties and SHOULD NOT reference translucent display properties. To achieve a translucent effect with surface color, a multi-properties group SHOULD be used instead. For more information, refer to Chapter 7: Display Properties Overview.
+
+### 2.1. Color
+
+Element **\<color>**
+
+##### Attributes
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| color | **ST_ColorValue** | required |  | Specifies the sRGB color for rendering the material. |
+
+Colors are used to represent rich color, specifically what most 3D formats call “vertex colors”. These elements are used when color is the only property of interest for the material, and a large number will be needed. The format is the same sRGB color as defined in the core 3MF specification.
+
+Colors are assumed to be fully opaque (alpha = #FF) except when used as a non-base layer inside a <multiproperties> element.	
+To avoid integer overflows, a color group MUST contain less than 2^31 colors.
+
+
+
 
