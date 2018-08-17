@@ -124,4 +124,14 @@ The 3MF core specification (Chapter 4.1.4: Triangles) describes properties e.g. 
 
 The 3MF core specification (Chapter 5: Material Resources) describes a base material type. This extension adds an additional attribute to the base material element representing display properties that allow realistic rendering of materials to a display.
 
+Element **\<basematerials>**
+
+![BaseMaterials](images/element_basematerials.png)
+
+##### Attributes
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| Attributes described in Core spec | ... | ... | ... | ... |
+| displaypropertiesid | **ST_ResourceID** | optional | | Reference to a <displayproperties> element providing additional information about how to display the material on a device display |
+
 
