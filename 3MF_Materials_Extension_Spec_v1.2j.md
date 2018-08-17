@@ -312,15 +312,15 @@ Consider the following example:
 
 We want to apply this texture containing alpha channel values indicating transparency (grey color) to <triangle> elements.
 
-![Multiproperties example 1](images/5.1.MultipropertiesExp1.jpg)
+![Multiproperties example 1](images/5.1.MultiPropertiesExp1.jpg)
 
 The result should look like this (a 3MF sample is provided in Appendix C.2.):
 
-![Multiproperties example 2](images/5.1.MultipropertiesExp2.jpg)
+![Multiproperties example 2](images/5.1.MultiPropertiesExp2.jpg)
 
 And not like this:
 
-![Multiproperties example 3](images/5.1.MultipropertiesExp3.jpg)
+![Multiproperties example 3](images/5.1.MultiPropertiesExp3.jpg)
 
 To achieve this affect, multi-properties will be used where the first layer contains material with a translucent displayproperties. The underlying material MAY be rendered translucent to allow underlying model material to “show through” transparent areas. The subsequent layers, which can be of any type, are then blended according to the method described above.
 
