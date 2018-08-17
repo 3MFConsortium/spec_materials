@@ -101,7 +101,7 @@ Where C_sRGB is an sRGB color triplet not including the alpha channel, with elem
 
 The inverse transformation from sRGB color space to linear space is defined as:
 
-**add image**
+![C_Linear equation](images/C_Linear_Equation.PNG)
 
 This equation MUST be applied separately to each channel in the C_sRGB triplet to create the C_linear triplet.
 
@@ -113,7 +113,7 @@ For this specification, this transformation is called the inverse color componen
 
 The forward color component transfer function from linear to sRGB color space is defined as:
 
-**add image**
+![C_sRGB equation](images/C_sRGB_Equation.PNG)
 
 This equation MUST be applied separately to each channel in the C_linear  triplet. sRGB values should be kept in the [0, 1] range while applying interpolations. To return sRGB to an 8-bit triplet (before persisting to disk, for example), it is necessary to multiply each channel by the required bits per channel (255, for 8-bit) and round to the nearest integer.
 
