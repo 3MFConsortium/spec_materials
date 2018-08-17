@@ -73,7 +73,8 @@ Editing applications are subject to all of the above rules.
 
 ## Chapter 1. Overview of Additions
 
-**add image**
+![Overview of Additions part 1](images/1.Overviewofadditions.1.png)
+![Overview of Additions part 2](images/1.Overviewofadditions.2.png)
 
 This chapter describes new non-object resources. Each of these resources is OPTIONAL for producers but MUST be supported by consumers that specify support for this materials extension of 3MF.
 
@@ -126,7 +127,7 @@ The 3MF core specification (Chapter 5: Material Resources) describes a base mate
 
 Element **\<basematerials>**
 
-![BaseMaterials](images/element_basematerials.png)
+![BaseMaterials](images/1.4.BaseMaterials.png)
 
 ##### Attributes
 | Name | Type | Use | Default | Annotation |
@@ -137,6 +138,8 @@ Element **\<basematerials>**
 ## Chapter 2. Color Groups
 
 Element **\<colorgroup>**
+
+![Color Groups element](images/2.ColorGroups.png)
 
 ##### Attributes
 | Name | Type | Use | Default | Annotation |
@@ -159,6 +162,8 @@ A <colorgroup> describes a set of surface color properties and SHOULD NOT refere
 
 Element **\<color>**
 
+![Color element](images/2.1.Color.png)
+
 ##### Attributes
 | Name | Type | Use | Default | Annotation |
 | --- | --- | --- | --- | --- |
@@ -172,6 +177,8 @@ To avoid integer overflows, a color group MUST contain less than 2^31 colors.
 ## Chapter 3. Texture 2D Groups
 
 Element **\<texture2dgroup>**
+
+![Texture2dgroup element](images/3.Texture3DGroups.png)
 
 ##### Attributes
 | Name | Type | Use | Default | Annotation |
@@ -191,6 +198,8 @@ The displaypropertiesid attribute references a <displayproperties> group contain
 
 Element **\<tex2coord>**
 
+![Tex2coord element](images/3.1.Tex2coord.png)
+
 ##### Attributes
 | Name | Type | Use | Default | Annotation |
 | --- | --- | --- | --- | --- |
@@ -205,6 +214,8 @@ To avoid integer overflows, a texture coordinate group MUST contain less than 2^
 ## Chapter 4. Composite Materials
 
 Element **\<compositematerials>**
+
+![CompositeMaterials element](images/4.CompositeMaterials.png)
 
 ##### Attributes
 | Name | Type | Use | Default | Annotation |
@@ -230,6 +241,8 @@ The displaypropertiesid attribute references a <displayproperties> group contain
 
 Element **\<composite>**
 
+![Composite element](images/4.1.Composite.png)
+
 ##### Attributes
 | Name | Type | Use | Default | Annotation |
 | --- | --- | --- | --- | --- |
@@ -250,6 +263,8 @@ To avoid integer overflows, a composite group MUST contain less than 2^31 compos
 
 Element **\<multiproperties>**
 
+![Multiproperties element](images/5.Multi-Properties.png)
+
 ##### Attributes
 | Name | Type | Use | Default | Annotation |
 | --- | --- | --- | --- | --- |
@@ -262,7 +277,6 @@ Element **\<multiproperties>**
 | Name | Type | Use | Default | Annotation |
 | --- | --- | --- | --- | --- |
 | multi | **CT_Multi** | required |   |   |
-
 
 A <multiproperties> element acts as a container for <multi> elements. The order of these elements forms an implicit 0-based index that is referenced by other elements, such as the <object> and <triangle> elements. The pids list MUST NOT contain more than one reference to a material (base or composite). The pids list MUST NOT contain more than one reference to a colorgroup (for performance reasons). The pids list MUST NOT contain any references to a multiproperties. A producer MAY define multiple <multiproperties> containers, for instance to layer textures in a different order or to specify a different material.
     
@@ -298,15 +312,15 @@ Consider the following example:
 
 We want to apply this texture containing alpha channel values indicating transparency (grey color) to <triangle> elements.
 
-**image**
+![Multiproperties example 1](images/5.1.MultipropertiesExp1.jpg)
 
 The result should look like this (a 3MF sample is provided in Appendix C.2.):
 
-**image**
+![Multiproperties example 2](images/5.1.MultipropertiesExp2.jpg)
 
 And not like this:
 
-**image**
+![Multiproperties example 3](images/5.1.MultipropertiesExp3.jpg)
 
 To achieve this affect, multi-properties will be used where the first layer contains material with a translucent displayproperties. The underlying material MAY be rendered translucent to allow underlying model material to “show through” transparent areas. The subsequent layers, which can be of any type, are then blended according to the method described above.
 
@@ -324,6 +338,8 @@ When physically printing, a material and display properties MAY be ignored. But 
 
 Element **\<multi>**
 
+![Multi element](images/5.1.Multi.png)
+
 ##### Attributes
 | Name | Type | Use | Default | Annotation |
 | --- | --- | --- | --- | --- |
@@ -335,6 +351,8 @@ If the pindices list is shorter than the pids list, consumers MUST use a default
 ## Chapter 6. Texture 2d
 
 Element **\<texture2d>**
+
+![Texture 2d element](images/6.Texture2d.png)
 
 ##### Attributes
 | Name | Type | Use | Default | Annotation |
@@ -376,12 +394,12 @@ The following example shows how the filter MUST be applied to the texture. Figur
 
 *Figure 6-1:  The image and tiling used as example, showing where the texture pixels are located.
 
-**image**
+![Figure 6-1 part 1](images/6.1.Figure6-1p1.png)![Figure 6-1 part 2](images/6.1.Figure6-1p2.png)
 
 Finally, Figure 6-2 shows the nearest and the linear filters output by filling the cells.
 *Figure 6-2:  Texture filtering of a 3 x 2 image (Figure 1a) with tilestyleu=WRAP and tilestylev=MIRROR.
 
-**image**
+![Figure 6-2 part 1](images/6.1.Figure6-2p1.png)![Figure 6-2 part 2](images/6.1.Figure6-2p2.png)
 
 ## Chapter 7. Display Properties Overview
 
@@ -415,13 +433,14 @@ The properties defined on a triangle that are from a display properties group MU
 
 Element **\<pbspeculardisplayproperties>**
 
+![Pbspeculardisplayproperties element](images/7.1.SpecularDisplayProperties.png)
+
 #### Attributes
 | Name | Type | Use | Default | Annotation |
 | --- | --- | --- | --- | --- |
 | id | **ST_ResourceID** | required |  | Unique ID among all resources (which could include elements from extensions to the spec). |
 | @anyAttribute | | | | |
     
-
 ##### Elements
 | Name | Type | Use | Default | Annotation |
 | --- | --- | --- | --- | --- |
@@ -436,6 +455,8 @@ The order and count of the elements forms an implicit 0-based index in the same 
 ### 7.1.1. Specular
 
 Element **\<pbspecular>**
+
+![Specular element](images/7.1.Specular.png)
 
 #### Attributes
 | Name | Type | Use | Default | Annotation |
@@ -473,6 +494,8 @@ A consumer SHOULD follow the GLTF specified behavior for determining surface ref
 
 Element **\<pbmetallicdisplayproperties>**
 
+![Pbmetallicdisplayproperties element](images/7.2.MetallicDisplayProperties.png)
+
 #### Attributes
 | Name | Type | Use | Default | Annotation |
 | --- | --- | --- | --- | --- |
@@ -495,6 +518,8 @@ material group. For example, if a <basematerialgroup> includes a “displayprope
 ### 7.2. Metallic 
 
 Element **\<pbmetallic>**
+
+![Pbmetallic element](images/7.1.Metallic.png)
 
 #### Attributes
 | Name | Type | Use | Default | Annotation |
@@ -525,10 +550,11 @@ Metallicness is a scalar value in 0..1 range that describes the quality of mater
 A scalar value in 0..1 range that represents surface roughness. A value of (1 – roughness) has the same meaning as ‘glossiness’ described in Chapter 7.1.1.
 
 
-
 ### 7.3. Specular Texture Display Properties
 
 Element **\<pbspeculartexturedisplayproperties>**
+
+![Pbspeculartexturedisplayproperties element](images/7.3.SpecularTextureDisplayProperties.png)
 
 #### Attributes
 | Name | Type | Use | Default | Annotation |
@@ -561,6 +587,8 @@ In cases where speculartextureid and glossinesstextureid differ, glossiness para
 
 Element **\<pbmetallictexturedisplayproperties>**
 
+![Pbmetallictexturedisplayproperties element](images/7.4.MetallicTextureDisplayProperties.png)
+
 #### Attributes
 | Name | Type | Use | Default | Annotation |
 | --- | --- | --- | --- | --- |
@@ -590,6 +618,8 @@ In cases where metallictextureid and roughnesstextureid differ, metallicness and
 
 Element **\<translucentdisplayproperties>**
 
+![Translucentdisplayproperties element](images/7.5.TranslucentDisplayProperties.png)
+
 #### Attributes
 | Name | Type | Use | Default | Annotation |
 | --- | --- | --- | --- | --- |
@@ -613,6 +643,8 @@ Layers of a multi-properties MAY contain translucent properties including textur
 ### 7.5.1. Translucent 
 
 Element **\<translucent>**
+
+![Translucent element](images/7.5.1.Translucent.png)
 
 #### Attributes
 | Name | Type | Use | Default | Annotation |
@@ -660,8 +692,6 @@ A scalar value in 0..1 range that represents surface roughness. A value of (1 �
 Roughness is used to parametrize the blurriness of surface reflections and to emulate surface scattering properties of the object.
 
 For more information on the microfacet model, see Appendix D. Micro-facet Surface Model and BRDF.
-
-
 
 
 # Part II. Appendixes
@@ -1037,6 +1067,8 @@ The following 3MF Sample demonstrates an object with Translucent display propert
         <item objectid="7" transform="1 0 0 0 1 0 0 0 1 0 0 0" />
       </build>
     </model>
+
+![Translucent Material with Texture Example](images/C.2.TranslucentExample.png)
 
 ## Appendix D. Micro-facet Surface Model and BRDF
 
