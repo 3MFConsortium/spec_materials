@@ -40,14 +40,22 @@ This extension MUST be used only with Core specification 1.2.
 
 Except where otherwise noted, syntax descriptions are expressed in the ABNF format as defined in RFC 4234.
 
-Glossary terms are formatted like this.
+Glossary terms are formatted like _this_.
 
-Syntax descriptions and code are formatted in monospace type.
+Syntax descriptions and code are formatted as `Markdown code blocks.`
 
-Replaceable items, that is, an item intended to be replaced by a value, are formatted in monospace cursive type.
+Replaceable items, that is, an item intended to be replaced by a value, are formatted in _`monospace cursive`_ type.
 
 Notes are formatted as follows:
 
-| Note: This is a note. |
-| --- |
+>**Note:** This is a note.
+
+## Language Notes
+
+In this specification, the words that are used to define the significance of each requirement are written in uppercase. These words are used in accordance with their definitions in RFC 2119, and their respective meanings are reproduced below:
+
+- _MUST._ This word, or the adjective "REQUIRED," means that the item is an absolute requirement of the specification.
+- _SHOULD._ This word, or the adjective "RECOMMENDED," means that there may exist valid reasons in particular circumstances to ignore this item, but the full implications should be understood and the case carefully weighed before choosing a different course.
+- _MAY._ This word, or the adjective "OPTIONAL," means that this item is truly optional. For example, one implementation may choose to include the item because a particular marketplace or scenario requires it or because it enhances the product. Another implementation may omit the same item.
+
 
