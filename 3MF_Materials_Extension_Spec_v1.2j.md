@@ -169,6 +169,155 @@ Colors are used to represent rich color, specifically what most 3D formats call 
 Colors are assumed to be fully opaque (alpha = #FF) except when used as a non-base layer inside a <multiproperties> element.	
 To avoid integer overflows, a color group MUST contain less than 2^31 colors.
 
+## Chapter 3. Texture 2D Groups
 
+Element **\<texture2dgroup>**
+
+##### Attributes
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| id | **ST_ResourceID** | required |  | Unique ID among all resources (which could include elements from extensions to the spec). |
+| texid | **ST_ResourceID** | required |  | Reference to the <texture2d> element with the matching id attribute value. |
+| displaypropertiesid | **ST_ResourceID** | optional | | Reference to a <displayproperties> element providing additional information about how to display the material on a device display |
+| @anyAttribute | | | | |
+    
+A <texture2dgroup> element acts as a container for texture coordinate properties. The order of these elements forms an implicit 0-based index that is referenced by other elements, such as the <object> and <triangle> elements. It also specifies which image to use, via texid. The referenced <texture2d> elements are described below in Chapter 6.
+
+The texture’s alpha channel is assumed to be fully opaque (alpha = #FF) unless specified otherwise.
+
+The displaypropertiesid attribute references a <displayproperties> group containing additional properties that describe how best to display a mesh with this material on a device display. A <texture2Dgroup> describes a set of surface color properties and MUST NOT reference translucent display properties. To achieve a translucent effect through a texture, a multi-properties group MUST be used instead. For more information, refer to Chapter 7: Display Properties Overview.
+
+### 3.1. Texture 2D Coordinate
+
+Element **\<tex2coord>**
+
+##### Attributes
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| u | **ST_Number** | required |  | The u-coordinate within the texture, horizontally right from the origin in the lower left of the texture. |
+| v | **ST_Number** | required |  | The v-coordinate within the texture, vertically up from the origin in the lower left of the texture. |
+| @anyAttribute | | | | |
+
+Texture coordinates map a vertex of a triangle to a position in image space (U, V coordinates). Texture mapping allows high-resolution color bitmaps to be applied to any surface. The primary advantage of texture mapping over the vertex colors of the previous section is that the textures allow color at a much finer detail level than the underlying mesh, while vertex colors are always at the same resolution as the mesh.
+
+To avoid integer overflows, a texture coordinate group MUST contain less than 2^31 tex2coords.
+
+## Chapter 4. Composite Materials
+
+Element **\<compositematerials>**
+
+##### Attributes
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| id | **ST_ResourceID** | required |  | Unique ID among all resources (which could include elements from extensions to the spec). |
+| matid | **ST_ResourceID** | required |  | Reference to the base material group element with the matching id attribute value (e.g. <basematerials>). |
+| matindices | **ST_ResourceIndices** | required |  | A space-delimited list of ST_ResourceIndex values of the material constituents |
+| displaypropertiesid | **ST_ResourceID** | optional |  | Reference to a <displayproperties> element providing additional information about how to display the material on a device display |
+| @anyAttribute | | | | |
+
+##### Elements
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| composite | **CT_Composite** | required |   |   |
+
+A <compositematerials> element acts as a container for composite materials. The order of these elements forms an implicit 0-based index that is referenced by other elements, such as the <object> and <triangle> elements. A producer MAY define multiple <compositematerials> containers, for instance by grouping mixtures of different materials.
+
+The <compositematerials> element defines materials derived by mixing 2 or more base materials in defined ratios. This collective mixture is referred to as a composite material. The matid attribute specifies the material group that all constituents are from, which MUST be a <basematerials> group. The matindices attribute specifies the indices of the materials to mix.
+
+The displaypropertiesid attribute references a <displayproperties> group containing additional properties that describe how best to display the material when previewing a mesh with this material on a device display. For more information, refer to Chapter 7: Display Properties Overview.
+
+### 4.1. Composite
+
+Element **\<composite>**
+
+##### Attributes
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| Values | **ST_Numbers** | required |  | A space-delimited list of ST_Number values between 0 and 1, inclusive representing the fraction of the material constituents, respectively. |
+| @anyAttribute | | | | |
+
+attributes	Name	Type	Use	Default	Fixed	Annotation
+Values	ST_Numbers	required			A space-delimited list of ST_Number values between 0 and 1, inclusive representing the fraction of the material constituents, respectively.
+@anyAttribute					
+
+The <composite> element defines a values attribute, which specifies the proportion of the overall mixture for each material. If the sum of the values is greater than zero, consumers MUST divide each value by the sum of the values of all constituent value attributes to apply the correct proportion for each material. If the sum of all constituent value attributes is zero, each value MUST be treated as 1.0 divided by the number of constituent elements.
+    
+If the values list is shorter than the matindices list, consumers MUST use a default value of zero for unspecified values. Extra values MUST be ignored.
+
+To avoid integer overflows, a composite group MUST contain less than 2^31 composites.
+
+## Chapter 5. Multi-Properties
+
+Element **\<multiproperties>**
+
+##### Attributes
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| id | **ST_ResourceID** | required |  | Unique ID among all resources (which could include elements from extensions to the spec). |
+| pids | **ST_ResourceID** | required |  | A space-delimited list of ST_ResourceID values representing the property group of each constituent |
+| blendmethods | **ST_BlendMethods** | optional | mix | Defines the list of equation(s) to use when blending each layer with the previous layer: “mix” or “multiply”. One value should be specified for each layer minus the first layer which is ignored. |
+| @anyAttribute | | | | |
+
+##### Elements
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| multi | **CT_Multi** | required |   |   |
+
+
+A <multiproperties> element acts as a container for <multi> elements. The order of these elements forms an implicit 0-based index that is referenced by other elements, such as the <object> and <triangle> elements. The pids list MUST NOT contain more than one reference to a material (base or composite). The pids list MUST NOT contain more than one reference to a colorgroup (for performance reasons). The pids list MUST NOT contain any references to a multiproperties. A producer MAY define multiple <multiproperties> containers, for instance to layer textures in a different order or to specify a different material.
+    
+A material, if included, MUST be positioned as the first layer, with color information – texture or colors, in subsequent layers. This arrangement describes the composition of an object by defining the “shell” on top of which the other layers in the multi-properties are blended.
+
+First, the properties are independently sampled and linearly interpolated on a triangle, then layered using the order specified within the pids attribute. To determine the resulting color, the individual contributions of all layers are accumulated by considering their opacity and blending mode. When a layer is processed, it is blended with the already accumulated result of previous blending operations, forming a new accumulated value. For each blending mode, two equations are provided. One is used to accumulate RGB color and the second one is used to accumulate opacity.
+
+The blendmethods attribute allows the producer to specify the equation to use when blending the colors between two layers. The blendmethods attribute provides a list of “mix” or “multiply” values associated with each layer in the group describing how to be blended with the previous layer results. The first layer MUST be omitted. If there are more layers than blendmethods values + 1 specified in the list, “mix” is assumed to be the default operation. There MUST NOT be more blendmethods than layers – 1.
+The initial accumulated alpha value, as well as the first layer opacity, is assumed to be #FF (fully opaque). The initial accumulated RGB value is copied from the first layer and the process of blending starts with the 2nd layer and continues until all subsequent layers are processed.
+
+If the first layer contains a material with translucent display property, base material, or composite material, it is skipped (including the first entry in the <blendmethods> list). The 2nd layer’s RGB is used to initialize the accumulated RGB color and alpha is initialized depending on the blending mode:
+    
+•	#FF (fully opaque) for “multiply” blending mode.
+•	2nd layer’s actual alpha for “mix” blending mode.
+
+Blending starts with the 3rd layer, in this case. Once the blend is determined, the resulting RGB color is applied to the material specified in the first layer using the accumulated alpha value as opacity.
+
+For example, if the accumulated alpha value indicates 50% opacity, it implies that color is applied in such way that 50% of the underlying surface shows through.
+
+Linear “mix” interpolation would be represented as:
+
+    accumulatedColor.rgb = newLayer.rgb * newLayer.a + accumulatedColor.rgb * (1 – newLayer.a)
+    accumulatedColor.a = newLayer.a + accumulatedColor.a * (1 – newLayer.a)
+
+Multiplication would be represented as:
+
+    accumulatedColor.rgb = newLayer.rgb * accumulatedColor.rgb
+    accumulatedColor.a = newLayer.a * accumulatedColor.a
+
+Note: Users coming from a Graphic Arts background who prefer color blending to be performed in sRGB or any other color space are advised to perform the composition in a 2D imaging application and then apply the blended 2D textures to an object.
+
+Consider the following example:
+
+We want to apply this texture containing alpha channel values indicating transparency (grey color) to <triangle> elements.
+
+**image**
+
+The result should look like this (a 3MF sample is provided in Appendix C.2.):
+
+**image**
+
+And not like this:
+
+**image**
+
+To achieve this affect, multi-properties will be used where the first layer contains material with a translucent displayproperties. The underlying material MAY be rendered translucent to allow underlying model material to “show through” transparent areas. The subsequent layers, which can be of any type, are then blended according to the method described above.
+
+For example, assume a second layer is blended on top of the first layer containing a color value with a 50% alpha.
+A display renderer easily determines the translucent surface color based on object’s attenuation, thickness and background lighting. Whatever color that turns out to be is blended with 1st layer’s color in a separate rendering pass. 
+
+It is different for a 3d printer. If we apply opaque color over a transparent layer, the result depends on what we mean by 50% alpha. If we blend two opaque colors, it’s easy to determine their average and apply paint because it’s still opaque. 
+
+In this case, the alpha channel MUST describe color opacity. Fully opaque alpha means that the underlying translucent surface doesn’t show through. Zero alpha means that the underlying surface fully shows through. 50% alpha allows 50% of background light to pass. 
+Imagine the surface as a set of infinitesimally small micro-facets, half of the facets would be covered in fully opaque paint and the other half would show through. Like spray paint which only has half the normal throttle. This behavior is fully consistent with the display renderer described above and it works for standard blending mode.
+
+When physically printing, a material and display properties MAY be ignored. But when rendering on screen, the display color and display properties SHOULD be blended to provide a realistic preview.
 
 
