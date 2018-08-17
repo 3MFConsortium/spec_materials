@@ -471,3 +471,30 @@ A consumer SHOULD follow the GLTF specified behavior for determining surface ref
 
 ### 7.2. Metallic Display Properties
 
+Element **\<pbmetallicdisplaypropertiesr>**
+
+#### Attributes
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| id | **ST_ResourceID** | required |  | Unique ID among all resources (which could include elements from extensions to the spec). |
+| @anyAttribute | | | | |
+
+#### Elements
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| pbmetallic | **CT_PBMetallic** | required |  |  |
+
+The <pbmetallicdisplayproperties> are located under <resources> and contain a set of properties describing how to realistically
+display a metallic material. They are optionally associated with specific materials through a “displaypropertiesid” attribute.
+
+<pbmetallicdisplayproperties> is a container for one or more <pbmetallic> elements.
+
+The order and count of the elements forms an implicit 0-based index in the same as the order and count of elements of the associated
+material group. For example, if a <basematerialgroup> includes a “displaypropertiesid” attribute pointing to a <pbmetallicdisplayproperties> element, there will be the same number of <pbmetallic> elements as <basematerial> elements where the first <pbmetallic> describes the first <basematerial> in the group.
+
+
+
+
+
+
+
