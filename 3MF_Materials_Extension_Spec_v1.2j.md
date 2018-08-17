@@ -471,7 +471,7 @@ A consumer SHOULD follow the GLTF specified behavior for determining surface ref
 
 ### 7.2. Metallic Display Properties
 
-Element **\<pbmetallicdisplaypropertiesr>**
+Element **\<pbmetallicdisplayproperties>**
 
 #### Attributes
 | Name | Type | Use | Default | Annotation |
@@ -492,9 +492,646 @@ display a metallic material. They are optionally associated with specific materi
 The order and count of the elements forms an implicit 0-based index in the same as the order and count of elements of the associated
 material group. For example, if a <basematerialgroup> includes a “displaypropertiesid” attribute pointing to a <pbmetallicdisplayproperties> element, there will be the same number of <pbmetallic> elements as <basematerial> elements where the first <pbmetallic> describes the first <basematerial> in the group.
 
+### 7.2. Metallic 
+
+Element **\<pbmetallic>**
+
+#### Attributes
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| name | **xs:string** | required |  | Specifies the material name |
+| metallicness | **ST_Number** | required | 0 | Surface metallicness |
+| roughness | **ST_Number** | required | 1 | Surface roughness |
+| @anyAttribute | | | | |
+
+A metallic property infers a base color from the color attribute of the specific material it is associated with (displaycolor from a base material, for example):
+
+1.	For metallicness = 0 it represents ‘diffusecolor’ as described in Chapter 7.1.1. Specular reflectance defaults to (0.04, 0.04, 0.04) in this case.
+2.	For metallicness = 1 it represents ‘specularcolor’ as described in Chapter 7.1.1. In this case diffuse reflectance defaults to (0, 0, 0).
+
+In both cases, the inverse color component transfer function as described in Chapter 1.2 MUST be performed to obtain linear RGB values for lighting calculations. For arbitrary values of metallicness, the equivalent diffuse color and specular color values SHOULD be calculated according to the following formulas:
+
+    diffusecolor = (1 - metallicness) * (1 – sRgbToLinear(#383838)) * baseColor
+    
+where sRgbToLinear(#383838) denotes a linear default specular reflectance value which equals roughly (0.04, 0.04, 0.04).
+
+**Name**
+The name attribute is intended to convey design intent. Producers SHOULD avoid machine-specific naming in favor of more portable descriptions.
+
+**Metallicness**
+Metallicness is a scalar value in 0..1 range that describes the quality of material being metallic. A value of 1 means pure metal while a value of 0 represents non-metallic (dielectric) surface. The use of intermediate values is possible but discouraged, unless the design intent is to represent composite materials or metallic materials with impurities.
+
+**Roughness**
+A scalar value in 0..1 range that represents surface roughness. A value of (1 – roughness) has the same meaning as ‘glossiness’ described in Chapter 7.1.1.
+
+
+
+### 7.3. Specular Texture Display Properties
+
+Element **\<pbspeculartexturedisplayproperties>**
+
+#### Attributes
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| id | **ST_ResourceID** | required |  | Unique ID among all materials groups (which could include elements from extensions to the specification) |
+| name | **xs:string** | required |  | Specifies the material name, intended to convey design intent |
+| speculartextureid | **ST_ResourceID** | required |  | Reference to the <texture2d> element with the matching id attribute value |
+| glossinesstextureid | **ST_ResourceID** | required |  | Reference to the <texture2d> element with the matching id attribute value |
+| diffusefactor | **ST_ColorValue** |  | #FFFFFF | Diffuse color multiplication factor |
+| specularfactor | **ST_ColorValue** |  | #FFFFFF | Specular multiplication factor |
+| glossinessfactor | **ST_Number** |  | 1 | Glossiness multiplication factor |
+| @anyAttribute | | | | |
+
+A <pbspeculartexturedisplayproperties> contains set of properties describing how to realistically display textured specular material. 
+
+The difference between <pbspecular> and <pbspeculartexture> is that the diffuse color, specular color, and glossiness parameters are not specified explicitly – instead, they are sampled from the respective <texture2d> resources, speculartextureid, and glossinesstextureid. Values obtained by texture lookups are then multiplied in a component-wise manner by corresponding <texture2d> resources, specularfactor and glossinessfactor.
+
+Color values are assumed to be in sRGB color space. Therefore, the inverse component transfer function MUST be applied before component-wise multiplication takes place. Glossiness values sampled from the <texture2d> resource referenced by glossinesstextureid (as well as the glossinessfactor) are assumed to be linear and no inverse component transfer function is necessary.
+
+A diffuse texture is contained in the texture material that references this display property. Alpha transparency values for the <texture2d> resource SHOULD be ignored, and the texture is assumed to be fully opaque. 
+
+A consumer MUST apply the texture addressing properties (tilestyleu, tilestylev, filter) defined in the <texture2d> element referenced by texture material to all the other <texture2d> resources referenced within <texture2dgroup> element. Other <texture2d> resources MUST either leave these properties unspecified or they MUST specify the same values for these properties.
+
+The same set of texture coordinates, specified by <tex2coord> elements is used for diffuse, specular and glossiness <texture2d> resources. This corresponds to the way the textures are created. Object features (e.g. a car door) occupy the same area in all three textures, because it’s easier for designer to match them this way.
+It is possible for speculartextureid and glossinesstextureid to share the same value and therefore to refer to the same <texture2d> resource. In such case the specular color is sampled from its RGB color channels and the glossiness parameter is sampled from its A (alpha) channel. If no alpha channel is present, it is assumed to be #FF.
+
+In cases where speculartextureid and glossinesstextureid differ, glossiness parameter is sampled from the red (R) channel of the corresponding texture. Monochromatic textures are treated as if the luminance information represents the R channel.
+
+### 7.4. Metallic Texture Display Properties
+
+Element **\<pbmetallictexturedisplayproperties>**
+
+#### Attributes
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| id | **ST_ResourceID** | required |  | Unique ID among all materials groups (which could include elements from extensions to the specification) |
+| name | **xs:string** | required |  | Specifies the material name, intended to convey design intent |
+| metallictextureid | **ST_ResourceID** | required |  | Reference to the <texture2d> element with the matching id attribute value |
+| roughnesstextureid | **ST_ResourceID** | required |  | Reference to the <texture2d> element with the matching id attribute value |
+| basecolorfactor | **ST_ColorValue** |  | #FFFFFF | Base color multiplication factor |
+| metallicfactor | **ST_Number** |  | 1 | Metallicness multiplication factor |
+| roughnessfactor | **ST_Number** |  | 1 | Roughness  multiplication factor |
+| @anyAttribute | | | | |
+
+A <pbmetallictexturedisplayproperties> contains set of properties describing how to realistically display textured metallic material.
+
+The difference between <pbmetallicdisplayproperties> and <pbmetallictexturedisplayproperties> is that the base color, metallicness and roughness parameters are not specified explicitly – instead, they are sampled from the respective <texture2d> resources referenced by the associated texture material, metallictextureid and roughnesstextureid. Values obtained by texture lookups are then multiplied in a component-wise manner by corresponding basecolorfactor, metallicfactor and roughnessfactor. Color values sampled from texture are assumed to be in sRGB color space. Therefore, the inverse color component transfer function MUST be applied before component-wise multiplication takes place. Metallicness and roughness values sampled from <texture2d> resources referenced by metallictextureid and roughnesstextureid (as well as metallicfactor and roughnessfactor) are assumed to be linear and no inverse color component transfer function is necessary.
+
+Alpha transparency values for the <texture2d> resource referenced by associated texture material SHOULD be ignored and the texture is assumed to be fully opaque. 
+
+A consumer MUST still apply the texture addressing properties (tilestyleu, tilestylev, filter) defined in the <texture2d> element referenced by the associated texture material to all the other <texture2d> resources referenced within <metallictexture> element. Other <texture2d> resources MUST either leave these properties unspecified or they MUST specify the same values for these properties.
+The same set of texture coordinates, specified by <tex2coord> elements, is used for base color, metallicness and roughness <texture2d> resources. This corresponds to the way the textures are created: object features (e.g. a car door) occupy the same area in all three textures, because it’s easier for designer to match them this way.
+    
+It is possible for metallictextureid and roughnesstextureid to share the same value and therefore to refer to the same <texture2d> resource. In such case the roughness is sampled from its R color channel and the metallicness parameter is sampled from its G color channel.
+
+In cases where metallictextureid and roughnesstextureid differ, metallicness and roughness parameters are sampled from the red (R) channel of the corresponding textures. Monochromatic textures are treated as if the luminance information represents the R channel.
+
+### 7.5. Translucent Display Properties
+
+Element **\<translucentdisplayproperties>**
+
+#### Attributes
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| id | **ST_ResourceID** | required |  | Unique ID among all resources (which could include elements from extensions to the spec). |
+| @anyAttribute | | | | |
+
+#### Elements
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| translucent | **CT_Translucent** | optional | | |
+
+The <translucentdisplayproperties> are located under <resources> and contain a set of properties describing how to realistic display a translucent material. They are optionally associated with specific materials through a “displaypropertiesid” attribute.
+<translucentdisplayproperties> is a container for one or more <translucent> elements.
+    
+The order and count of the elements forms an implicit 0-based index in the same as the order and count of elements of the associated material group. For example, if a basematerial group includes a displaypropertiesid attribute pointing to a translucentdisplayproperties element, there will be the same number of translucent elements as basematerial elements where the first translucent element describes the first basematerial in the group.
+    
+Because translucency is inherently a volumetric property (as opposed to an object surface property), an object that specifies translucent material SHOULD ensure that the material is specified at the object level only, or all <triangle> elements SHOULD reference the same translucent properties through their ‘p1’, ‘p2’, ‘p3’ attributes.
+
+Layers of a multi-properties MAY contain translucent properties including textures with alpha channel indicating a level of transparency. Transparency information SHOULD be blended between to allow for translucent objects with surface ‘decals’. The alpha channel indicates the level of opacity to be blended. For example, when a texture color is specified without alpha channel indicating transparency the textured area is assumed to be an opaque surface treatment as if the surface were painted.
+
+### 7.5.1. Translucent 
+
+Element **\<translucent>**
+
+#### Attributes
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| name | **xs:string** | required |  | Specifies the material name, intended to convey design intent, for the purpose of aiding users in mapping to print materials |
+| attenuation | **ST_Numbers** | required | | Linear attenuation coefficient expressed in units of reciprocal length |
+| refractiveindex | **ST_Numbers** | required | "1 1 1" | Refractive index of the material |
+| roughness | **ST_Number** |  | 0 | Surface roughness |
+| @anyAttribute | | | | |
+
+For simplicity, these properties focus only on parametrizing the amount of surface scattering. Mainstream volume scattering models such as Rayleigh or Mie scattering are not generic enough to be used on all materials.
+
+Implementing a real-time translucent material viewer that approximates all the described optical phenomena is computationally expensive and technically challenging. Most applications will likely resort to a reasonable simplification. However, the full set of parameters can be optionally added for use with offline renderers and ray tracers. 
+
+Translucent properties defined in this manner are assumed to be homogeneous and isotropic inside volume of the object.
+
+This implies that a translucent object is defined only by a material group or a multi-properties group where the first index is a material with displayproperties assigned to a translucentdisplayproperties, and that the same material is the first index for all other materials assigned to this mesh. Alternatively, displayproperties can be assigned to a material group or multi-properties group at the object level indicating translucentdisplayproperties for a simpler representation.
+
+Translucent display properties MUST NOT be applied to <texture2dgroup> or <colorgroup> properties. A translucent effect is achieved by using a multi-properties group with a material containing translucent display properties and blending the subsequent layers.
+
+**Attenuation**
+Attenuation coefficient is a measure of how easily a beam of light can penetrate the material. A value of zero means that the material is completely transparent. Bigger values mean that the beam is correspondingly attenuated as it passes through the material. The unit of attenuation is the reciprocal meter (m−1). Attenuation represents the combined loss of energy due to absorption and scattering. Because different wavelengths are absorbed at different rates (which gives translucent materials their color tint), attenuation coefficient is defined as a triplet of values corresponding to red, green and blue color channels.
+
+The relationship between the decrease in light intensity and material thickness is described by Beer-Lambert law. According to this law, intensity decreases exponentially with the distance the light travels inside medium:
+    
+    〖〖RGB〗_out  = 〖RGB〗_in*e〗^(-at)
+
+Where:
+
+    〖RGB〗_out – output (transmitted) light intensity
+    〖RGB〗_in – input (incident) light intensity
+    
+    a – attenuation coefficient
+    t – distance (in meters) traveled inside the medium
+
+**Refractiveindex**
+Refractive index is a measure of the bending of a beam of light when passing through a boundary between vacuum and the translucent material. It can also be the factor by which the speed of light is reduced inside the material with respect to the speed of light in vacuum. Since the amount of refraction depends on wavelength, refractive index is defined as a triplet of values corresponding to red, green and blue color channels. This allows clients to render optical phenomena such as dispersion.
+
+The relationship between angle of incidence (angle between the incoming ray and the surface normal) and angle of refraction (angle between the refracted ray and the surface normal) is described by Snell’s law. If i is the angle of incidence of a ray in vacuum and r is the angle of refraction, the refractive index n is defined as the ratio of the sine of the angle of incidence to the sine of the angle of refraction:
+n =   sin⁡i/sin⁡r 
+
+**Roughness**
+A scalar value in 0..1 range that represents surface roughness. A value of (1 – roughness) has the same meaning as ‘glossiness’ described in Chapter 7.1.
+
+Roughness is used to parametrize the blurriness of surface reflections and to emulate surface scattering properties of the object.
+
+For more information on the microfacet model, see Appendix D. Micro-facet Surface Model and BRDF.
 
 
 
 
+# Part II. Appendixes
+
+## Appendix A. Glossary
+
+**See glossary**
+
+## Appendix B. 3MF XSD Schema for Material and Properties 
+
+                <?xml version="1.0" encoding="UTF-8"?>
+                <xs:schema xmlns="http://schemas.microsoft.com/3dmanufacturing/material/2015/02" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xml="http://www.w3.org/XML/1998/namespace" targetNamespace="http://schemas.microsoft.com/3dmanufacturing/material/2015/02" elementFormDefault="unqualified" attributeFormDefault="unqualified" blockDefault="#all">
+                    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd"/>
+                    <xs:annotation>
+                        <xs:documentation><![CDATA[
+                        Schema notes:
+
+                        Items within this schema follow a simple naming convention of appending a prefix indicating the type of element for references:
+
+                        Unprefixed: Element names
+                        CT_: Complex types
+                        ST_: Simple types
+
+                        ]]></xs:documentation>
+                    </xs:annotation>
+                    <!-- Complex Types -->
+                    <xs:complexType name="CT_Texture2D">
+                        <xs:attribute name="id" type="ST_ResourceID" use="required"/>
+                        <xs:attribute name="path" type="ST_UriReference" use="required"/>
+                        <xs:attribute name="contenttype" type="ST_ContentType" use="required"/>
+                        <xs:attribute name="tilestyleu" type="ST_TileStyle" default="wrap"/>
+                        <xs:attribute name="tilestylev" type="ST_TileStyle" default="wrap"/>
+                        <xs:attribute name="filter" type="ST_Filter" default="auto"/>
+                        <xs:anyAttribute namespace="##other" processContents="lax"/>
+                    </xs:complexType>
+                    <xs:complexType name="CT_ColorGroup">
+                        <xs:sequence>
+                            <xs:element ref="color" maxOccurs="2147483647"/>
+                        </xs:sequence>
+                        <xs:attribute name="id" type="ST_ResourceID" use="required"/>
+                    <xs:attribute name="displaypropertiesid" type="ST_ResourceID" use="optional"/>
+                    <xs:anyAttribute namespace="##other" processContents="lax"/>
+                  </xs:complexType>
+                    <xs:complexType name="CT_Color">
+                        <xs:attribute name="color" type="ST_ColorValue" use="required"/>
+                    </xs:complexType>
+                    <xs:complexType name="CT_Texture2DGroup">
+                        <xs:sequence>
+                            <xs:element ref="tex2coord" maxOccurs="2147483647"/>
+                        </xs:sequence>
+                        <xs:attribute name="id" type="ST_ResourceID" use="required"/>
+                        <xs:attribute name="texid" type="ST_ResourceID" use="required"/>
+                    <xs:attribute name="displaypropertiesid" type="ST_ResourceID" use="optional"/>
+                    <xs:anyAttribute namespace="##other" processContents="lax"/>
+                    </xs:complexType>
+                    <xs:complexType name="CT_Tex2Coord">
+                        <xs:attribute name="u" type="ST_Number" use="required"/>
+                        <xs:attribute name="v" type="ST_Number" use="required"/>
+                        <xs:anyAttribute namespace="##other" processContents="lax"/>
+                    </xs:complexType>
+                    <xs:complexType name="CT_CompositeMaterials">
+                        <xs:sequence>
+                            <xs:element ref="composite" maxOccurs="2147483647"/>
+                        </xs:sequence>
+                        <xs:attribute name="id" type="ST_ResourceID" use="required"/>
+                        <xs:attribute name="matid" type="ST_ResourceID" use="required"/>
+                        <xs:attribute name="matindices" type="ST_ResourceIndices" use="required"/>
+                    <xs:attribute name="displaypropertiesid" type="ST_ResourceID" use="optional"/>
+                    <xs:anyAttribute namespace="##other" processContents="lax"/>
+                    </xs:complexType>
+                    <xs:complexType name="CT_Composite">
+                        <xs:attribute name="values" type=" ST_Numbers" use="required"/>
+                    </xs:complexType>
+                    <xs:complexType name="CT_MultiProperties">
+                        <xs:sequence>
+                            <xs:element ref="multi" maxOccurs="2147483647"/>
+                        </xs:sequence>
+                        <xs:attribute name="id" type="ST_ResourceID" use="required"/>
+                        <xs:attribute name="pids" type="ST_ResourceIDs" use="required"/>
+                    <xs:attribute name="blendmethods" type="ST_BlendMethods" use="optional" default="mix"/>
+                    <xs:anyAttribute namespace="##other" processContents="lax"/>
+                    </xs:complexType>
+                    <xs:complexType name="CT_Multi">
+                        <xs:attribute name="pindices" type="ST_ResourceIndices" use="required"/>
+                    <xs:anyAttribute namespace="##other" processContents="lax"/>
+                    </xs:complexType>
+                  <xs:complexType name="CT_PBSpecularDisplayProperties">
+                    <xs:sequence>
+                      <xs:element ref="pbspecular" maxOccurs="2147483647"/>
+                    </xs:sequence>
+                    <xs:attribute name="id" type="ST_ResourceID" use="required"/>
+                    <xs:anyAttribute namespace="##other" processContents="lax"/>
+                  </xs:complexType>
+                  <xs:complexType name="CT_PBSpecular">
+                    <xs:attribute name="name" type="xs:string" use="required"/>
+                    <xs:attribute name="specularcolor" type="ST_ColorValue" default="#383838"/>
+                    <xs:attribute name="glossiness" type="ST_Number" default="0"/>
+                    <xs:anyAttribute namespace="##other" processContents="lax"/>
+                  </xs:complexType>
+                  <xs:complexType name="CT_PBMetallicDisplayProperties">
+                    <xs:sequence>
+                      <xs:element ref="pbmetallic" maxOccurs="2147483647"/>
+                    </xs:sequence>
+                    <xs:attribute name="id" type="ST_ResourceID" use="required"/>
+                    <xs:anyAttribute namespace="##other" processContents="lax"/>
+                  </xs:complexType>
+                  <xs:complexType name="CT_PBMetallic">
+                    <xs:attribute name="name" type="xs:string" use="required"/>
+                    <xs:attribute name="metallicness" type="ST_Number" default="0"/>
+                    <xs:attribute name="roughness" type="ST_Number" default="1"/>
+                    <xs:anyAttribute namespace="##other" processContents="lax"/>
+                  </xs:complexType>
+                  <xs:complexType name="CT_PBSpecularTextureDisplayProperties">
+                    <xs:attribute name="id" type="ST_ResourceID" use="required"/>
+                    <xs:attribute name="name" type="xs:string" use="required"/>
+                    <xs:attribute name="speculartextureid" type="ST_ResourceID" use="required"/>
+                    <xs:attribute name="glossinesstextureid" type="ST_ResourceID" use="required"/>
+                    <xs:attribute name="diffusefactor" type="ST_ColorValue" default="#FFFFFF"/>
+                    <xs:attribute name="specularfactor" type="ST_ColorValue" default="#FFFFFF"/>
+                    <xs:attribute name="glossinessfactor" type="ST_Number" default="1"/>
+                    <xs:anyAttribute namespace="##other" processContents="lax"/>
+                  </xs:complexType>
+                  <xs:complexType name="CT_PBMetallicTextureDisplayProperties">
+                    <xs:attribute name="id" type="ST_ResourceID" use="required"/>
+                    <xs:attribute name="name" type="xs:string" use="required"/>
+                    <xs:attribute name="metallictextureid" type="ST_ResourceID" use="required"/>
+                    <xs:attribute name="roughnesstextureid" type="ST_ResourceID" use="required"/>
+                    <xs:attribute name="metallicfactor" type="ST_Number" default="1"/>
+                    <xs:attribute name="roughnessfactor" type="ST_Number" default="1"/>
+                    <xs:anyAttribute namespace="##other" processContents="lax"/>
+                  </xs:complexType>
+                  <xs:complexType name="CT_Translucent">
+                    <xs:attribute name="name" type="xs:string" use="required"/>
+                    <xs:attribute name="attenuation" type="ST_Numbers" use="required"/>
+                    <xs:attribute name="refractiveindex" type="ST_Numbers" default="1 1 1"/>
+                    <xs:attribute name="roughness" type="ST_Number" default="0"/>
+                    <xs:anyAttribute namespace="##other" processContents="lax"/>
+                  </xs:complexType>
+                  <xs:complexType name="CT_TranslucentDisplayProperties">
+                    <xs:sequence>
+                      <xs:element ref="translucent" maxOccurs="2147483647"/>
+                    </xs:sequence>
+                    <xs:attribute name="id" type="ST_ResourceID" use="required"/>
+                    <xs:anyAttribute namespace="##other" processContents="lax"/>
+                  </xs:complexType>
+                  <xs:complexType name="CT_BaseMaterials">
+                    <xs:attribute name="displaypropertiesid" type="ST_ResourceID" use="optional"/>
+                    <xs:anyAttribute namespace="##other" processContents="lax"/>
+                  </xs:complexType>
+                  <!-- Simple Types -->
+                    <xs:simpleType name="ST_ContentType">
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="image/jpeg"/>
+                            <xs:enumeration value="image/png"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType name="ST_TileStyle">
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="clamp"/>
+                            <xs:enumeration value="wrap"/>
+                            <xs:enumeration value="mirror"/>
+                      <xs:enumeration value="none"/>
+                    </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType name="ST_Filter">
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="auto"/>
+                            <xs:enumeration value="linear"/>
+                            <xs:enumeration value="nearest"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType name="ST_ColorValue">
+                        <xs:restriction base="xs:string">
+                            <xs:pattern value="#[0-9|A-F|a-f][0-9|A-F|a-f][0-9|A-F|a-f][0-9|A-F|a-f][0-9|A-F|a-f][0-9|A-F|a-f]([0-9|A-F|a-f][0-9|A-F|a-f])?"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType name="ST_UriReference">
+                        <xs:restriction base="xs:anyURI">
+                            <xs:pattern value="/.*"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType name="ST_Number">
+                        <xs:restriction base="xs:double">
+                            <xs:whiteSpace value="collapse"/>
+                            <xs:pattern value="((\-|\+)?(([0-9]+(\.[0-9]+)?)|(\.[0-9]+))((e|E)(\-|\+)?[0-9]+)?)"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType name="ST_ZeroToOne">
+                        <xs:restriction base="ST_Number">
+                            <xs:minInclusive value="0.0"/>
+                            <xs:maxInclusive value="1.0"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType name="ST_Numbers">
+                        <xs:restriction base="xs:string">
+                            <xs:whiteSpace value="collapse"/>
+                            <xs:pattern value="(((\-|\+)?(([0-9]+(\.[0-9]+)?)|(\.[0-9]+))((e|E)(\-|\+)?[0-9]+)?( )?)+)"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType name="ST_ResourceID">
+                        <xs:restriction base="xs:positiveInteger">
+                            <xs:maxExclusive value="2147483648"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType name="ST_ResourceIndex">
+                        <xs:restriction base="xs:nonNegativeInteger">
+                            <xs:maxExclusive value="2147483648"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType name="ST_ResourceIndices">
+                        <xs:restriction base="xs:string">
+                            <xs:whiteSpace value="collapse"/>
+                            <xs:pattern value="(([0-9]+)( )?)+"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                    <xs:simpleType name="ST_ResourceIDs">
+                        <xs:restriction base="xs:string">
+                            <xs:whiteSpace value="collapse"/>
+                            <xs:pattern value="(([0-9]+)( )?)+"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                  <xs:simpleType name="ST_BlendMethods">
+                    <xs:restriction base="xs:string">
+                      <xs:whiteSpace value="collapse"/>
+                      <xs:pattern value="(mix|multiply)( (mix|multiply))*"/>
+                    </xs:restriction>
+                  </xs:simpleType>
+                  <!-- Elements -->
+                    <xs:element name="texture2d" type="CT_Texture2D"/>
+                    <xs:element name="colorgroup" type="CT_ColorGroup"/>
+                    <xs:element name="color" type="CT_Color"/>
+                    <xs:element name="texture2dgroup" type="CT_Texture2DGroup"/>
+                    <xs:element name="tex2coord" type="CT_Tex2Coord"/>
+                    <xs:element name="compositematerials" type="CT_CompositeMaterials"/>
+                    <xs:element name="composite" type="CT_Composite"/>
+                    <xs:element name="multiproperties" type="CT_MultiProperties"/>
+                    <xs:element name="multi" type="CT_Multi"/>
+                  <xs:element name="pbspeculardisplayproperties" type="CT_PBSpecularDisplayProperties"/>
+                  <xs:element name="pbspecular" type="CT_PBSpecular"/>
+                  <xs:element name="pbmetallicdisplayproperties" type="CT_PBMetallicDisplayProperties"/>
+                  <xs:element name="pbmetallic" type="CT_PBMetallic"/>
+                  <xs:element name="pbmetallictexturedisplayproperties" type="CT_PBMetallicTextureDisplayProperties"/>
+                  <xs:element name="pbspeculartexturedisplayproperties" type="CT_PBSpecularTextureDisplayProperties"/>
+                  <xs:element name="translucentdisplayproperties" type="CT_TranslucentDisplayProperties"/>
+                  <xs:element name="translucent" type="CT_Translucent"/>
+                  <xs:attribute name="displaypropertiesid" type="ST_ResourceID"/>
+                </xs:schema>
+
+
+## Appendix C. 3MF Samples
+
+### C.1 – Physically Based Material sample
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <model unit="millimeter" xml:lang="en-US" xmlns:m="http://schemas.microsoft.com/3dmanufacturing/material/2015/02" xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02">
+      <resources>
+        <msft:pbmetallicdisplayproperties id="1000000000">
+          <msft:pbmetallic name="Metallic" metallicness="1" roughness="0.09" />
+        </msft:pbmetallicdisplayproperties>
+        <basematerials id="1">
+          <base name="Regular" displaycolor="#21BB4CFF" />
+        </basematerials>
+        <basematerials id="2" displaypropertiesid="1000000000">
+          <base name="Metallic" displaycolor="#F5F0F0FF" />
+        </basematerials>
+        <m:texture2d id="4" path="/3D/Texture/BorderedTexture083c5805.png" contenttype="image/png" tilestyleu="wrap" tilestylev="wrap" />
+        <m:texture2dgroup id="8" texid="4">
+          <m:tex2coord u="0" v="-5.96046e-008" />
+          <m:tex2coord u="1" v="-5.96046e-008" />
+          <m:tex2coord u="1" v="1" />
+          <m:tex2coord u="0" v="1" />
+        </m:texture2dgroup>
+        <object id="5" type="model">
+          <mesh>
+            <vertices>
+              <vertex x="0" y="42.998" z="39.998" />
+              <vertex x="39.998" y="42.998" z="39.998" />
+              <vertex x="0" y="82.998" z="39.998" />
+              <vertex x="39.998" y="82.998" z="0" />
+              <vertex x="0" y="42.998" z="0" />
+              <vertex x="0" y="82.998" z="0" />
+              <vertex x="39.998" y="42.998" z="0" />
+              <vertex x="39.998" y="82.998" z="39.998" />
+            </vertices>
+            <triangles>
+              <triangle v1="0" v2="1" v3="2" pid="1" p1="0" />
+              <triangle v1="3" v2="4" v3="5" pid="2" p1="0" />
+              <triangle v1="4" v2="3" v3="6" pid="2" p1="0" />
+              <triangle v1="7" v2="2" v3="1" pid="1" p1="0" />
+              <triangle v1="4" v2="6" v3="1" pid="8" p1="0" p2="1" p3="2" />
+              <triangle v1="4" v2="2" v3="5" pid="2" p1="0" />
+              <triangle v1="7" v2="1" v3="6" pid="2" p1="0" />
+              <triangle v1="5" v2="2" v3="7" pid="2" p1="0" />
+              <triangle v1="4" v2="0" v3="2" pid="2" p1="0" />
+              <triangle v1="6" v2="3" v3="7" pid="2" p1="0" />
+              <triangle v1="1" v2="0" v3="4" pid="8" p1="2" p2="3" p3="0" />
+              <triangle v1="7" v2="3" v3="5" pid="2" p1="0" />
+            </triangles>
+          </mesh>
+        </object>
+        <object id="6" type="model">
+          <components>
+            <component objectid="5" />
+          </components>
+        </object>
+      </resources>
+      <build>
+        <item objectid="6" transform="1 0 0 0 1 0 0 0 1 27.7814 52.0603 0" />
+      </build>
+    </model>
+
+### C.2. Translucent Material Sample
+
+The following 3MF Sample demonstrates an object with Translucent display properties and a texture with transparent alpha channel.C.2. Translucent Material Sample
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <model unit="inch" xml:lang="en-US" xmlns:m="http://schemas.microsoft.com/3dmanufacturing/material/2015/02" xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02">
+      <resources>
+        <m:translucentdisplayproperties id="1">
+          <m:translucent name="TransparentResin" attenuation="0.5 0.5 0.5" refractiveindex="1.3 1.3 1.3" roughness="0.1" />
+        </m:translucentdisplayproperties>
+        <basematerials id="2" displaypropertiesid="1">
+          <base name="BaseMaterial" displaycolor="#FFFFFF" />
+        </basematerials>
+        <m:texture2d id="3" path="/3D/Texture/Sticker.png" contenttype="image/png" tilestyleu="clamp" tilestylev="clamp" />
+        <m:texture2dgroup id="4" texid="3">
+          <m:tex2coord u="0" v="1" />
+          <m:tex2coord u="1" v="1" />
+          <m:tex2coord u="0" v="0" />
+          <m:tex2coord u="1" v="0" />
+        </m:texture2dgroup>
+        <m:multiproperties id="5" pids="2 4">
+          <m:multi pindices="0 0" />
+          <m:multi pindices="0 1" />
+          <m:multi pindices="0 2" />
+          <m:multi pindices="0 3" />
+        </m:multiproperties>
+        <object id="6" type="model">
+          <mesh>
+            <vertices>
+              <vertex x="0" y="0" z="1" />
+              <vertex x="1" y="0" z="1" />
+              <vertex x="0" y="0" z="0" />
+              <vertex x="1" y="0" z="0" />
+              <vertex x="0" y="1" z="1" />
+              <vertex x="1" y="1" z="1" />
+              <vertex x="0" y="1" z="0" />
+              <vertex x="1" y="1" z="0" />
+            </vertices>
+            <triangles>
+              <triangle v1="0" v2="2" v3="1" pid="5" p1="0" p2="2" p3="1" />
+              <triangle v1="3" v2="1" v3="2" pid="5" p1="3" p2="1" p3="2" />
+              <triangle v1="1" v2="3" v3="5" pid="2" p1="0" />
+              <triangle v1="7" v2="5" v3="3" pid="2" p1="0" />
+              <triangle v1="5" v2="7" v3="4" pid="2" p1="0" />
+              <triangle v1="6" v2="4" v3="7" pid="2" p1="0" />
+              <triangle v1="4" v2="6" v3="0" pid="2" p1="0" />
+              <triangle v1="2" v2="0" v3="6" pid="2" p1="0" />
+              <triangle v1="4" v2="0" v3="5" pid="2" p1="0" />
+              <triangle v1="1" v2="5" v3="0" pid="2" p1="0" />
+              <triangle v1="2" v2="6" v3="3" pid="2" p1="0" />
+              <triangle v1="7" v2="3" v3="6" pid="2" p1="0" />
+            </triangles>
+          </mesh>
+        </object>
+        <object id="7" type="model">
+          <components>
+            <component objectid="6" />
+          </components>
+        </object>
+      </resources>
+      <build>
+        <item objectid="7" transform="1 0 0 0 1 0 0 0 1 0 0 0" />
+      </build>
+    </model>
+
+## Appendix D. Micro-facet Surface Model and BRDF
+
+The rendering of realistic images requires a mathematical model of how object’s surface reflects light. Given a point on the surface, a light source and an observer, the model determines the color and intensity of light reaching the observer. Most real-world surfaces exhibit a combination of diffuse reflection (in which the light is uniformly scattered in all directions) and specular reflection (in which the light is concentrated around the mirror direction).
+
+The reflectance properties of the surface are usually described in terms of the bidirectional reflectance distribution function (BRDF). Given the direction towards a specific light source and the direction towards the viewer, BRDF returns the proportion of light energy reflected in the direction of the viewer. In scenarios where illumination is evaluated for multiple light sources (such as pixels of the environment texture map), the BRDF is integrated over a set of contributing light sources.
+
+Although a material’s BRDF can be directly measured in laboratory conditions, analytical BRDF models have been also proposed. The main characteristics of a physically plausible model are the symmetry between incident and mirror directions, energy conservation (the observation that the total reflected energy is less than or equal to the energy of the incident light) and positivity (the observation that the amount of reflected energy is positive or equal to zero).
+
+Because real-world materials have microscopic imperfections, analytical BRDF models must account for scattering properties of the surface (the observation that for rough surfaces the reflected images appear blurry). In real-time computer graphics, commonly used BRDF models assume that rough surfaces can be approximated as a collection of infinitesimally small micro-facets, each of them being a perfect specular reflector in one direction determined by its respective micro-surface normal. Because micro-facets are beyond the resolution of common 3D printers and displays, it is assumed that their combined scattering effect can be modeled statistically. Material’s roughness parameter then determines the shape of this statistical distribution in which reflections in one direction can be more likely than the others.
+
+The reference BRDF implementation is based on Schlick’s analytical BRDF model (as described in “An Inexpensive BRDF Model for Physically-based Rendering” by Christophe Schlick). The Schlick’s BRDF equation has the following general form
+
+    BRDF(l,v)=  (D(h)*G(l,v,h)*F(l,h))/(4(n.l)(n.v))
+
+where
+    n – unit normal to the point on the object’s surface
+    v – unit vector in the direction of the viewer
+    l – unit vector in the direction of a specific light source
+    h – unit “halfway vector” between v and l (angular bisector)
+
+The terms D(h), G(l, v, h) and F(l, h) represent the normal distribution function, the geometric occlusion term and the Fresnel term, each of which will be described separately. While there are multiple possible picks for each of these terms (with varying degrees of computational complexity and physical accuracy), the client SHOULD first refer to the suggested formulas to achieve visually consistent results, especially considering the interpretation of the material’s roughness parameter and its effect on micro-facet normal distribution.
+
+### D.1. Normal Distribution Function – D(h)
+
+Normal distribution function term describes the likelihood of micro-facet normals being aligned in each direction. Integrating the normal distribution function over some solid angle above a small, flat surface patch gives the density of micro-facets within that patch whose normals fall within specified solid angle. The suggested pick for normal distribution function is Trowbridge-Reitz, commonly also called GGX. The distribution shape of the Trowbridge-Reitz formula resembles a truncated ellipsoid centered around a given direction vector. Roughness = 0 maps to a perfect mirror surface while roughness = 1 maps to a uniform hemispherical distribution. We adopt the reparametrization of α = 〖roughness〗^2 which results in visually uniform increments in roughness.
+
+    D(h)=α^2/(π〖((n.h)^2*(α^2-1)+1)〗^2 )
+
+#### D.2. Geometric Occlusion Term – G(l, v, h)
+
+On any rough surface it is likely that some micro-facets will either not receive light due to them being occluded, or light reﬂected by them towards the viewer will be blocked by other micro-facets. This effect is apparent especially when the surface is illuminated at a grazing angle. Geometric occlusion term describes the likelihood that a micro-facet is occluded given a set of direction vectors l, v, h. The suggested pick for the geometric occlusion term is the Schlick approximation for Smith’s shadowing function:
+
+    k=(roughness+1)^2/8
+
+    G_1 (x)=(n.x)/((n.x)*(1-k)+k)
+    G(l,v,h)=G_1 (l)*G_1 (v)
+
+As can be seen, the total geometric occlusion term is a product of two occlusion functions G_1applied for the light source direction as well as the view direction.
+
+#### D.3. Fresnel Term – F(l, h)
+
+The Fresnel term is a physical term describing ratio of reflected to transmitted light energy on the material boundary. It models the real-world observation that surface reflections increase in intensity at grazing angles. The exact behavior of light when moving between media of differing refractive indices is described by the Fresnel equations. However, because of their complexity and relatively high computational cost, the suggested pick for the Fresnel term is the Schlick’s approximation commonly used in computer graphics:
+    
+    F(l,h)=F_0+(1-F_0 )*〖(1-l.h)〗^5
+    
+where F_0 is the specular reflectance of the material at normal incidence (its specular color).
+
+
+## Appendix E. Standard Namespaces and Content Types
+
+### E.1	Content Types
+
+3D Texture		application/vnd.ms-package.3dmanufacturing-3dmodeltexture
+
+### E.2	Relationship Types
+
+3D Texture		http://schemas.microsoft.com/3dmanufacturing/2013/01/3dtexture
+
+### E.3	Namespaces
+
+Advanced Materials	http://schemas.microsoft.com/3dmanufacturing/material/2015/02
+
+# References
+
+**BNF of Generic URI Syntax**
+“BNF of Generic URI Syntax.” World Wide Web Consortium. http://www.w3.org/Addressing/URL/5_URI_BNF.html
+
+**JPEG**
+Hamilton, Eric. “JPEG File Interchange Format, Version 1.02.” World Wide Web Consortium. 1992. http://www.w3.org/Graphics/JPEG/jfif3.pdf
+
+**Open Packaging Conventions**
+Ecma International. “Office Open XML Part 2: Open Packaging Conventions.” 2006. http://www.ecma-international.org
+
+**PNG**
+Duce, David (editor). “Portable Network Graphics (PNG) Specification,” Second Edition. World Wide Web Consortium. 2003. http://www.w3.org/TR/2003/REC-PNG-20031110
+
+**sRGB**
+Anderson, Matthew, Srinivasan Chandrasekar, Ricardo Motta, and Michael Stokes. “A Standard Default Color Space for the Internet-sRGB, Version 1.10.” World Wide Web Consortium. 1996. http://www.w3.org/Graphics/Color/sRGB
+
+**Unicode**
+The Unicode Consortium. The Unicode Standard, Version 4.0.0, defined by: The Unicode Standard, Version 4.0. Boston, MA: Addison-Wesley, 2003.
+
+**XML**
+Bray, Tim, Eve Maler, Jean Paoli, C. M. Sperlberg-McQueen, and François Yergeau (editors). “Extensible Markup Language (XML) 1.0 (Fourth Edition).” World Wide Web Consortium. 2006. http://www.w3.org/TR/2006/REC-xml-20060816/
+
+**XML C14N**
+Boyer, John. "Canonical XML Version 1.0." World Wide Web Consortium. 2001. http://www.w3.org/TR/xml-c14n.
+
+**XML Namespaces**
+Bray, Tim, Dave Hollander, Andrew Layman, and Richard Tobin (editors). “Namespaces in XML 1.0 (Second Edition).” World Wide Web Consortium. 2006. http://www.w3.org/TR/2006/REC-xml-names-20060816/
+
+**XML Schema**
+Beech, David, Murray Maloney, Noah Mendelsohn, and Henry S. Thompson (editors). “XML Schema Part 1: Structures,” Second Edition. World Wide Web Consortium. 2004. http://www.w3.org/TR/2004/REC-xmlschema-1-20041028/
+
+Biron, Paul V. and Ashok Malhotra (editors). “XML Schema Part 2: Datatypes,” Second Edition. World Wide Web Consortium. 2004. http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/
 
 
