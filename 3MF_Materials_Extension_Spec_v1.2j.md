@@ -58,4 +58,21 @@ In this specification, the words that are used to define the significance of eac
 - _SHOULD._ This word, or the adjective "RECOMMENDED," means that there may exist valid reasons in particular circumstances to ignore this item, but the full implications should be understood and the case carefully weighed before choosing a different course.
 - _MAY._ This word, or the adjective "OPTIONAL," means that this item is truly optional. For example, one implementation may choose to include the item because a particular marketplace or scenario requires it or because it enhances the product. Another implementation may omit the same item.
 
+## Software Conformance
+
+Most requirements are expressed as format or package requirements rather than implementation requirements.
+
+In order for consumers to be considered conformant, they must observe the following rules:
+
+- They MUST NOT report errors when processing conforming instances of the document format except when forced to do so by resource exhaustion.
+- They SHOULD report errors when processing non-conforming instances of the document format when doing so does not pose an undue processing or performance burden.
+
+In order for producers to be considered conformant, they must observe the following rules:
+
+- They MUST NOT generate any new, non-conforming instances of the document format.
+- They MUST NOT introduce any non-conformance when modifying an instance of the document format.
+
+Editing applications are subject to all of the above rules.
+
+
 
