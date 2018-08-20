@@ -94,11 +94,11 @@ THESE MATERIALS ARE PROVIDED "AS IS." The contributors expressly disclaim any wa
 
   * [Appendix E. Standard Namespaces and Content Types](#appendix-e-standard-namespaces-and-content-types)
 
-  * [E.1 Content Types](#content-types)
+  * [E.1 Content Types](#e1-content-types)
 
-  * [E.2 Relationship Types](#relationship-types)
+  * [E.2 Relationship Types](#e2-relationship-types)
 
-  * [E.3 Namespaces](#namespaces)
+  * [E.3 Namespaces](#e3-namespaces)
 
 - [References](#references)
 
