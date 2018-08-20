@@ -80,25 +80,25 @@ THESE MATERIALS ARE PROVIDED "AS IS." The contributors expressly disclaim any wa
 
   * [Appendix C. 3MF Samples](#appendix-c-3mf-samples)
 
-  * [C.1. Physically Based Material Sample](#c1-physically-based-material-sample)
+   * [C.1. Physically Based Material Sample](#c1-physically-based-material-sample)
 
-  * [C.2. Translucent Material Sample](#c2-translucent-material-sample)
+   * [C.2. Translucent Material Sample](#c2-translucent-material-sample)
 
-* [Appendix D. Micro-facet Surface Model and BRDF](#appendix-d-micro-facet-surface-model-and-brdf)
+  * [Appendix D. Micro-facet Surface Model and BRDF](#appendix-d-micro-facet-surface-model-and-brdf)
 
-  * [D.1. Normal Distribution Function – D(h)](#d1-normal-distribution-function-dh)
+   * [D.1. Normal Distribution Function – D(h)](#d1-normal-distribution-function-dh)
 
-  * [D.2. Geometric Occlusion Term – G(l, v, h)](#d2-geometric-occlusion-term-g1vh)
+   * [D.2. Geometric Occlusion Term – G(l, v, h)](#d2-geometric-occlusion-term-g1vh)
 
-  * [D.3. Fresnel Term – F(l, h)](#d3-fresnel-term-f1h)
+   * [D.3. Fresnel Term – F(l, h)](#d3-fresnel-term-f1h)
 
-* [Appendix E. Standard Namespaces and Content Types](#appendix-e-standard-namespaces-and-content-types)
+  * [Appendix E. Standard Namespaces and Content Types](#appendix-e-standard-namespaces-and-content-types)
 
-  * [E.1 Content Types](#e1-content-types)
+   * [E.1 Content Types](#e1-content-types)
 
-  * [E.2 Relationship Types](#e2-relationship-types)
+   * [E.2 Relationship Types](#e2-relationship-types)
 
-  * [E.3 Namespaces](#e3-namespaces)
+   * [E.3 Namespaces](#e3-namespaces)
 
 - [References](#references)
 
