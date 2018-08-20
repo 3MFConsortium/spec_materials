@@ -30,15 +30,15 @@ THESE MATERIALS ARE PROVIDED "AS IS." The contributors expressly disclaim any wa
 
    * [1.1. Resources](#11-resources)
 
-   * [1.2. sRGB and Linear Color Values](#12-sRGB-and-linear-color-values)
+   * [1.2. sRGB and Linear Color Values](#12-srgb-and-linear-color-values)
 
-   * [1.3. Material Gradients and Interpolation Methods](#13-materials-gradients-and-interpolation-methods)
+   * [1.3. Material Gradients and Interpolation Methods](#13-material-gradients-and-interpolation-methods)
 
    * [1.4. Base Materials](#14-base-materials)
 
-* [Chapter 2. Color Groups](#chatper-2-color-groups)
+* [Chapter 2. Color Groups](#chapter-2-color-groups)
 
-   * [2.1. Color](#21-colors)
+   * [2.1. Color](#21-color)
 
 - [Chapter 3. Texture 2D Groups](#chapter-3-texture-2d-groups)
 
@@ -50,39 +50,39 @@ THESE MATERIALS ARE PROVIDED "AS IS." The contributors expressly disclaim any wa
 
 - [Chapter 5. Multi-Properties](#chapter-5-multi-properties)
 
-* [5.1. Multi](#51-multi)
+  * [5.1. Multi](#51-multi)
 
 - [Chapter 6. Texture 2d](#chapter-6-texture-2d)
 
 - [Chapter 7. Display Properties Overview](#chapter-7-display-properties-overview)
 
-* [7.1. Specular Display Properties](#71-specular-display-properties)
+  * [7.1. Specular Display Properties](#71-specular-display-properties)
 
-  * [7.1.1. Specular](#711-specular)
+   * [7.1.1. Specular](#711-specular)
 
-* [7.2. Metallic Display Properties](#72-metallic-display-properties)
+  * [7.2. Metallic Display Properties](#72-metallic-display-properties)
 
-  * [7.2.1. Metallic](#721-metallic)
+   * [7.2.1. Metallic](#721-metallic)
 
-* [7.3. Specular Texture Display Properties](#73-specular-texture-display-properties)
+  * [7.3. Specular Texture Display Properties](#73-specular-texture-display-properties)
 
-* [7.4. Metallic Texture Display Properties](#74-metallic-texture-display-properties)
+  *  [7.4. Metallic Texture Display Properties](#74-metallic-texture-display-properties)
 
-* [7.5. Translucent Display Properties](#75-translucent-display-properties)
+  * [7.5. Translucent Display Properties](#75-translucent-display-properties)
 
-  * [7.5.1. Translucent](#751-translucent)
+   * [7.5.1. Translucent](#751-translucent)
 
 - [Part II. Appendixes](part-ii-appendixes)
 
-* [Appendix A. Glossary](#appendix-a-glossary)
+  * [Appendix A. Glossary](#appendix-a-glossary)
 
-  * [Appendix B. 3MF XSD Schema (Core + Materials)](#appendix-b-3mf-xsd-schema-core-materials)
+  * [Appendix B. 3MF XSD Schema for Material and Properties](#appendix-b-3mf-xsd-schema-for-material-and-properties)
 
   * [Appendix C. 3MF Samples](#appendix-c-3mf-samples)
 
   * [C.1. Physically Based Material Sample](#c1-physically-based-material-sample)
 
-  * [C.2. Translucent Material Sample](#translucent-material-sample)
+  * [C.2. Translucent Material Sample](#c2-translucent-material-sample)
 
 * [Appendix D. Micro-facet Surface Model and BRDF](#appendix-d-micro-facet-surface-model-and-brdf)
 
@@ -603,7 +603,7 @@ display a metallic material. They are optionally associated with specific materi
 The order and count of the elements forms an implicit 0-based index in the same as the order and count of elements of the associated
 material group. For example, if a <basematerialgroup> includes a “displaypropertiesid” attribute pointing to a <pbmetallicdisplayproperties> element, there will be the same number of <pbmetallic> elements as <basematerial> elements where the first <pbmetallic> describes the first <basematerial> in the group.
 
-### 7.2. Metallic 
+### 7.2.1. Metallic 
 
 Element **\<pbmetallic>**
 
