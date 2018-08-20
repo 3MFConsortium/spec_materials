@@ -16,19 +16,19 @@ THESE MATERIALS ARE PROVIDED "AS IS." The contributors expressly disclaim any wa
 
 * [Preface](#preface)
 
-  * [About this Specification](#about-this-specification)
+    * [About this Specification](#about-this-specification)
 
-* [Document Conventions](#document-conventions)
+    * [Document Conventions](#document-conventions)
 
-* [Language Notes](#language-notes)
+    * [Language Notes](#language-notes)
 
-* [Software Conformance](#software-conformance)
+    * [Software Conformance](#software-conformance)
 
-* [Part I: 3MF Documents](#part-i:-3mf-documents)
+* [Part I. 3MF Documents](#part-i-3mf-documents)
 
-Chapter 1. Overview of Additions
+    * [Chapter 1. Overview of Additions](#chapter-1-overview-of-additions)
 
-1.1. Resources
+    * [1.1. Resources](#1-1-resources)
 
 1.2. sRGB and linear color values
 
