@@ -4,4 +4,4 @@ This repository contains the Materials and Properties Extension that extends the
 
 This extensions provides additional support for enabling full-color 3d printing workflow from creation and visualization software to the manufacturing of the part by physical devices. This specification standardizes how colors should be blended, and how materials should be represented such that the part can be realistically viewed and the printer has what it needs to output what was intended.
 
-See the [3MF core examples repository](https://github.com/3MFConsortium/3mf-samples/tree/master/examples/materials) for 3MF Materials and Properties sample files.
+See the [3MF materials examples repository](https://github.com/3MFConsortium/3mf-samples/tree/master/examples/materials) for 3MF Materials and Properties sample files.
