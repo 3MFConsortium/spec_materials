@@ -58,11 +58,11 @@ THESE MATERIALS ARE PROVIDED "AS IS." The contributors expressly disclaim any wa
 
 * [7.1. Specular Display Properties](#71-specular-display-properties)
 
-** [7.1.1. Specular](#711-specular)
+  * [7.1.1. Specular](#711-specular)
 
 * [7.2. Metallic Display Properties](#72-metallic-display-properties)
 
-** [7.2.1. Metallic](#721-metallic)
+  * [7.2.1. Metallic](#721-metallic)
 
 * [7.3. Specular Texture Display Properties](#73-specular-texture-display-properties)
 
@@ -70,35 +70,35 @@ THESE MATERIALS ARE PROVIDED "AS IS." The contributors expressly disclaim any wa
 
 * [7.5. Translucent Display Properties](#75-translucent-display-properties)
 
-** [7.5.1. Translucent](#751-translucent)
+  * [7.5.1. Translucent](#751-translucent)
 
 - [Part II. Appendixes](part-ii-appendixes)
 
 * [Appendix A. Glossary](#appendix-a-glossary)
 
-** [Appendix B. 3MF XSD Schema (Core + Materials)](#appendix-b-3mf-xsd-schema-core-materials)
+  * [Appendix B. 3MF XSD Schema (Core + Materials)](#appendix-b-3mf-xsd-schema-core-materials)
 
-** [Appendix C. 3MF Samples](#appendix-c-3mf-samples)
+  * [Appendix C. 3MF Samples](#appendix-c-3mf-samples)
 
-** [C.1. Physically Based Material Sample](#c1-physically-based-material-sample)
+  * [C.1. Physically Based Material Sample](#c1-physically-based-material-sample)
 
-** [C.2. Translucent Material Sample](#translucent-material-sample)
+  * [C.2. Translucent Material Sample](#translucent-material-sample)
 
 * [Appendix D. Micro-facet Surface Model and BRDF](#appendix-d-micro-facet-surface-model-and-brdf)
 
-** [D.1. Normal Distribution Function – D(h)](#d1-normal-distribution-function-dh)
+  * [D.1. Normal Distribution Function – D(h)](#d1-normal-distribution-function-dh)
 
-** [D.2. Geometric Occlusion Term – G(l, v, h)](#d2-geometric-occlusion-term-g1vh)
+  * [D.2. Geometric Occlusion Term – G(l, v, h)](#d2-geometric-occlusion-term-g1vh)
 
-** [D.3. Fresnel Term – F(l, h)](#d3-fresnel-term-f1h)
+  * [D.3. Fresnel Term – F(l, h)](#d3-fresnel-term-f1h)
 
-** [Appendix E. Standard Namespaces and Content Types](#appendix-e-standard-namespaces-and-content-types)
+  * [Appendix E. Standard Namespaces and Content Types](#appendix-e-standard-namespaces-and-content-types)
 
-** [E.1 Content Types](#content-types)
+  * [E.1 Content Types](#content-types)
 
-** [E.2 Relationship Types](#relationship-types)
+  * [E.2 Relationship Types](#relationship-types)
 
-** [E.3 Namespaces](#namespaces)
+  * [E.3 Namespaces](#namespaces)
 
 - [References](#references)
 
