@@ -92,7 +92,7 @@ THESE MATERIALS ARE PROVIDED "AS IS." The contributors expressly disclaim any wa
 
   * [D.3. Fresnel Term – F(l, h)](#d3-fresnel-term-f1h)
 
-  * [Appendix E. Standard Namespaces and Content Types](#appendix-e-standard-namespaces-and-content-types)
+* [Appendix E. Standard Namespaces and Content Types](#appendix-e-standard-namespaces-and-content-types)
 
   * [E.1 Content Types](#e1-content-types)
 
