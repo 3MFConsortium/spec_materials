@@ -14,17 +14,17 @@ THESE MATERIALS ARE PROVIDED "AS IS." The contributors expressly disclaim any wa
 
 ## Table of Contents
 
-Preface
+* [Preface](#preface)
 
-About this Specification
+  * [About this Specification](#about-this-specification)
 
-Document Conventions
+* [Document Conventions](#document-conventions)
 
-Language Notes
+* [Language Notes](#language-notes)
 
-Software Conformance
+* [Software Conformance](#software-conformance)
 
-Part I: 3MF Documents
+* [Part I: 3MF Documents](#part-i:-3mf-documents)
 
 Chapter 1. Overview of Additions
 
