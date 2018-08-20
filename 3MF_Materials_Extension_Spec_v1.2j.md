@@ -14,93 +14,93 @@ THESE MATERIALS ARE PROVIDED "AS IS." The contributors expressly disclaim any wa
 
 ## Table of Contents
 
-* [Preface](#preface)
+- [Preface](#preface)
 
-    * [About this Specification](#about-this-specification)
+   * [About this Specification](#about-this-specification)
 
-    * [Document Conventions](#document-conventions)
+   * [Document Conventions](#document-conventions)
 
-    * [Language Notes](#language-notes)
+   * [Language Notes](#language-notes)
 
-    * [Software Conformance](#software-conformance)
+   * [Software Conformance](#software-conformance)
 
-* [Part I. 3MF Documents](#part-i-3mf-documents)
+- [Part I. 3MF Documents](#part-i-3mf-documents)
 
-    * [Chapter 1. Overview of Additions](#chapter-1-overview-of-additions)
+- [Chapter 1. Overview of Additions](#chapter-1-overview-of-additions)
 
-    * [1.1. Resources](#1-1-resources)
+   * [1.1. Resources](#11-resources)
 
-1.2. sRGB and linear color values
+   * [1.2. sRGB and Linear Color Values](#12-sRGB-and-linear-color-values)
 
-1.3. Material Gradients and Interpolation Methods
+   * [1.3. Material Gradients and Interpolation Methods](#13-materials-gradients-and-interpolation-methods)
 
-1.4. Base Materials
+   * [1.4. Base Materials](#14-base-materials)
 
-Chapter 2. Color Groups
+* [Chapter 2. Color Groups](#chatper-2-color-groups)
 
-2.1. Color
+   * [2.1. Color](#21-colors)
 
-Chapter 3. Texture 2D Groups
+- [Chapter 3. Texture 2D Groups](#chapter-3-texture-2d-groups)
 
-3.1. Texture 2D Coordinate
+   * [3.1. Texture 2D Coordinate](#31-texture-2d-coordinate)
 
-Chapter 4. Composite Materials
+- [Chapter 4. Composite Materials](#chapter-4-composite-materials)
 
-4.1. Composite
+   * [4.1. Composite](#41-composite)
 
-Chapter 5. Multi-Properties
+- [Chapter 5. Multi-Properties](#chapter-5-multi-properties)
 
-5.1. Multi
+* [5.1. Multi](#51-multi)
 
-Chapter 6. Texture 2d
+- [Chapter 6. Texture 2d](#chapter-6-texture-2d)
 
-Chapter 7. Display Properties Overview
+- [Chapter 7. Display Properties Overview](#chapter-7-display-properties-overview)
 
-7.1. Specular Display Properties
+* [7.1. Specular Display Properties](#71-specular-display-properties)
 
-7.1.1. Specular
+** [7.1.1. Specular](#711-specular)
 
-7.2. Metallic Display Properties
+* [7.2. Metallic Display Properties](#72-metallic-display-properties)
 
-7.2.1. Metallic
+** [7.2.1. Metallic](#721-metallic)
 
-7.3. Specular Texture Display Properties
+* [7.3. Specular Texture Display Properties](#73-specular-texture-display-properties)
 
-7.4. Metallic Texture Display Properties
+* [7.4. Metallic Texture Display Properties](#74-metallic-texture-display-properties)
 
-7.5. Translucent Display Properties
+* [7.5. Translucent Display Properties](#75-translucent-display-properties)
 
-7.5.1. Translucent
+** [7.5.1. Translucent](#751-translucent)
 
-Part II. Appendixes
+- [Part II. Appendixes](part-ii-appendixes)
 
-Appendix A. Glossary
+* [Appendix A. Glossary](#appendix-a-glossary)
 
-Appendix B. 3MF XSD Schema (Core + Materials)
+** [Appendix B. 3MF XSD Schema (Core + Materials)](#appendix-b-3mf-xsd-schema-core-materials)
 
-Appendix C. 3MF Samples
+** [Appendix C. 3MF Samples](#appendix-c-3mf-samples)
 
-C.1 – Physically Based Material sample
+** [C.1. Physically Based Material Sample](#c1-physically-based-material-sample)
 
-C.2. Translucent Material Sample
+** [C.2. Translucent Material Sample](#translucent-material-sample)
 
-Appendix D. Micro-facet Surface Model and BRDF
+* [Appendix D. Micro-facet Surface Model and BRDF](#appendix-d-micro-facet-surface-model-and-brdf)
 
-D.1. Normal Distribution Function – D(h)
+** [D.1. Normal Distribution Function – D(h)](#d1-normal-distribution-function-dh)
 
-D.2. Geometric Occlusion Term – G(l, v, h)
+** [D.2. Geometric Occlusion Term – G(l, v, h)](#d2-geometric-occlusion-term-g1vh)
 
-D.3. Fresnel Term – F(l, h)
+** [D.3. Fresnel Term – F(l, h)](#d3-fresnel-term-f1h)
 
-Appendix E. Standard Namespaces and Content Types
+** [Appendix E. Standard Namespaces and Content Types](#appendix-e-standard-namespaces-and-content-types)
 
-E.1	Content Types
+** [E.1 Content Types](#content-types)
 
-E.2	Relationship Types
+** [E.2 Relationship Types](#relationship-types)
 
-E.3	Namespaces
+** [E.3 Namespaces](#namespaces)
 
-References
+- [References](#references)
 
 
 
@@ -175,7 +175,7 @@ As there are existing file formats and use cases which need multiple pieces of i
 
 All the new elements defined in this 3MF extension specification live under the <resources> element from the core 3MF specification. The <object> and <basematerials> elements are from the core spec, while the rest are defined in the following chapters. The ordering shown here is not enforced in the schema, as these extension elements all fall under the <any> element from the core spec.
 
-### 1.2. sRGB and linear color values
+### 1.2. sRGB and Linear Color Values
 
 The 3MF core specification (Chapter 5.1.1) mentions that whenever 3MF uses colors that are expressed as #RRGGBB hexadecimal quantities with 8 bits per color channel, they are assumed to be in sRGB color space. 3MF uses sRGB as specified by the World Wide Web Consortium (http://www.w3.org/Graphics/Color/sRGB).
 
@@ -1031,7 +1031,7 @@ For more information on the microfacet model, see Appendix D. Micro-facet Surfac
 
 ## Appendix C. 3MF Samples
 
-### C.1 – Physically Based Material sample
+### C.1. Physically Based Material Sample
 
     <?xml version="1.0" encoding="UTF-8"?>
     <model unit="millimeter" xml:lang="en-US" xmlns:m="http://schemas.microsoft.com/3dmanufacturing/material/2015/02" xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02">
@@ -1208,15 +1208,15 @@ where F_0 is the specular reflectance of the material at normal incidence (its s
 
 ## Appendix E. Standard Namespaces and Content Types
 
-### E.1	Content Types
+### E.1 Content Types
 
 3D Texture		application/vnd.ms-package.3dmanufacturing-3dmodeltexture
 
-### E.2	Relationship Types
+### E.2 Relationship Types
 
 3D Texture		http://schemas.microsoft.com/3dmanufacturing/2013/01/3dtexture
 
-### E.3	Namespaces
+### E.3 Namespaces
 
 Advanced Materials	http://schemas.microsoft.com/3dmanufacturing/material/2015/02
 
