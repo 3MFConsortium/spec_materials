@@ -394,9 +394,9 @@ Multiplication would be represented as:
     accumulatedColor.rgb = newLayer.rgb * accumulatedColor.rgb
     accumulatedColor.a = newLayer.a * accumulatedColor.a
 
->**Note:** Users coming from a Graphic Arts background who prefer color blending to be performed in sRGB or any other color space are advised to perform the composition in a 2D imaging application and then apply the blended 2D textures to an object.
-
 Blending operations should be performed in linear RGB space. Thus, the inverse color component transfer function needs to be applied to each component of the source and destination color. In Computer Graphics blending operations are typically performed in linear RGB space.
+
+>**Note:** Users coming from a Graphic Arts background who prefer color blending to be performed in sRGB or any other color space are advised to perform the composition in a 2D imaging application and then apply the blended 2D textures to an object.
 
 Consider the following example:
 
