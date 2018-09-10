@@ -173,7 +173,11 @@ As there are existing file formats and use cases which need multiple pieces of i
 
 ### 1.1. Resources
 
-All the new elements defined in this 3MF extension specification live under the <resources> element from the core 3MF specification. The <object> and <basematerials> elements are from the core spec, while the rest are defined in the following chapters. The ordering shown here is not enforced in the schema, as these extension elements all fall under the <any> element from the core spec.
+Element **\<resources>**
+
+![Resources](images/1.1.Resources.png)
+
+All the new elements defined in this 3MF extension specification live under the \<resources> element from the core 3MF specification. The \<object> and \<basematerials> elements are from the core spec, while the rest are defined in the following chapters. The ordering shown here is not enforced in the schema, as these extension elements all fall under the \<any> element from the core spec.
 
 ### 1.2. sRGB and Linear Color Values
 
@@ -221,7 +225,7 @@ Element **\<basematerials>**
 | Name | Type | Use | Default | Annotation |
 | --- | --- | --- | --- | --- |
 | Attributes described in Core spec | ... | ... | ... | ... |
-| displaypropertiesid | **ST_ResourceID** | optional | | Reference to a <displayproperties> element providing additional information about how to display the material on a device display |
+| displaypropertiesid | **ST_ResourceID** | optional | | Reference to a \<displayproperties> element providing additional information about how to display the material on a device display |
 
 ## Chapter 2. Color Groups
 
@@ -233,18 +237,18 @@ Element **\<colorgroup>**
 | Name | Type | Use | Default | Annotation |
 | --- | --- | --- | --- | --- |
 | id | **ST_ResourceID** | required |  | Unique ID among all resources (which could include elements from extensions to the spec). |
-| displaypropertiesid | **ST_ResourceID** | optional | | Reference to a <displayproperties> element providing additional information about how to display the material on a device display |
+| displaypropertiesid | **ST_ResourceID** | optional | | Reference to a \<displayproperties> element providing additional information about how to display the material on a device display |
 | @anyAttribute | | | | |
     
-A <colorgroup> element acts as a container for color properties.
+A \<colorgroup> element acts as a container for color properties.
     
-The order of the color elements forms an implicit 0-based index that is referenced by other elements, such as the <object> and <triangle> elements. 
+The order of the color elements forms an implicit 0-based index that is referenced by other elements, such as the \<object> and \<triangle> elements. 
 
-A producer MAY define multiple <colorgroup> containers to help organize the file, for instance by grouping colors related to specific objects.
+A producer MAY define multiple \<colorgroup> containers to help organize the file, for instance by grouping colors related to specific objects.
     
-The displaypropertiesid attribute references a <displayproperties> group containing additional properties that describe how best to display a mesh with this material on a device display.
+The displaypropertiesid attribute references a \<displayproperties> group containing additional properties that describe how best to display a mesh with this material on a device display.
     
-A <colorgroup> describes a set of surface color properties and SHOULD NOT reference translucent display properties. To achieve a translucent effect with surface color, a multi-properties group SHOULD be used instead. For more information, refer to Chapter 7: Display Properties Overview.
+A \<colorgroup> describes a set of surface color properties and SHOULD NOT reference translucent display properties. To achieve a translucent effect with surface color, a multi-properties group SHOULD be used instead. For more information, refer to Chapter 7: Display Properties Overview.
 
 ### 2.1. Color
 
@@ -259,7 +263,7 @@ Element **\<color>**
 
 Colors are used to represent rich color, specifically what most 3D formats call “vertex colors”. These elements are used when color is the only property of interest for the material, and a large number will be needed. The format is the same sRGB color as defined in the core 3MF specification.
 
-Colors are assumed to be fully opaque (alpha = #FF) except when used as a non-base layer inside a <multiproperties> element.	
+Colors are assumed to be fully opaque (alpha = #FF) except when used as a non-base layer inside a \<multiproperties> element.	
 To avoid integer overflows, a color group MUST contain less than 2^31 colors.
 
 ## Chapter 3. Texture 2D Groups
@@ -272,15 +276,15 @@ Element **\<texture2dgroup>**
 | Name | Type | Use | Default | Annotation |
 | --- | --- | --- | --- | --- |
 | id | **ST_ResourceID** | required |  | Unique ID among all resources (which could include elements from extensions to the spec). |
-| texid | **ST_ResourceID** | required |  | Reference to the <texture2d> element with the matching id attribute value. |
-| displaypropertiesid | **ST_ResourceID** | optional | | Reference to a <displayproperties> element providing additional information about how to display the material on a device display |
+| texid | **ST_ResourceID** | required |  | Reference to the \<texture2d> element with the matching id attribute value. |
+| displaypropertiesid | **ST_ResourceID** | optional | | Reference to a \<displayproperties> element providing additional information about how to display the material on a device display |
 | @anyAttribute | | | | |
     
-A <texture2dgroup> element acts as a container for texture coordinate properties. The order of these elements forms an implicit 0-based index that is referenced by other elements, such as the <object> and <triangle> elements. It also specifies which image to use, via texid. The referenced <texture2d> elements are described below in Chapter 6.
+A \<texture2dgroup> element acts as a container for texture coordinate properties. The order of these elements forms an implicit 0-based index that is referenced by other elements, such as the \<object> and \<triangle> elements. It also specifies which image to use, via texid. The referenced \<texture2d> elements are described below in Chapter 6.
 
 The texture’s alpha channel is assumed to be fully opaque (alpha = #FF) unless specified otherwise.
 
-The displaypropertiesid attribute references a <displayproperties> group containing additional properties that describe how best to display a mesh with this material on a device display. A <texture2Dgroup> describes a set of surface color properties and MUST NOT reference translucent display properties. To achieve a translucent effect through a texture, a multi-properties group MUST be used instead. For more information, refer to Chapter 7: Display Properties Overview.
+The displaypropertiesid attribute references a \<displayproperties> group containing additional properties that describe how best to display a mesh with this material on a device display. A \<texture2Dgroup> describes a set of surface color properties and MUST NOT reference translucent display properties. To achieve a translucent effect through a texture, a multi-properties group MUST be used instead. For more information, refer to Chapter 7: Display Properties Overview.
 
 ### 3.1. Texture 2D Coordinate
 
@@ -309,9 +313,9 @@ Element **\<compositematerials>**
 | Name | Type | Use | Default | Annotation |
 | --- | --- | --- | --- | --- |
 | id | **ST_ResourceID** | required |  | Unique ID among all resources (which could include elements from extensions to the spec). |
-| matid | **ST_ResourceID** | required |  | Reference to the base material group element with the matching id attribute value (e.g. <basematerials>). |
+| matid | **ST_ResourceID** | required |  | Reference to the base material group element with the matching id attribute value (e.g. \<basematerials>). |
 | matindices | **ST_ResourceIndices** | required |  | A space-delimited list of ST_ResourceIndex values of the material constituents |
-| displaypropertiesid | **ST_ResourceID** | optional |  | Reference to a <displayproperties> element providing additional information about how to display the material on a device display |
+| displaypropertiesid | **ST_ResourceID** | optional |  | Reference to a \<displayproperties> element providing additional information about how to display the material on a device display |
 | @anyAttribute | | | | |
 
 ##### Elements
@@ -319,11 +323,11 @@ Element **\<compositematerials>**
 | --- | --- | --- | --- | --- |
 | composite | **CT_Composite** | required |   |   |
 
-A <compositematerials> element acts as a container for composite materials. The order of these elements forms an implicit 0-based index that is referenced by other elements, such as the <object> and <triangle> elements. A producer MAY define multiple <compositematerials> containers, for instance by grouping mixtures of different materials.
+A \<compositematerials> element acts as a container for composite materials. The order of these elements forms an implicit 0-based index that is referenced by other elements, such as the \<object> and \<triangle> elements. A producer MAY define multiple \<compositematerials> containers, for instance by grouping mixtures of different materials.
 
-The <compositematerials> element defines materials derived by mixing 2 or more base materials in defined ratios. This collective mixture is referred to as a composite material. The matid attribute specifies the material group that all constituents are from, which MUST be a <basematerials> group. The matindices attribute specifies the indices of the materials to mix.
+The \<compositematerials> element defines materials derived by mixing 2 or more base materials in defined ratios. This collective mixture is referred to as a composite material. The matid attribute specifies the material group that all constituents are from, which MUST be a \<basematerials> group. The matindices attribute specifies the indices of the materials to mix.
 
-The displaypropertiesid attribute references a <displayproperties> group containing additional properties that describe how best to display the material when previewing a mesh with this material on a device display. For more information, refer to Chapter 7: Display Properties Overview.
+The displaypropertiesid attribute references a \<displayproperties> group containing additional properties that describe how best to display the material when previewing a mesh with this material on a device display. For more information, refer to Chapter 7: Display Properties Overview.
 
 ### 4.1. Composite
 
@@ -341,7 +345,7 @@ attributes	Name	Type	Use	Default	Fixed	Annotation
 Values	ST_Numbers	required			A space-delimited list of ST_Number values between 0 and 1, inclusive representing the fraction of the material constituents, respectively.
 @anyAttribute					
 
-The <composite> element defines a values attribute, which specifies the proportion of the overall mixture for each material. If the sum of the values is greater than zero, consumers MUST divide each value by the sum of the values of all constituent value attributes to apply the correct proportion for each material. If the sum of all constituent value attributes is zero, each value MUST be treated as 1.0 divided by the number of constituent elements.
+The \<composite> element defines a values attribute, which specifies the proportion of the overall mixture for each material. If the sum of the values is greater than zero, consumers MUST divide each value by the sum of the values of all constituent value attributes to apply the correct proportion for each material. If the sum of all constituent value attributes is zero, each value MUST be treated as 1.0 divided by the number of constituent elements.
     
 If the values list is shorter than the matindices list, consumers MUST use a default value of zero for unspecified values. Extra values MUST be ignored.
 
@@ -366,30 +370,33 @@ Element **\<multiproperties>**
 | --- | --- | --- | --- | --- |
 | multi | **CT_Multi** | required |   |   |
 
-A <multiproperties> element acts as a container for <multi> elements. The order of these elements forms an implicit 0-based index that is referenced by other elements, such as the <object> and <triangle> elements. The pids list MUST NOT contain more than one reference to a material (base or composite). The pids list MUST NOT contain more than one reference to a colorgroup (for performance reasons). The pids list MUST NOT contain any references to a multiproperties. A producer MAY define multiple <multiproperties> containers, for instance to layer textures in a different order or to specify a different material.
+A \<multiproperties> element acts as a container for multiple layers of properties. The order of these pids forms an implicit 0-based index that is referenced by other elements, such as the \<object> and \<triangle> elements. The pids list MUST NOT contain more than one reference to a material (base or composite). The pids list MUST NOT contain more than one reference to a colorgroup. The pids list MUST NOT contain any references to a multiproperties. A producer MAY define multiple \<multiproperties> containers, for instance to layer textures in a different order or to specify a different material.A \<multiproperties> element acts as a container for multiple layers of properties. The order of these pids forms an implicit 0-based index that is referenced by other elements, such as the \<object> and \<triangle> elements. The pids list MUST NOT contain more than one reference to a material (base or composite). The pids list MUST NOT contain more than one reference to a colorgroup. The pids list MUST NOT contain any references to a multiproperties. A producer MAY define multiple \<multiproperties> containers, for instance to layer textures in a different order or to specify a different material.    
+
+A material, if included, MUST be positioned as the first layer (0-based index), with color information – texture or colors, in subsequent layers. This arrangement describes the composition of an object by defining the enclosed “shell” on top of which the other layers in the multi-properties are blended.
+
+First, the properties are independently sampled and linearly interpolated on a triangle, then layered using the order specified within the \<multiproperty> element. To determine the resulting color, the individual contributions of all layers are accumulated by considering their opacity and blending mode. When a layer is processed, it is blended with the already accumulated result of previous blending operations, forming a new accumulated value.
+
+The blendmethods attribute allows the producer to specify the equation to use when blending the colors between two layers. The blendmethods attribute provides a list of “mix” or “multiply” values associated with each layer in the group describing how to be blended with the previous layer results. Since the blendmethod works in pair of layers, the blendmethod for the first layer MUST be omitted. If there are more layers than blendmethods values + 1 specified in the list, “mix” is assumed to be the default operation. There MUST NOT be more blendmethods than layers – 1.
+
+For each blending method an equation which specifies the operation on RGB values is provided. The initial accumulated RGB value is taken from the first layer and the process of blending starts with the second layer and continues until all subsequent layers are processed.
+
+If the first layer is a material layer it might not always be possible to determine the initial accumulated RGB value. For instance, the print ticket might indicate the use of a metallic material or there might be a display property indicating translucent appearance. Therefore, if the material layer is present the consumer SHOULD skip the first layer (including the first entry in the \<blendmethods> list) and accumulate not only RGB but also opacity contributions of subsequent layers. For this purpose, each blending method specifies a second equation which is used to accumulate alpha. Once the resulting alpha value is known, the accumulated RGB color is applied to material surface using the accumulated alpha value as opacity.
+
+For example, if the accumulated alpha value indicates 70% opacity, it implies that RGB color is applied in such way that 30% of the underlying surface shows through. If we imagine the surface as a set of infinitesimally small micro-facets, the new layer should statistically cover 70% of the micro-facet area. This might be consumer dependent. For example, a viewing consumer might take the material’s displaycolor as underlying surface color to alpha blend the accumulated color on, or a color printing consumer might spray the color on top of the actual material with a density depending on the accumulated alpha.
+
+The initial accumulated alpha value, as well as the first layer opacity, is assumed to be #FF (fully opaque). However, in instances where the first layer is skipped, the second layer’s RGB is used to initialize the accumulated RGB color and alpha is initialized depending on the blend method:
     
-A material, if included, MUST be positioned as the first layer, with color information – texture or colors, in subsequent layers. This arrangement describes the composition of an object by defining the “shell” on top of which the other layers in the multi-properties are blended.
+•	For “mix” blend method the second layer’s actual alpha is used.
+•	For “multiply” blend method a fully opaque alpha (#FF) is used.
 
-First, the properties are independently sampled and linearly interpolated on a triangle, then layered using the order specified within the pids attribute. To determine the resulting color, the individual contributions of all layers are accumulated by considering their opacity and blending mode. When a layer is processed, it is blended with the already accumulated result of previous blending operations, forming a new accumulated value. For each blending mode, two equations are provided. One is used to accumulate RGB color and the second one is used to accumulate opacity.
+Blending starts with the third layer in this case.
 
-The blendmethods attribute allows the producer to specify the equation to use when blending the colors between two layers. The blendmethods attribute provides a list of “mix” or “multiply” values associated with each layer in the group describing how to be blended with the previous layer results. The first layer MUST be omitted. If there are more layers than blendmethods values + 1 specified in the list, “mix” is assumed to be the default operation. There MUST NOT be more blendmethods than layers – 1.
-The initial accumulated alpha value, as well as the first layer opacity, is assumed to be #FF (fully opaque). The initial accumulated RGB value is copied from the first layer and the process of blending starts with the 2nd layer and continues until all subsequent layers are processed.
-
-If the first layer contains a material with translucent display property, base material, or composite material, it is skipped (including the first entry in the <blendmethods> list). The 2nd layer’s RGB is used to initialize the accumulated RGB color and alpha is initialized depending on the blending mode:
-    
-•	#FF (fully opaque) for “multiply” blending mode.
-•	2nd layer’s actual alpha for “mix” blending mode.
-
-Blending starts with the 3rd layer, in this case. Once the blend is determined, the resulting RGB color is applied to the material specified in the first layer using the accumulated alpha value as opacity.
-
-For example, if the accumulated alpha value indicates 50% opacity, it implies that color is applied in such way that 50% of the underlying surface shows through.
-
-Linear “mix” interpolation would be represented as:
+Linear “mix” interpolation is defined by the following operation on RGB and alpha:
 
     accumulatedColor.rgb = newLayer.rgb * newLayer.a + accumulatedColor.rgb * (1 – newLayer.a)
     accumulatedColor.a = newLayer.a + accumulatedColor.a * (1 – newLayer.a)
 
-Multiplication would be represented as:
+“Multiply” blend method is defined by the following equations:
 
     accumulatedColor.rgb = newLayer.rgb * accumulatedColor.rgb
     accumulatedColor.a = newLayer.a * accumulatedColor.a
@@ -398,31 +405,40 @@ Blending operations should be performed in linear RGB space. Thus, the inverse c
 
 >**Note:** Users coming from a Graphic Arts background who prefer color blending to be performed in sRGB or any other color space are advised to perform the composition in a 2D imaging application and then apply the blended 2D textures to an object.
 
-Consider the following example:
+Let us consider the following example:
 
-We want to apply this texture containing alpha channel values indicating transparency (grey color) to <triangle> elements.
+We want to apply two textured layers containing alpha channel information indicating transparency to \<triangle> elements. The first texture is a semi-transparent star pattern with 50% opacity and the second texture is a fully opaque emoticon except for border area which is fully transparent:
 
-![Multiproperties example 1](images/5.1.MultiPropertiesExp1.jpg)
+![Multiproperties example 1](images/5.1.MultiPropertiesExp1.png)
+![Multiproperties example 2](images/5.1.MultiPropertiesExp2.png)
 
-The result should look like this (a 3MF sample is provided in Appendix C.2.):
+When applied to an opaque blue object we expect the following result:
 
-![Multiproperties example 2](images/5.1.MultiPropertiesExp2.jpg)
+![Multiproperties example 3](images/5.1.MultiPropertiesExp3.png)
 
-And not like this:
+To achieve this effect, multiproperties might be used in which the first layer is a colorgroup containing blue color. The blending process starts by taking the blue color’s RGB and continues with two successive “mix” operations according to the method described above.
 
-![Multiproperties example 3](images/5.1.MultiPropertiesExp3.jpg)
+Let us further assume that instead of colorgroup a base material is used. The consumer might not be able to determine its color (other than relying on its displaycolor value) until it is actually printed. Therefore, the consumer should first accumulate the overall RGB and opacity contributions of the second and third layer, obtaining the following result:
 
-To achieve this affect, multi-properties will be used where the first layer contains material with a translucent displayproperties. The underlying material MAY be rendered translucent to allow underlying model material to “show through” transparent areas. The subsequent layers, which can be of any type, are then blended according to the method described above.
+![Multiproperties example 4](images/5.1.MultiPropertiesExp4.png)
 
-For example, assume a second layer is blended on top of the first layer containing a color value with a 50% alpha.
-A display renderer easily determines the translucent surface color based on object’s attenuation, thickness and background lighting. Whatever color that turns out to be is blended with 1st layer’s color in a separate rendering pass. 
+The accumulated result is then applied to the actual material surface considering both RGB and opacity, essentially performing an implicit “mix” operation.
 
-It is different for a 3d printer. If we apply opaque color over a transparent layer, the result depends on what we mean by 50% alpha. If we blend two opaque colors, it’s easy to determine their average and apply paint because it’s still opaque. 
+If there is a display property indicating the use of a translucent material (in this example lime green) a viewing consumer MAY render the material layer as translucent to allow underlying model material to “show through” transparent texture areas.
 
-In this case, the alpha channel MUST describe color opacity. Fully opaque alpha means that the underlying translucent surface doesn’t show through. Zero alpha means that the underlying surface fully shows through. 50% alpha allows 50% of background light to pass. 
-Imagine the surface as a set of infinitesimally small micro-facets, half of the facets would be covered in fully opaque paint and the other half would show through. Like spray paint which only has half the normal throttle. This behavior is fully consistent with the display renderer described above and it works for standard blending mode.
+![Multiproperties example 5](images/5.1.MultiPropertiesExp5.png)
 
-When physically printing, a material and display properties MAY be ignored. But when rendering on screen, the display color and display properties SHOULD be blended to provide a realistic preview.
+A similar situation might arise when the first layer has a display property indicating metallic appearance or when printing with a metallic material:
+
+![Multiproperties example 6](images/5.1.MultiPropertiesExp6.png)
+
+When physically printing, display properties MUST be ignored. But when rendering on screen, the display color and display properties SHOULD be blended to provide a realistic preview. In cases where it is not obvious how to blend display properties (e.g. “multiply” blend between regular and metallic color) the consumer MAY ignore display properties and reduce both values to plain RGB.
+
+Printers MAY simulate the spraying of color on a material by printing the resulting color after blending the accumulated color with the accumulated alpha on top of the material actual color. The blending is an implicit “mix”, overriding the specified in the blendmethods, as: 
+
+    printColor .rgb = accumulatedColor.rgb * accumulatedColor.a + materialColor.rgb * (1 – accumulatedColor.a)
+
+Note that the actual material color is not specified in the 3MF document, but it MAY be known by the printer by other means.
 
 ### 5.1. Multi
 
@@ -515,7 +531,7 @@ Translucent materials have the quality of allowing light to pass through, unlike
 
 Display properties are represented by these five types – specular, metallic, specular with texture, metallic with texture, and translucent.
 
-“metallic”, “specular”, and “translucent” types are only valid for <basematerials>, <compositematerials> and <colorgroup>. Where “metallictexture” and “speculartexture” are only valid for <texture2dgroup>.
+“metallic”, “specular”, and “translucent” types are only valid for \<basematerials>, \<compositematerials> and \<colorgroup>. Where “metallictexture” and “speculartexture” are only valid for \<texture2dgroup>.
     
 The properties defined on a triangle that are from a display properties group MUST NOT form gradients, as interpolation between physically based materials is not defined in this specification. A consumer MUST apply the p1 property to the entire triangle. Properties p2 and p3 MUST be either unspecified or they MUST be equal to p1.
 
@@ -536,11 +552,11 @@ Element **\<pbspeculardisplayproperties>**
 | --- | --- | --- | --- | --- |
 | pbspecular | **CT_PBSpecular** | required |   |   |
 
-The <pbspeculardisplayproperties> are located under <resources> and contain a set of properties describing how to realistically display a specular material. They are optionally associated with specific materials through a “displaypropertiesid” attribute.
+The \<pbspeculardisplayproperties> are located under \<resources> and contain a set of properties describing how to realistically display a specular material. They are optionally associated with specific materials through a “displaypropertiesid” attribute.
 
-<pbspeculardisplayproperties> is a container for one or more <pbspecular> elements.
+\<pbspeculardisplayproperties> is a container for one or more \<pbspecular> elements.
     
-The order and count of the elements forms an implicit 0-based index in the same as the order and count of elements of the associated material group. For example, if a <basematerials> group includes a “displaypropertiesid” attribute pointing to a <pbspeculardisplayproperties> element, there will be the same number of <pbspecular> elements as <basematerial> elements where the first <pbspecular> element describes the first <basematerial> in the group.
+The order and count of the elements forms an implicit 0-based index in the same as the order and count of elements of the associated material group. For example, if a \<basematerials> group includes a “displaypropertiesid” attribute pointing to a \<pbspeculardisplayproperties> element, there will be the same number of \<pbspecular> elements as \<basematerial> elements where the first \<pbspecular> element describes the first \<basematerial> in the group.
 
 ### 7.1.1. Specular
 
@@ -556,7 +572,7 @@ Element **\<pbspecular>**
 | glossiness | **ST_Number** |   | 0 | Surface glossiness (smoothness) value |
 | @anyAttribute | | | | |
     
-The <pbspecular> element infers a diffuse color from the color attribute of the material it is associated with. For example, when <pbspecular> display properties are associated with a <basematerial>, the “displaycolor” attribute from basematerial specifies a diffuse color to apply using pbspecular display properties. Similarly, when <pbspecular> display properties are associated with a <color> material, the “color” attribute specifies the diffuse color to apply.
+The \<pbspecular> element infers a diffuse color from the color attribute of the material it is associated with. For example, when \<pbspecular> display properties are associated with a \<basematerial>, the “displaycolor” attribute from basematerial specifies a diffuse color to apply using pbspecular display properties. Similarly, when \<pbspecular> display properties are associated with a \<color> material, the “color” attribute specifies the diffuse color to apply.
  
 The diffuse color describes the surface color. It is an sRGB color triplet that specifies diffuse reflectance of the surface. It represents the proportion of light which is reflected off the surface in diffuse fashion in respective red, green and blue wavelength regions. Diffuse reflection is an idealized concept in which the incident light scatters in all directions independently of the angle at which it arrives. 
     
@@ -597,13 +613,13 @@ Element **\<pbmetallicdisplayproperties>**
 | --- | --- | --- | --- | --- |
 | pbmetallic | **CT_PBMetallic** | required |  |  |
 
-The <pbmetallicdisplayproperties> are located under <resources> and contain a set of properties describing how to realistically
+The \<pbmetallicdisplayproperties> are located under \<resources> and contain a set of properties describing how to realistically
 display a metallic material. They are optionally associated with specific materials through a “displaypropertiesid” attribute.
 
-<pbmetallicdisplayproperties> is a container for one or more <pbmetallic> elements.
+\<pbmetallicdisplayproperties> is a container for one or more \<pbmetallic> elements.
 
 The order and count of the elements forms an implicit 0-based index in the same as the order and count of elements of the associated
-material group. For example, if a <basematerialgroup> includes a “displaypropertiesid” attribute pointing to a <pbmetallicdisplayproperties> element, there will be the same number of <pbmetallic> elements as <basematerial> elements where the first <pbmetallic> describes the first <basematerial> in the group.
+material group. For example, if a \<basematerialgroup> includes a “displaypropertiesid” attribute pointing to a \<pbmetallicdisplayproperties> element, there will be the same number of \<pbmetallic> elements as \<basematerial> elements where the first \<pbmetallic> describes the first \<basematerial> in the group.
 
 ### 7.2.1. Metallic 
 
@@ -651,25 +667,25 @@ Element **\<pbspeculartexturedisplayproperties>**
 | --- | --- | --- | --- | --- |
 | id | **ST_ResourceID** | required |  | Unique ID among all materials groups (which could include elements from extensions to the specification) |
 | name | **xs:string** | required |  | Specifies the material name, intended to convey design intent |
-| speculartextureid | **ST_ResourceID** | required |  | Reference to the <texture2d> element with the matching id attribute value |
-| glossinesstextureid | **ST_ResourceID** | required |  | Reference to the <texture2d> element with the matching id attribute value |
+| speculartextureid | **ST_ResourceID** | required |  | Reference to the \<texture2d> element with the matching id attribute value |
+| glossinesstextureid | **ST_ResourceID** | required |  | Reference to the \<texture2d> element with the matching id attribute value |
 | diffusefactor | **ST_ColorValue** |  | #FFFFFF | Diffuse color multiplication factor |
 | specularfactor | **ST_ColorValue** |  | #FFFFFF | Specular multiplication factor |
 | glossinessfactor | **ST_Number** |  | 1 | Glossiness multiplication factor |
 | @anyAttribute | | | | |
 
-A <pbspeculartexturedisplayproperties> contains set of properties describing how to realistically display textured specular material. 
+A \<pbspeculartexturedisplayproperties> contains set of properties describing how to realistically display textured specular material. 
 
-The difference between <pbspecular> and <pbspeculartexture> is that the diffuse color, specular color, and glossiness parameters are not specified explicitly – instead, they are sampled from the respective <texture2d> resources, speculartextureid, and glossinesstextureid. Values obtained by texture lookups are then multiplied in a component-wise manner by corresponding <texture2d> resources, specularfactor and glossinessfactor.
+The difference between \<pbspecular> and \<pbspeculartexture> is that the diffuse color, specular color, and glossiness parameters are not specified explicitly – instead, they are sampled from the respective \<texture2d> resources, speculartextureid, and glossinesstextureid. Values obtained by texture lookups are then multiplied in a component-wise manner by corresponding \<texture2d> resources, specularfactor and glossinessfactor.
 
-Color values are assumed to be in sRGB color space. Therefore, the inverse component transfer function MUST be applied before component-wise multiplication takes place. Glossiness values sampled from the <texture2d> resource referenced by glossinesstextureid (as well as the glossinessfactor) are assumed to be linear and no inverse component transfer function is necessary.
+Color values are assumed to be in sRGB color space. Therefore, the inverse component transfer function MUST be applied before component-wise multiplication takes place. Glossiness values sampled from the \<texture2d> resource referenced by glossinesstextureid (as well as the glossinessfactor) are assumed to be linear and no inverse component transfer function is necessary.
 
-A diffuse texture is contained in the texture material that references this display property. Alpha transparency values for the <texture2d> resource SHOULD be ignored, and the texture is assumed to be fully opaque. 
+A diffuse texture is contained in the texture material that references this display property. Alpha transparency values for the \<texture2d> resource SHOULD be ignored, and the texture is assumed to be fully opaque. 
 
-A consumer MUST apply the texture addressing properties (tilestyleu, tilestylev, filter) defined in the <texture2d> element referenced by texture material to all the other <texture2d> resources referenced within <texture2dgroup> element. Other <texture2d> resources MUST either leave these properties unspecified or they MUST specify the same values for these properties.
+A consumer MUST apply the texture addressing properties (tilestyleu, tilestylev, filter) defined in the \<texture2d> element referenced by texture material to all the other \<texture2d> resources referenced within \<texture2dgroup> element. Other \<texture2d> resources MUST either leave these properties unspecified or they MUST specify the same values for these properties.
 
-The same set of texture coordinates, specified by <tex2coord> elements is used for diffuse, specular and glossiness <texture2d> resources. This corresponds to the way the textures are created. Object features (e.g. a car door) occupy the same area in all three textures, because it’s easier for designer to match them this way.
-It is possible for speculartextureid and glossinesstextureid to share the same value and therefore to refer to the same <texture2d> resource. In such case the specular color is sampled from its RGB color channels and the glossiness parameter is sampled from its A (alpha) channel. If no alpha channel is present, it is assumed to be #FF.
+The same set of texture coordinates, specified by \<tex2coord> elements is used for diffuse, specular and glossiness \<texture2d> resources. This corresponds to the way the textures are created. Object features (e.g. a car door) occupy the same area in all three textures, because it’s easier for designer to match them this way.
+It is possible for speculartextureid and glossinesstextureid to share the same value and therefore to refer to the same \<texture2d> resource. In such case the specular color is sampled from its RGB color channels and the glossiness parameter is sampled from its A (alpha) channel. If no alpha channel is present, it is assumed to be #FF.
 
 In cases where speculartextureid and glossinesstextureid differ, glossiness parameter is sampled from the red (R) channel of the corresponding texture. Monochromatic textures are treated as if the luminance information represents the R channel.
 
@@ -684,23 +700,23 @@ Element **\<pbmetallictexturedisplayproperties>**
 | --- | --- | --- | --- | --- |
 | id | **ST_ResourceID** | required |  | Unique ID among all materials groups (which could include elements from extensions to the specification) |
 | name | **xs:string** | required |  | Specifies the material name, intended to convey design intent |
-| metallictextureid | **ST_ResourceID** | required |  | Reference to the <texture2d> element with the matching id attribute value |
-| roughnesstextureid | **ST_ResourceID** | required |  | Reference to the <texture2d> element with the matching id attribute value |
+| metallictextureid | **ST_ResourceID** | required |  | Reference to the \<texture2d> element with the matching id attribute value |
+| roughnesstextureid | **ST_ResourceID** | required |  | Reference to the \<texture2d> element with the matching id attribute value |
 | basecolorfactor | **ST_ColorValue** |  | #FFFFFF | Base color multiplication factor |
 | metallicfactor | **ST_Number** |  | 1 | Metallicness multiplication factor |
 | roughnessfactor | **ST_Number** |  | 1 | Roughness  multiplication factor |
 | @anyAttribute | | | | |
 
-A <pbmetallictexturedisplayproperties> contains set of properties describing how to realistically display textured metallic material.
+A \<pbmetallictexturedisplayproperties> contains set of properties describing how to realistically display textured metallic material.
 
-The difference between <pbmetallicdisplayproperties> and <pbmetallictexturedisplayproperties> is that the base color, metallicness and roughness parameters are not specified explicitly – instead, they are sampled from the respective <texture2d> resources referenced by the associated texture material, metallictextureid and roughnesstextureid. Values obtained by texture lookups are then multiplied in a component-wise manner by corresponding basecolorfactor, metallicfactor and roughnessfactor. Color values sampled from texture are assumed to be in sRGB color space. Therefore, the inverse color component transfer function MUST be applied before component-wise multiplication takes place. Metallicness and roughness values sampled from <texture2d> resources referenced by metallictextureid and roughnesstextureid (as well as metallicfactor and roughnessfactor) are assumed to be linear and no inverse color component transfer function is necessary.
+The difference between \<pbmetallicdisplayproperties> and \<pbmetallictexturedisplayproperties> is that the base color, metallicness and roughness parameters are not specified explicitly – instead, they are sampled from the respective \<texture2d> resources referenced by the associated texture material, metallictextureid and roughnesstextureid. Values obtained by texture lookups are then multiplied in a component-wise manner by corresponding basecolorfactor, metallicfactor and roughnessfactor. Color values sampled from texture are assumed to be in sRGB color space. Therefore, the inverse color component transfer function MUST be applied before component-wise multiplication takes place. Metallicness and roughness values sampled from \<texture2d> resources referenced by metallictextureid and roughnesstextureid (as well as metallicfactor and roughnessfactor) are assumed to be linear and no inverse color component transfer function is necessary.
 
-Alpha transparency values for the <texture2d> resource referenced by associated texture material SHOULD be ignored and the texture is assumed to be fully opaque. 
+Alpha transparency values for the \<texture2d> resource referenced by associated texture material SHOULD be ignored and the texture is assumed to be fully opaque. 
 
-A consumer MUST still apply the texture addressing properties (tilestyleu, tilestylev, filter) defined in the <texture2d> element referenced by the associated texture material to all the other <texture2d> resources referenced within <metallictexture> element. Other <texture2d> resources MUST either leave these properties unspecified or they MUST specify the same values for these properties.
-The same set of texture coordinates, specified by <tex2coord> elements, is used for base color, metallicness and roughness <texture2d> resources. This corresponds to the way the textures are created: object features (e.g. a car door) occupy the same area in all three textures, because it’s easier for designer to match them this way.
+A consumer MUST still apply the texture addressing properties (tilestyleu, tilestylev, filter) defined in the \<texture2d> element referenced by the associated texture material to all the other \<texture2d> resources referenced within \<metallictexture> element. Other \<texture2d> resources MUST either leave these properties unspecified or they MUST specify the same values for these properties.
+The same set of texture coordinates, specified by \<tex2coord> elements, is used for base color, metallicness and roughness \<texture2d> resources. This corresponds to the way the textures are created: object features (e.g. a car door) occupy the same area in all three textures, because it’s easier for designer to match them this way.
     
-It is possible for metallictextureid and roughnesstextureid to share the same value and therefore to refer to the same <texture2d> resource. In such case the roughness is sampled from its R color channel and the metallicness parameter is sampled from its G color channel.
+It is possible for metallictextureid and roughnesstextureid to share the same value and therefore to refer to the same \<texture2d> resource. In such case the roughness is sampled from its R color channel and the metallicness parameter is sampled from its G color channel.
 
 In cases where metallictextureid and roughnesstextureid differ, metallicness and roughness parameters are sampled from the red (R) channel of the corresponding textures. Monochromatic textures are treated as if the luminance information represents the R channel.
 
@@ -721,12 +737,12 @@ Element **\<translucentdisplayproperties>**
 | --- | --- | --- | --- | --- |
 | translucent | **CT_Translucent** | optional | | |
 
-The <translucentdisplayproperties> are located under <resources> and contain a set of properties describing how to realistic display a translucent material. They are optionally associated with specific materials through a “displaypropertiesid” attribute.
-<translucentdisplayproperties> is a container for one or more <translucent> elements.
+The \<translucentdisplayproperties> are located under \<resources> and contain a set of properties describing how to realistic display a translucent material. They are optionally associated with specific materials through a “displaypropertiesid” attribute.
+\<translucentdisplayproperties> is a container for one or more \<translucent> elements.
     
 The order and count of the elements forms an implicit 0-based index in the same as the order and count of elements of the associated material group. For example, if a basematerial group includes a displaypropertiesid attribute pointing to a translucentdisplayproperties element, there will be the same number of translucent elements as basematerial elements where the first translucent element describes the first basematerial in the group.
     
-Because translucency is inherently a volumetric property (as opposed to an object surface property), an object that specifies translucent material SHOULD ensure that the material is specified at the object level only, or all <triangle> elements SHOULD reference the same translucent properties through their ‘p1’, ‘p2’, ‘p3’ attributes.
+Because translucency is inherently a volumetric property (as opposed to an object surface property), an object that specifies translucent material SHOULD ensure that the material is specified at the object level only, or all \<triangle> elements SHOULD reference the same translucent properties through their ‘p1’, ‘p2’, ‘p3’ attributes.
 
 Layers of a multi-properties MAY contain translucent properties including textures with alpha channel indicating a level of transparency. Transparency information SHOULD be blended between to allow for translucent objects with surface ‘decals’. The alpha channel indicates the level of opacity to be blended. For example, when a texture color is specified without alpha channel indicating transparency the textured area is assumed to be an opaque surface treatment as if the surface were painted.
 
@@ -753,7 +769,7 @@ Translucent properties defined in this manner are assumed to be homogeneous and 
 
 This implies that a translucent object is defined only by a material group or a multi-properties group where the first index is a material with displayproperties assigned to a translucentdisplayproperties, and that the same material is the first index for all other materials assigned to this mesh. Alternatively, displayproperties can be assigned to a material group or multi-properties group at the object level indicating translucentdisplayproperties for a simpler representation.
 
-Translucent display properties MUST NOT be applied to <texture2dgroup> or <colorgroup> properties. A translucent effect is achieved by using a multi-properties group with a material containing translucent display properties and blending the subsequent layers.
+Translucent display properties MUST NOT be applied to \<texture2dgroup> or \<colorgroup> properties. A translucent effect is achieved by using a multi-properties group with a material containing translucent display properties and blending the subsequent layers.
 
 **Attenuation**
 Attenuation coefficient is a measure of how easily a beam of light can penetrate the material. A value of zero means that the material is completely transparent. Bigger values mean that the beam is correspondingly attenuated as it passes through the material. The unit of attenuation is the reciprocal meter (m−1). Attenuation represents the combined loss of energy due to absorption and scattering. Because different wavelengths are absorbed at different rates (which gives translucent materials their color tint), attenuation coefficient is defined as a triplet of values corresponding to red, green and blue color channels.
