@@ -436,7 +436,7 @@ When physically printing, display properties MUST be ignored. But when rendering
 
 Printers MAY simulate the spraying of color on a material by printing the resulting color after blending the accumulated color with the accumulated alpha on top of the material actual color. The blending is an implicit “mix”, overriding the specified in the blendmethods, as: 
 
-    printColor .rgb = accumulatedColor.rgb * accumulatedColor.a + materialColor.rgb * (1 – accumulatedColor.a)
+    printColor.rgb = accumulatedColor.rgb * accumulatedColor.a + materialColor.rgb * (1 – accumulatedColor.a)
 
 Note that the actual material color is not specified in the 3MF document, but it MAY be known by the printer by other means.
 
