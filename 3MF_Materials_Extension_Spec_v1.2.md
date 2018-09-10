@@ -48,7 +48,7 @@ THESE MATERIALS ARE PROVIDED "AS IS." The contributors expressly disclaim any wa
 
    * [4.1. Composite](#41-composite)
 
-- [Chapter 5. Multi-Properties](#chapter-5-multi-properties)
+- [Chapter 5. Multiproperties](#chapter-5-multiproperties)
 
   * [5.1. Multi](#51-multi)
 
@@ -351,7 +351,7 @@ If the values list is shorter than the matindices list, consumers MUST use a def
 
 To avoid integer overflows, a composite group MUST contain less than 2^31 composites.
 
-## Chapter 5. Multi-Properties
+## Chapter 5. Multiproperties
 
 Element **\<multiproperties>**
 
