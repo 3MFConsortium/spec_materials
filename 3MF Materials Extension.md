@@ -242,12 +242,8 @@ Element **\<composite>**
 ##### Attributes
 | Name | Type | Use | Default | Annotation |
 | --- | --- | --- | --- | --- |
-| Values | **ST_Numbers** | required |  | A space-delimited list of ST_Number values between 0 and 1, inclusive representing the fraction of the material constituents, respectively. |
+| values | **ST_Numbers** | required |  | A space-delimited list of ST_Number values between 0 and 1, inclusive representing the fraction of the material constituents, respectively. |
 | @anyAttribute | | | | |
-
-attributes	Name	Type	Use	Default	Fixed	Annotation
-Values	ST_Numbers	required			A space-delimited list of ST_Number values between 0 and 1, inclusive representing the fraction of the material constituents, respectively.
-@anyAttribute					
 
 The \<composite> element defines a values attribute, which specifies the proportion of the overall mixture for each material. If the sum of the values is greater than zero, consumers MUST divide each value by the sum of the values of all constituent value attributes to apply the correct proportion for each material. If the sum of all constituent value attributes is zero, each value MUST be treated as 1.0 divided by the number of constituent elements.
     
