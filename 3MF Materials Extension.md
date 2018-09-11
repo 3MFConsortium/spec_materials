@@ -152,6 +152,8 @@ The displaypropertiesid attribute references a \<displayproperties> group contai
     
 A \<colorgroup> describes a set of surface color properties and SHOULD NOT reference translucent display properties. To achieve a translucent effect with surface color, a multi-properties group SHOULD be used instead. For more information, refer to Chapter 7: Display Properties Overview.
 
+To avoid integer overflows, a color group MUST contain less than 2^31 colors.
+
 ### 2.1. Color
 
 Element **\<color>**
@@ -166,7 +168,6 @@ Element **\<color>**
 Colors are used to represent rich color, specifically what most 3D formats call “vertex colors”. These elements are used when color is the only property of interest for the material, and a large number will be needed. The format is the same sRGB color as defined in the core 3MF specification.
 
 Colors are assumed to be fully opaque (alpha = #FF) except when used as a non-base layer inside a \<multiproperties> element.	
-To avoid integer overflows, a color group MUST contain less than 2^31 colors.
 
 ## Chapter 3. Texture 2D Groups
 
@@ -188,6 +189,8 @@ The texture’s alpha channel is assumed to be fully opaque (alpha = #FF) unless
 
 The displaypropertiesid attribute references a \<displayproperties> group containing additional properties that describe how best to display a mesh with this material on a device display. A \<texture2Dgroup> describes a set of surface color properties and MUST NOT reference translucent display properties. To achieve a translucent effect through a texture, a multi-properties group MUST be used instead. For more information, refer to Chapter 7: Display Properties Overview.
 
+To avoid integer overflows, a texture coordinate group MUST contain less than 2^31 tex2coords.
+
 ### 3.1. Texture 2D Coordinate
 
 Element **\<tex2coord>**
@@ -204,8 +207,6 @@ Element **\<tex2coord>**
 Texture coordinates map a vertex of a triangle to a position in image space (U, V coordinates). Texture mapping allows high-resolution color bitmaps to be applied to any surface. The primary advantage of texture mapping over the vertex colors of the previous section is that the textures allow color at a much finer detail level than the underlying mesh, while vertex colors are always at the same resolution as the mesh.
 
 The lower left corner of the texture is the u, v coordinate (0,0), and the upper right coordinate is (1,1). The u,v values are not restricted to this range.
-
-To avoid integer overflows, a texture coordinate group MUST contain less than 2^31 tex2coords.
 
 ## Chapter 4. Composite Materials
 
@@ -233,6 +234,8 @@ The \<compositematerials> element defines materials derived by mixing 2 or more 
 
 The displaypropertiesid attribute references a \<displayproperties> group containing additional properties that describe how best to display the material when previewing a mesh with this material on a device display. For more information, refer to Chapter 7: Display Properties Overview.
 
+To avoid integer overflows, a composite group MUST contain less than 2^31 composites.
+
 ### 4.1. Composite
 
 Element **\<composite>**
@@ -248,8 +251,6 @@ Element **\<composite>**
 The \<composite> element defines a values attribute, which specifies the proportion of the overall mixture for each material. If the sum of the values is greater than zero, consumers MUST divide each value by the sum of the values of all constituent value attributes to apply the correct proportion for each material. If the sum of all constituent value attributes is zero, each value MUST be treated as 1.0 divided by the number of constituent elements.
     
 If the values list is shorter than the matindices list, consumers MUST use a default value of zero for unspecified values. Extra values MUST be ignored.
-
-To avoid integer overflows, a composite group MUST contain less than 2^31 composites.
 
 ## Chapter 5. Multiproperties
 
@@ -286,10 +287,10 @@ If the first layer is a material layer it might not always be possible to determ
 
 For example, if the accumulated alpha value indicates 70% opacity, it implies that RGB color is applied in such way that 30% of the underlying surface shows through. If we imagine the surface as a set of infinitesimally small micro-facets, the new layer should statistically cover 70% of the micro-facet area. This might be consumer dependent. For example, a viewing consumer might take the material’s displaycolor as underlying surface color to alpha blend the accumulated color on, or a color printing consumer might spray the color on top of the actual material with a density depending on the accumulated alpha.
 
-The initial accumulated alpha value, as well as the first layer opacity, is assumed to be #FF (fully opaque). However, in instances where the first layer is skipped, the second layer’s RGB is used to initialize the accumulated RGB color and alpha is initialized depending on the blend method:
+The initial accumulated alpha value, as well as the first layer opacity, is assumed to be fully opaque. However, in instances where the first layer is skipped, the second layer’s RGB is used to initialize the accumulated RGB color and alpha is initialized depending on the blend method:
     
 •	For “mix” blend method the second layer’s actual alpha is used.
-•	For “multiply” blend method a fully opaque alpha (#FF) is used.
+•	For “multiply” blend method a fully opaque alpha is used.
 
 Blending starts with the third layer in this case.
 
@@ -303,7 +304,7 @@ Linear “mix” interpolation is defined by the following operation on RGB and 
     accumulatedColor.rgb = newLayer.rgb * accumulatedColor.rgb
     accumulatedColor.a = newLayer.a * accumulatedColor.a
 
-Blending operations should be performed in linear RGB space. Thus, the inverse color component transfer function needs to be applied to each component of the source and destination color. In Computer Graphics blending operations are typically performed in linear RGB space.
+Blending operations should be performed in linear RGB space. Thus, the inverse color component transfer function needs to be applied to each component of the source and destination color. In Computer Graphics, blending operations are typically performed in linear RGB space.
 
 >**Note:** Users coming from a Graphic Arts background who prefer color blending to be performed in sRGB or any other color space are advised to perform the composition in a 2D imaging application and then apply the blended 2D textures to an object.
 
@@ -342,6 +343,8 @@ Printers MAY simulate the spraying of color on a material by printing the result
 
 Note that the actual material color is not specified in the 3MF document, but it MAY be known by the printer by other means.
 
+To avoid integer overflows, a multiproperties group MUST contain less than 2^31 \<multi> elements.
+
 ### 5.1. Multi
 
 Element **\<multi>**
@@ -354,7 +357,7 @@ Element **\<multi>**
 | pindices | **ST_ResourceIndices** | required |  | A space-delimited list of ST_ResourceIndex values of the constituents |
 | @anyAttribute | | | | |
 
-The <multi> element combines the constituent materials and properties. The pindices attribute is a space-delimited list of property indices enumerated in the order which corresponds to the order of property groups specified in the <multiproperties> pids list. If the pindices list is shorter than the pids list, consumers MUST use a default index of zero for any unspecified pindices. Extra pindices MUST be ignored. To avoid integer overflows, a multi property group MUST contain less than 2^31 elements.
+The \<multi> element combines the constituent materials and properties. The pindices attribute is a space-delimited list of property indices enumerated in the order which corresponds to the order of property groups specified in the \<multiproperties> pids list. If the pindices list is shorter than the pids list, consumers MUST use a default index of zero for any unspecified pindices. Extra pindices MUST be ignored.
 
 ## Chapter 6. Texture 2d
 
