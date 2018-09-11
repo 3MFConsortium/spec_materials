@@ -396,10 +396,11 @@ If there is no alpha channel present in the texture, the default value #FF SHOUL
 
 The box attribute was DEPRECATED in version 1.2. Producers SHOULD NOT generate it and consumer SHOULD ignore it.
 
-tilestyleu, tilestylev - The tile style of wrap essentially means that the same texture SHOULD be repeated in the specified axis (both in the positive and negative directions), for the axis value. The tile style of mirror means that each time the texture width or height is exceeded, the next repetition of the texture SHOULD be reflected across a plane perpendicular to the axis in question. The tile style of clamp means all Texture 2D Coordinates outside of the range zero to one will be assigned the color of the nearest edge pixel. The tile style of none means that all Texture 2D Coordinates outside the range zero to one will be assigned the color of the default object color. If the default object color is not defined the choice for the color is left to the consumer.
+**tilestyleu, tilestylev** - The tile style of wrap essentially means that the same texture SHOULD be repeated in the specified axis (both in the positive and negative directions), for the axis value. The tile style of mirror means that each time the texture width or height is exceeded, the next repetition of the texture SHOULD be reflected across a plane perpendicular to the axis in question. The tile style of clamp means all Texture 2D Coordinates outside of the range zero to one will be assigned the color of the nearest edge pixel. The tile style of none means that all Texture 2D Coordinates outside the range zero to one will be assigned the color of the default object color. If the default object color is not defined the choice for the color is left to the consumer.
 
 The only supported content types are JPEG and PNG, as more specifically specified in the 3MF core spec under the Thumbnails section.
-filter - The producer MAY require the use of a specific filter type by specifying either “linear” for bilinear interpolation or “nearest” for nearest neighbor interpolation. The producer SHOULD use “auto” to indicate to the consumer to use the highest quality filter available. If source texture is scaled with the model, the specified filter type MUST be applied to the scaling operation. The default value is “auto”.
+
+**filter** - The producer MAY require the use of a specific filter type by specifying either “linear” for bilinear interpolation or “nearest” for nearest neighbor interpolation. The producer SHOULD use “auto” to indicate to the consumer to use the highest quality filter available. If source texture is scaled with the model, the specified filter type MUST be applied to the scaling operation. The default value is “auto”.
 
 The following example shows how the filter MUST be applied to the texture. Figure 6-1 shows an example of a small texture which is tiled by vertically mirroring and horizontally wrapping. It illustrates that that the texture pixels are located at the center of each cell. All the filter operations should be performed in sRGB.
 
@@ -438,7 +439,7 @@ Display properties are represented by these five types – specular, metallic, s
 
 “metallic”, “specular”, and “translucent” types are only valid for \<basematerials>, \<compositematerials> and \<colorgroup>. Where “metallictexture” and “speculartexture” are only valid for \<texture2dgroup>.
     
-The properties defined on a triangle that are from a display properties group MUST NOT form gradients, as interpolation between physically based materials is not defined in this specification. A consumer MUST apply the p1 property to the entire triangle. Properties p2 and p3 MUST be either unspecified or they MUST be equal to p1.
+The display properties defined on a triangle that are from a display properties group MUST NOT form gradients, as interpolation between physically based materials is not defined in this specification. A consumer MUST apply the p1 property to the entire triangle. Properties p2 and p3 MUST be either unspecified or they MUST be equal to p1.
 
 ### 7.1. Specular Display Properties
 
