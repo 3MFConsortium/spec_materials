@@ -273,9 +273,9 @@ Element **\<multiproperties>**
 | --- | --- | --- | --- | --- |
 | multi | **CT_Multi** | required |   |   |
 
-A \<multiproperties> element acts as a container for \<multi> elements which combine multiple property indices into a single index. The order of these elements forms an implicit 0-based index that is referenced by other elements, such as the \<object> and \<triangle> elements.
+A \<multiproperties> element acts as a container for \<multi> elements which are indexable groups of property indices. The order of these elements forms an implicit 0-based array that is referenced by other elements, such as the \<object> and \<triangle> elements.
 
-The pids list enumerates property group indices in the order in which they are layered and blended. The pids list MUST NOT contain more than one reference to a material (base or composite). The pids list MUST NOT contain more than one reference to a colorgroup. The pids list MUST NOT contain any references to a multiproperties. A producer MAY define multiple \<multiproperties> containers, for instance to layer textures in a different order or to specify a different material.
+The pids list enumerates property group IDs in the order in which they are layered and blended. The pids list MUST NOT contain more than one reference to a material (base or composite). The pids list MUST NOT contain more than one reference to a colorgroup. The pids list MUST NOT contain any references to a multiproperties. A producer MAY define multiple \<multiproperties> containers, for instance to layer textures in a different order or to specify a different material.
 
 A material, if included, MUST be positioned as the first element in the list forming the first layer, with color information – texture or colors, in subsequent layers. This arrangement describes the composition of an object by defining the enclosed “shell” on top of which the other layers in the multi-properties are blended.
 
@@ -285,7 +285,7 @@ The blendmethods attribute allows the producer to specify the equation to use wh
 
 For each blending method an equation which specifies the operation on RGB values is provided. The initial accumulated RGB value is taken from the first layer and the process of blending starts with the second layer and continues until all subsequent layers are processed.
 
-If the first layer contains a material layer it might not always be possible to determine the initial accumulated RGB value. For instance, the print ticket might indicate the use of a metallic material or there might be a display property indicating translucent appearance. Therefore, if the material layer is present the consumer SHOULD skip the first layer (including the first entry in the \<blendmethods> list) and accumulate not only RGB but also opacity contributions of subsequent layers. For this purpose, each blending method specifies a second equation which is used to accumulate alpha. Once the resulting alpha value is known, the accumulated RGB color is applied to material surface using the accumulated alpha value as opacity.
+If the first layer is a material layer it might not always be possible to determine the initial accumulated RGB value. For instance, the print ticket might indicate the use of a metallic material or there might be a display property indicating translucent appearance. Therefore, if the material layer is present the consumer SHOULD skip the first layer (including the first entry in the \<blendmethods> list) and accumulate not only RGB but also opacity contributions of subsequent layers. For this purpose, each blending method specifies a second equation which is used to accumulate alpha. Once the resulting alpha value is known, the accumulated RGB color is applied to material surface using the accumulated alpha value as opacity.
 
 For example, if the accumulated alpha value indicates 70% opacity, it implies that RGB color is applied in such way that 30% of the underlying surface shows through. If we imagine the surface as a set of infinitesimally small micro-facets, the new layer should statistically cover 70% of the micro-facet area. This might be consumer dependent. For example, a viewing consumer might take the material’s displaycolor as underlying surface color to alpha blend the accumulated color on, or a color printing consumer might spray the color on top of the actual material with a density depending on the accumulated alpha.
 
@@ -339,7 +339,7 @@ A similar situation might arise when the first layer has a display property indi
 
 When physically printing, display properties MUST be ignored. But when rendering on screen, the display color and display properties SHOULD be blended to provide a realistic preview. In cases where it is not obvious how to blend display properties (e.g. “multiply” blend between regular and metallic color) the consumer MAY ignore display properties and reduce both values to plain RGB.
 
-Printers MAY simulate the spraying of color on a material by printing the resulting color after blending the accumulated color with the accumulated alpha on top of the material actual color. The blending is an implicit “mix”, overriding the specified in the blendmethods, as: 
+Printers MAY simulate the spraying of color on a material by printing the resulting color after blending the accumulated color with the accumulated alpha on top of the material actual color. The blending is an implicit “mix”, overriding the method specified in the blendmethods, as:
 
     printColor.rgb = accumulatedColor.rgb * accumulatedColor.a + materialColor.rgb * (1 – accumulatedColor.a)
 
