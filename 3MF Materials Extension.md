@@ -264,6 +264,7 @@ Element **\<multiproperties>**
 | id | **ST_ResourceID** | required |  | Unique ID among all resources (which could include elements from extensions to the spec). |
 | pids | **ST_ResourceID** | required |  | A space-delimited list of ST_ResourceID values representing the property group of each constituent |
 | blendmethods | **ST_BlendMethods** | optional | mix | Defines the list of equation(s) to use when blending each layer with the previous layer: “mix” or “multiply”. One value should be specified for each layer minus the first layer which is ignored. |
+| displaypropertiesid | **ST_ResourceID** | optional | | Reference to a \<displayproperties> element providing additional information about how to display the material on a device display |
 | @anyAttribute | | | | |
 
 ##### Elements
