@@ -127,7 +127,6 @@ Element **\<basematerials>**
 ##### Attributes
 | Name | Type | Use | Default | Annotation |
 | --- | --- | --- | --- | --- |
-| Attributes described in Core spec | ... | ... | ... | ... |
 | displaypropertiesid | **ST_ResourceID** | optional | | Reference to a \<displayproperties> element providing additional information about how to display the material on a device display |
 
 ## Chapter 2. Color Groups
