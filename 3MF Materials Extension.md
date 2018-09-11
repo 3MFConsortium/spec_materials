@@ -717,7 +717,8 @@ See [the 3MF Core Specification glossary](https://github.com/3MFConsortium/spec_
 ```xml
 <xs:schema xmlns="http://schemas.microsoft.com/3dmanufacturing/material/2015/02"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xml="http://www.w3.org/XML/1998/namespace"
-	targetNamespace="http://schemas.microsoft.com/3dmanufacturing/material/2015/02">
+	targetNamespace="http://schemas.microsoft.com/3dmanufacturing/material/2015/02"
+	elementFormDefault="unqualified" attributeFormDefault="unqualified" blockDefault="#all">
 	<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd"/>
 	<xs:annotation>
 		<xs:documentation><![CDATA[
