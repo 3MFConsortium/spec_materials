@@ -127,7 +127,6 @@ Element **\<basematerials>**
 ##### Attributes
 | Name | Type | Use | Default | Annotation |
 | --- | --- | --- | --- | --- |
-| Attributes described in Core spec | ... | ... | ... | ... |
 | displaypropertiesid | **ST_ResourceID** | optional | | Reference to a \<displayproperties> element providing additional information about how to display the material on a device display |
 
 ## Chapter 2. Color Groups
@@ -153,6 +152,8 @@ The displaypropertiesid attribute references a \<displayproperties> group contai
     
 A \<colorgroup> describes a set of surface color properties and SHOULD NOT reference translucent display properties. To achieve a translucent effect with surface color, a multi-properties group SHOULD be used instead. For more information, refer to Chapter 7: Display Properties Overview.
 
+To avoid integer overflows, a color group MUST contain less than 2^31 colors.
+
 ### 2.1. Color
 
 Element **\<color>**
@@ -167,7 +168,6 @@ Element **\<color>**
 Colors are used to represent rich color, specifically what most 3D formats call “vertex colors”. These elements are used when color is the only property of interest for the material, and a large number will be needed. The format is the same sRGB color as defined in the core 3MF specification.
 
 Colors are assumed to be fully opaque (alpha = #FF) except when used as a non-base layer inside a \<multiproperties> element.	
-To avoid integer overflows, a color group MUST contain less than 2^31 colors.
 
 ## Chapter 3. Texture 2D Groups
 
@@ -189,6 +189,8 @@ The texture’s alpha channel is assumed to be fully opaque (alpha = #FF) unless
 
 The displaypropertiesid attribute references a \<displayproperties> group containing additional properties that describe how best to display a mesh with this material on a device display. A \<texture2Dgroup> describes a set of surface color properties and MUST NOT reference translucent display properties. To achieve a translucent effect through a texture, a multi-properties group MUST be used instead. For more information, refer to Chapter 7: Display Properties Overview.
 
+To avoid integer overflows, a texture coordinate group MUST contain less than 2^31 tex2coords.
+
 ### 3.1. Texture 2D Coordinate
 
 Element **\<tex2coord>**
@@ -204,7 +206,7 @@ Element **\<tex2coord>**
 
 Texture coordinates map a vertex of a triangle to a position in image space (U, V coordinates). Texture mapping allows high-resolution color bitmaps to be applied to any surface. The primary advantage of texture mapping over the vertex colors of the previous section is that the textures allow color at a much finer detail level than the underlying mesh, while vertex colors are always at the same resolution as the mesh.
 
-To avoid integer overflows, a texture coordinate group MUST contain less than 2^31 tex2coords.
+The lower left corner of the texture is the u, v coordinate (0,0), and the upper right coordinate is (1,1). The u,v values are not restricted to this range. When the u,v coordinates exceed the (0,0)-(1,1) range the tilestypeu, tilestypev will be applied according to chapter 6 Texture2d.
 
 ## Chapter 4. Composite Materials
 
@@ -232,6 +234,8 @@ The \<compositematerials> element defines materials derived by mixing 2 or more 
 
 The displaypropertiesid attribute references a \<displayproperties> group containing additional properties that describe how best to display the material when previewing a mesh with this material on a device display. For more information, refer to Chapter 7: Display Properties Overview.
 
+To avoid integer overflows, a composite group MUST contain less than 2^31 composites.
+
 ### 4.1. Composite
 
 Element **\<composite>**
@@ -241,18 +245,12 @@ Element **\<composite>**
 ##### Attributes
 | Name | Type | Use | Default | Annotation |
 | --- | --- | --- | --- | --- |
-| Values | **ST_Numbers** | required |  | A space-delimited list of ST_Number values between 0 and 1, inclusive representing the fraction of the material constituents, respectively. |
+| values | **ST_Numbers** | required |  | A space-delimited list of ST_Number values between 0 and 1, inclusive representing the fraction of the material constituents, respectively. |
 | @anyAttribute | | | | |
-
-attributes	Name	Type	Use	Default	Fixed	Annotation
-Values	ST_Numbers	required			A space-delimited list of ST_Number values between 0 and 1, inclusive representing the fraction of the material constituents, respectively.
-@anyAttribute					
 
 The \<composite> element defines a values attribute, which specifies the proportion of the overall mixture for each material. If the sum of the values is greater than zero, consumers MUST divide each value by the sum of the values of all constituent value attributes to apply the correct proportion for each material. If the sum of all constituent value attributes is zero, each value MUST be treated as 1.0 divided by the number of constituent elements.
     
 If the values list is shorter than the matindices list, consumers MUST use a default value of zero for unspecified values. Extra values MUST be ignored.
-
-To avoid integer overflows, a composite group MUST contain less than 2^31 composites.
 
 ## Chapter 5. Multiproperties
 
@@ -289,10 +287,10 @@ If the first layer is a material layer it might not always be possible to determ
 
 For example, if the accumulated alpha value indicates 70% opacity, it implies that RGB color is applied in such way that 30% of the underlying surface shows through. If we imagine the surface as a set of infinitesimally small micro-facets, the new layer should statistically cover 70% of the micro-facet area. This might be consumer dependent. For example, a viewing consumer might take the material’s displaycolor as underlying surface color to alpha blend the accumulated color on, or a color printing consumer might spray the color on top of the actual material with a density depending on the accumulated alpha.
 
-The initial accumulated alpha value, as well as the first layer opacity, is assumed to be #FF (fully opaque). However, in instances where the first layer is skipped, the second layer’s RGB is used to initialize the accumulated RGB color and alpha is initialized depending on the blend method:
+The initial accumulated alpha value, as well as the first layer opacity, is assumed to be fully opaque. However, in instances where the first layer is skipped, the second layer’s RGB is used to initialize the accumulated RGB color and alpha is initialized depending on the blend method:
     
 •	For “mix” blend method the second layer’s actual alpha is used.
-•	For “multiply” blend method a fully opaque alpha (#FF) is used.
+•	For “multiply” blend method a fully opaque alpha is used.
 
 Blending starts with the third layer in this case.
 
@@ -306,7 +304,7 @@ Linear “mix” interpolation is defined by the following operation on RGB and 
     accumulatedColor.rgb = newLayer.rgb * accumulatedColor.rgb
     accumulatedColor.a = newLayer.a * accumulatedColor.a
 
-Blending operations should be performed in linear RGB space. Thus, the inverse color component transfer function needs to be applied to each component of the source and destination color. In Computer Graphics blending operations are typically performed in linear RGB space.
+Blending operations should be performed in linear RGB space. Thus, the inverse color component transfer function needs to be applied to each component of the source and destination color. In Computer Graphics, blending operations are typically performed in linear RGB space.
 
 >**Note:** Users coming from a Graphic Arts background who prefer color blending to be performed in sRGB or any other color space are advised to perform the composition in a 2D imaging application and then apply the blended 2D textures to an object.
 
@@ -345,6 +343,8 @@ Printers MAY simulate the spraying of color on a material by printing the result
 
 Note that the actual material color is not specified in the 3MF document, but it MAY be known by the printer by other means.
 
+To avoid integer overflows, a multiproperties group MUST contain less than 2^31 \<multi> elements.
+
 ### 5.1. Multi
 
 Element **\<multi>**
@@ -357,7 +357,7 @@ Element **\<multi>**
 | pindices | **ST_ResourceIndices** | required |  | A space-delimited list of ST_ResourceIndex values of the constituents |
 | @anyAttribute | | | | |
 
-The <multi> element combines the constituent materials and properties. The pindices attribute is a space-delimited list of property indices enumerated in the order which corresponds to the order of property groups specified in the <multiproperties> pids list. If the pindices list is shorter than the pids list, consumers MUST use a default index of zero for any unspecified pindices. Extra pindices MUST be ignored. To avoid integer overflows, a multi property group MUST contain less than 2^31 elements.
+The \<multi> element combines the constituent materials and properties. The pindices attribute is a space-delimited list of property indices enumerated in the order which corresponds to the order of property groups specified in the \<multiproperties> pids list. If the pindices list is shorter than the pids list, consumers MUST use a default index of zero for any unspecified pindices. Extra pindices MUST be ignored.
 
 ## Chapter 6. Texture 2d
 
@@ -396,10 +396,11 @@ If there is no alpha channel present in the texture, the default value #FF SHOUL
 
 The box attribute was DEPRECATED in version 1.2. Producers SHOULD NOT generate it and consumer SHOULD ignore it.
 
-tilestyleu, tilestylev - The tile style of wrap essentially means that the same texture SHOULD be repeated in the specified axis (both in the positive and negative directions), for the axis value. The tile style of mirror means that each time the texture width or height is exceeded, the next repetition of the texture SHOULD be reflected across a plane perpendicular to the axis in question. The tile style of clamp means all Texture 2D Coordinates outside of the range zero to one will be assigned the color of the nearest edge pixel. The tile style of none means that all Texture 2D Coordinates outside the range zero to one will be assigned the color of the default object color. If the default object color is not defined the choice for the color is left to the consumer.
+**tilestyleu, tilestylev** - The tile style of wrap essentially means that the same texture SHOULD be repeated in the specified axis (both in the positive and negative directions), for the axis value. The tile style of mirror means that each time the texture width or height is exceeded, the next repetition of the texture SHOULD be reflected across a plane perpendicular to the axis in question. The tile style of clamp means all Texture 2D Coordinates outside of the range zero to one will be assigned the color of the nearest edge pixel. The tile style of none means that all Texture 2D Coordinates outside the range zero to one will be assigned the color of the default object color. If the default object color is not defined the choice for the color is left to the consumer.
 
 The only supported content types are JPEG and PNG, as more specifically specified in the 3MF core spec under the Thumbnails section.
-filter - The producer MAY require the use of a specific filter type by specifying either “linear” for bilinear interpolation or “nearest” for nearest neighbor interpolation. The producer SHOULD use “auto” to indicate to the consumer to use the highest quality filter available. If source texture is scaled with the model, the specified filter type MUST be applied to the scaling operation. The default value is “auto”.
+
+**filter** - The producer MAY require the use of a specific filter type by specifying either “linear” for bilinear interpolation or “nearest” for nearest neighbor interpolation. The producer SHOULD use “auto” to indicate to the consumer to use the highest quality filter available. If source texture is scaled with the model, the specified filter type MUST be applied to the scaling operation. The default value is “auto”.
 
 The following example shows how the filter MUST be applied to the texture. Figure 6-1 shows an example of a small texture which is tiled by vertically mirroring and horizontally wrapping. It illustrates that that the texture pixels are located at the center of each cell. All the filter operations should be performed in sRGB.
 
@@ -438,7 +439,7 @@ Display properties are represented by these five types – specular, metallic, s
 
 “metallic”, “specular”, and “translucent” types are only valid for \<basematerials>, \<compositematerials> and \<colorgroup>. Where “metallictexture” and “speculartexture” are only valid for \<texture2dgroup>.
     
-The properties defined on a triangle that are from a display properties group MUST NOT form gradients, as interpolation between physically based materials is not defined in this specification. A consumer MUST apply the p1 property to the entire triangle. Properties p2 and p3 MUST be either unspecified or they MUST be equal to p1.
+The display properties defined on a triangle that are from a display properties group MUST NOT form gradients, as interpolation between physically based materials is not defined in this specification. A consumer MUST apply the p1 property to the entire triangle. Properties p2 and p3 MUST be either unspecified or they MUST be equal to p1.
 
 ### 7.1. Specular Display Properties
 
