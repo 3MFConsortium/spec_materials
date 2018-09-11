@@ -15,98 +15,29 @@ THESE MATERIALS ARE PROVIDED "AS IS." The contributors expressly disclaim any wa
 ## Table of Contents
 
 - [Preface](#preface)
-
-   * [About this Specification](#about-this-specification)
-
-   * [Document Conventions](#document-conventions)
-
-   * [Language Notes](#language-notes)
-
-   * [Software Conformance](#software-conformance)
-
+  * [About this Specification](#about-this-specification)
+  * [Document Conventions](#document-conventions)
+  * [Language Notes](#language-notes)
+  * [Software Conformance](#software-conformance)
 - [Part I. 3MF Documents](#part-i-3mf-documents)
-
-- [Chapter 1. Overview of Additions](#chapter-1-overview-of-additions)
-
-   * [1.1. Resources](#11-resources)
-
-   * [1.2. sRGB and Linear Color Values](#12-srgb-and-linear-color-values)
-
-   * [1.3. Material Gradients and Interpolation Methods](#13-material-gradients-and-interpolation-methods)
-
-   * [1.4. Base Materials](#14-base-materials)
-
-* [Chapter 2. Color Groups](#chapter-2-color-groups)
-
-   * [2.1. Color](#21-color)
-
-- [Chapter 3. Texture 2D Groups](#chapter-3-texture-2d-groups)
-
-   * [3.1. Texture 2D Coordinate](#31-texture-2d-coordinate)
-
-- [Chapter 4. Composite Materials](#chapter-4-composite-materials)
-
-   * [4.1. Composite](#41-composite)
-
-- [Chapter 5. Multiproperties](#chapter-5-multiproperties)
-
-  * [5.1. Multi](#51-multi)
-
-- [Chapter 6. Texture 2d](#chapter-6-texture-2d)
-
-- [Chapter 7. Display Properties Overview](#chapter-7-display-properties-overview)
-
-  * [7.1. Specular Display Properties](#71-specular-display-properties)
-
-   * [7.1.1. Specular](#711-specular)
-
-  * [7.2. Metallic Display Properties](#72-metallic-display-properties)
-
-   * [7.2.1. Metallic](#721-metallic)
-
-  * [7.3. Specular Texture Display Properties](#73-specular-texture-display-properties)
-
-  *  [7.4. Metallic Texture Display Properties](#74-metallic-texture-display-properties)
-
-  * [7.5. Translucent Display Properties](#75-translucent-display-properties)
-
-   * [7.5.1. Translucent](#751-translucent)
-
-- [Part II. Appendixes](part-ii-appendixes)
-
+  * [Chapter 1. Overview of Additions](#chapter-1-overview-of-additions)
+  * [Chapter 2. Color Groups](#chapter-2-color-groups)
+  * [Chapter 3. Texture 2D Groups](#chapter-3-texture-2d-groups)
+  * [Chapter 4. Composite Materials](#chapter-4-composite-materials)
+  * [Chapter 5. Multiproperties](#chapter-5-multiproperties)
+  * [Chapter 6. Texture 2d](#chapter-6-texture-2d)
+  * [Chapter 7. Display Properties Overview](#chapter-7-display-properties-overview)
+- [Part II. Appendixes](#part-ii-appendixes)
   * [Appendix A. Glossary](#appendix-a-glossary)
-
   * [Appendix B. 3MF XSD Schema for Material and Properties](#appendix-b-3mf-xsd-schema-for-material-and-properties)
-
   * [Appendix C. 3MF Samples](#appendix-c-3mf-samples)
-
-   * [C.1. Physically Based Material Sample](#c1-physically-based-material-sample)
-
-   * [C.2. Translucent Material Sample](#c2-translucent-material-sample)
-
   * [Appendix D. Micro-facet Surface Model and BRDF](#appendix-d-micro-facet-surface-model-and-brdf)
-
-   * [D.1. Normal Distribution Function – D(h)](#d1-normal-distribution-function-dh)
-
-   * [D.2. Geometric Occlusion Term – G(l, v, h)](#d2-geometric-occlusion-term-g1vh)
-
-   * [D.3. Fresnel Term – F(l, h)](#d3-fresnel-term-f1h)
-
   * [Appendix E. Standard Namespaces and Content Types](#appendix-e-standard-namespaces-and-content-types)
-
-   * [E.1 Content Types](#e1-content-types)
-
-   * [E.2 Relationship Types](#e2-relationship-types)
-
-   * [E.3 Namespaces](#e3-namespaces)
-
 - [References](#references)
 
+# Preface
 
-
-## Preface
-
-### About this Specification
+## About this Specification
 This 3MF materials and properties specification is an extension to the core 3MF specification. This document cannot stand alone and only applies as an addendum to the core 3MF specification. Usage of this and any other 3MF extensions follow an a la carte model, defined in the core 3MF specification.
 
 Part I, “3MF Documents,” presents the details of the primarily XML-based 3MF Document format. This section describes the XML markup that defines the composition of 3D documents and the appearance of each model within the document.
@@ -776,378 +707,379 @@ For more information on the microfacet model, see Appendix D. Micro-facet Surfac
 
 # Part II. Appendixes
 
-# Appendix A. Glossary
+## Appendix A. Glossary
 
 See [the 3MF Core Specification glossary](https://github.com/3MFConsortium/spec_core/blob/master/3MF%20Core%20Specification.md#appendix-a-glossary).
 
 ## Appendix B. 3MF XSD Schema for Material and Properties 
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://schemas.microsoft.com/3dmanufacturing/material/2015/02" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xml="http://www.w3.org/XML/1998/namespace" targetNamespace="http://schemas.microsoft.com/3dmanufacturing/material/2015/02" elementFormDefault="unqualified" attributeFormDefault="unqualified" blockDefault="#all">
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd"/>
+    <xs:annotation>
+        <xs:documentation><![CDATA[
+        Schema notes:
 
-                <?xml version="1.0" encoding="UTF-8"?>
-                <xs:schema xmlns="http://schemas.microsoft.com/3dmanufacturing/material/2015/02" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xml="http://www.w3.org/XML/1998/namespace" targetNamespace="http://schemas.microsoft.com/3dmanufacturing/material/2015/02" elementFormDefault="unqualified" attributeFormDefault="unqualified" blockDefault="#all">
-                    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd"/>
-                    <xs:annotation>
-                        <xs:documentation><![CDATA[
-                        Schema notes:
+        Items within this schema follow a simple naming convention of appending a prefix indicating the type of element for references:
 
-                        Items within this schema follow a simple naming convention of appending a prefix indicating the type of element for references:
+        Unprefixed: Element names
+        CT_: Complex types
+        ST_: Simple types
 
-                        Unprefixed: Element names
-                        CT_: Complex types
-                        ST_: Simple types
-
-                        ]]></xs:documentation>
-                    </xs:annotation>
-                    <!-- Complex Types -->
-                    <xs:complexType name="CT_Texture2D">
-                        <xs:attribute name="id" type="ST_ResourceID" use="required"/>
-                        <xs:attribute name="path" type="ST_UriReference" use="required"/>
-                        <xs:attribute name="contenttype" type="ST_ContentType" use="required"/>
-                        <xs:attribute name="tilestyleu" type="ST_TileStyle" default="wrap"/>
-                        <xs:attribute name="tilestylev" type="ST_TileStyle" default="wrap"/>
-                        <xs:attribute name="filter" type="ST_Filter" default="auto"/>
-                        <xs:anyAttribute namespace="##other" processContents="lax"/>
-                    </xs:complexType>
-                    <xs:complexType name="CT_ColorGroup">
-                        <xs:sequence>
-                            <xs:element ref="color" maxOccurs="2147483647"/>
-                        </xs:sequence>
-                        <xs:attribute name="id" type="ST_ResourceID" use="required"/>
-                    <xs:attribute name="displaypropertiesid" type="ST_ResourceID" use="optional"/>
-                    <xs:anyAttribute namespace="##other" processContents="lax"/>
-                  </xs:complexType>
-                    <xs:complexType name="CT_Color">
-                        <xs:attribute name="color" type="ST_ColorValue" use="required"/>
-                    </xs:complexType>
-                    <xs:complexType name="CT_Texture2DGroup">
-                        <xs:sequence>
-                            <xs:element ref="tex2coord" maxOccurs="2147483647"/>
-                        </xs:sequence>
-                        <xs:attribute name="id" type="ST_ResourceID" use="required"/>
-                        <xs:attribute name="texid" type="ST_ResourceID" use="required"/>
-                    <xs:attribute name="displaypropertiesid" type="ST_ResourceID" use="optional"/>
-                    <xs:anyAttribute namespace="##other" processContents="lax"/>
-                    </xs:complexType>
-                    <xs:complexType name="CT_Tex2Coord">
-                        <xs:attribute name="u" type="ST_Number" use="required"/>
-                        <xs:attribute name="v" type="ST_Number" use="required"/>
-                        <xs:anyAttribute namespace="##other" processContents="lax"/>
-                    </xs:complexType>
-                    <xs:complexType name="CT_CompositeMaterials">
-                        <xs:sequence>
-                            <xs:element ref="composite" maxOccurs="2147483647"/>
-                        </xs:sequence>
-                        <xs:attribute name="id" type="ST_ResourceID" use="required"/>
-                        <xs:attribute name="matid" type="ST_ResourceID" use="required"/>
-                        <xs:attribute name="matindices" type="ST_ResourceIndices" use="required"/>
-                    <xs:attribute name="displaypropertiesid" type="ST_ResourceID" use="optional"/>
-                    <xs:anyAttribute namespace="##other" processContents="lax"/>
-                    </xs:complexType>
-                    <xs:complexType name="CT_Composite">
-                        <xs:attribute name="values" type=" ST_Numbers" use="required"/>
-                    </xs:complexType>
-                    <xs:complexType name="CT_MultiProperties">
-                        <xs:sequence>
-                            <xs:element ref="multi" maxOccurs="2147483647"/>
-                        </xs:sequence>
-                        <xs:attribute name="id" type="ST_ResourceID" use="required"/>
-                        <xs:attribute name="pids" type="ST_ResourceIDs" use="required"/>
-                    <xs:attribute name="blendmethods" type="ST_BlendMethods" use="optional" default="mix"/>
-                    <xs:anyAttribute namespace="##other" processContents="lax"/>
-                    </xs:complexType>
-                    <xs:complexType name="CT_Multi">
-                        <xs:attribute name="pindices" type="ST_ResourceIndices" use="required"/>
-                    <xs:anyAttribute namespace="##other" processContents="lax"/>
-                    </xs:complexType>
-                  <xs:complexType name="CT_PBSpecularDisplayProperties">
-                    <xs:sequence>
-                      <xs:element ref="pbspecular" maxOccurs="2147483647"/>
-                    </xs:sequence>
-                    <xs:attribute name="id" type="ST_ResourceID" use="required"/>
-                    <xs:anyAttribute namespace="##other" processContents="lax"/>
-                  </xs:complexType>
-                  <xs:complexType name="CT_PBSpecular">
-                    <xs:attribute name="name" type="xs:string" use="required"/>
-                    <xs:attribute name="specularcolor" type="ST_ColorValue" default="#383838"/>
-                    <xs:attribute name="glossiness" type="ST_Number" default="0"/>
-                    <xs:anyAttribute namespace="##other" processContents="lax"/>
-                  </xs:complexType>
-                  <xs:complexType name="CT_PBMetallicDisplayProperties">
-                    <xs:sequence>
-                      <xs:element ref="pbmetallic" maxOccurs="2147483647"/>
-                    </xs:sequence>
-                    <xs:attribute name="id" type="ST_ResourceID" use="required"/>
-                    <xs:anyAttribute namespace="##other" processContents="lax"/>
-                  </xs:complexType>
-                  <xs:complexType name="CT_PBMetallic">
-                    <xs:attribute name="name" type="xs:string" use="required"/>
-                    <xs:attribute name="metallicness" type="ST_Number" default="0"/>
-                    <xs:attribute name="roughness" type="ST_Number" default="1"/>
-                    <xs:anyAttribute namespace="##other" processContents="lax"/>
-                  </xs:complexType>
-                  <xs:complexType name="CT_PBSpecularTextureDisplayProperties">
-                    <xs:attribute name="id" type="ST_ResourceID" use="required"/>
-                    <xs:attribute name="name" type="xs:string" use="required"/>
-                    <xs:attribute name="speculartextureid" type="ST_ResourceID" use="required"/>
-                    <xs:attribute name="glossinesstextureid" type="ST_ResourceID" use="required"/>
-                    <xs:attribute name="diffusefactor" type="ST_ColorValue" default="#FFFFFF"/>
-                    <xs:attribute name="specularfactor" type="ST_ColorValue" default="#FFFFFF"/>
-                    <xs:attribute name="glossinessfactor" type="ST_Number" default="1"/>
-                    <xs:anyAttribute namespace="##other" processContents="lax"/>
-                  </xs:complexType>
-                  <xs:complexType name="CT_PBMetallicTextureDisplayProperties">
-                    <xs:attribute name="id" type="ST_ResourceID" use="required"/>
-                    <xs:attribute name="name" type="xs:string" use="required"/>
-                    <xs:attribute name="metallictextureid" type="ST_ResourceID" use="required"/>
-                    <xs:attribute name="roughnesstextureid" type="ST_ResourceID" use="required"/>
-                    <xs:attribute name="metallicfactor" type="ST_Number" default="1"/>
-                    <xs:attribute name="roughnessfactor" type="ST_Number" default="1"/>
-                    <xs:anyAttribute namespace="##other" processContents="lax"/>
-                  </xs:complexType>
-                  <xs:complexType name="CT_Translucent">
-                    <xs:attribute name="name" type="xs:string" use="required"/>
-                    <xs:attribute name="attenuation" type="ST_Numbers" use="required"/>
-                    <xs:attribute name="refractiveindex" type="ST_Numbers" default="1 1 1"/>
-                    <xs:attribute name="roughness" type="ST_Number" default="0"/>
-                    <xs:anyAttribute namespace="##other" processContents="lax"/>
-                  </xs:complexType>
-                  <xs:complexType name="CT_TranslucentDisplayProperties">
-                    <xs:sequence>
-                      <xs:element ref="translucent" maxOccurs="2147483647"/>
-                    </xs:sequence>
-                    <xs:attribute name="id" type="ST_ResourceID" use="required"/>
-                    <xs:anyAttribute namespace="##other" processContents="lax"/>
-                  </xs:complexType>
-                  <xs:complexType name="CT_BaseMaterials">
-                    <xs:attribute name="displaypropertiesid" type="ST_ResourceID" use="optional"/>
-                    <xs:anyAttribute namespace="##other" processContents="lax"/>
-                  </xs:complexType>
-                  <!-- Simple Types -->
-                    <xs:simpleType name="ST_ContentType">
-                        <xs:restriction base="xs:string">
-                            <xs:enumeration value="image/jpeg"/>
-                            <xs:enumeration value="image/png"/>
-                        </xs:restriction>
-                    </xs:simpleType>
-                    <xs:simpleType name="ST_TileStyle">
-                        <xs:restriction base="xs:string">
-                            <xs:enumeration value="clamp"/>
-                            <xs:enumeration value="wrap"/>
-                            <xs:enumeration value="mirror"/>
-                      <xs:enumeration value="none"/>
-                    </xs:restriction>
-                    </xs:simpleType>
-                    <xs:simpleType name="ST_Filter">
-                        <xs:restriction base="xs:string">
-                            <xs:enumeration value="auto"/>
-                            <xs:enumeration value="linear"/>
-                            <xs:enumeration value="nearest"/>
-                        </xs:restriction>
-                    </xs:simpleType>
-                    <xs:simpleType name="ST_ColorValue">
-                        <xs:restriction base="xs:string">
-                            <xs:pattern value="#[0-9|A-F|a-f][0-9|A-F|a-f][0-9|A-F|a-f][0-9|A-F|a-f][0-9|A-F|a-f][0-9|A-F|a-f]([0-9|A-F|a-f][0-9|A-F|a-f])?"/>
-                        </xs:restriction>
-                    </xs:simpleType>
-                    <xs:simpleType name="ST_UriReference">
-                        <xs:restriction base="xs:anyURI">
-                            <xs:pattern value="/.*"/>
-                        </xs:restriction>
-                    </xs:simpleType>
-                    <xs:simpleType name="ST_Number">
-                        <xs:restriction base="xs:double">
-                            <xs:whiteSpace value="collapse"/>
-                            <xs:pattern value="((\-|\+)?(([0-9]+(\.[0-9]+)?)|(\.[0-9]+))((e|E)(\-|\+)?[0-9]+)?)"/>
-                        </xs:restriction>
-                    </xs:simpleType>
-                    <xs:simpleType name="ST_ZeroToOne">
-                        <xs:restriction base="ST_Number">
-                            <xs:minInclusive value="0.0"/>
-                            <xs:maxInclusive value="1.0"/>
-                        </xs:restriction>
-                    </xs:simpleType>
-                    <xs:simpleType name="ST_Numbers">
-                        <xs:restriction base="xs:string">
-                            <xs:whiteSpace value="collapse"/>
-                            <xs:pattern value="(((\-|\+)?(([0-9]+(\.[0-9]+)?)|(\.[0-9]+))((e|E)(\-|\+)?[0-9]+)?( )?)+)"/>
-                        </xs:restriction>
-                    </xs:simpleType>
-                    <xs:simpleType name="ST_ResourceID">
-                        <xs:restriction base="xs:positiveInteger">
-                            <xs:maxExclusive value="2147483648"/>
-                        </xs:restriction>
-                    </xs:simpleType>
-                    <xs:simpleType name="ST_ResourceIndex">
-                        <xs:restriction base="xs:nonNegativeInteger">
-                            <xs:maxExclusive value="2147483648"/>
-                        </xs:restriction>
-                    </xs:simpleType>
-                    <xs:simpleType name="ST_ResourceIndices">
-                        <xs:restriction base="xs:string">
-                            <xs:whiteSpace value="collapse"/>
-                            <xs:pattern value="(([0-9]+)( )?)+"/>
-                        </xs:restriction>
-                    </xs:simpleType>
-                    <xs:simpleType name="ST_ResourceIDs">
-                        <xs:restriction base="xs:string">
-                            <xs:whiteSpace value="collapse"/>
-                            <xs:pattern value="(([0-9]+)( )?)+"/>
-                        </xs:restriction>
-                    </xs:simpleType>
-                  <xs:simpleType name="ST_BlendMethods">
-                    <xs:restriction base="xs:string">
-                      <xs:whiteSpace value="collapse"/>
-                      <xs:pattern value="(mix|multiply)( (mix|multiply))*"/>
-                    </xs:restriction>
-                  </xs:simpleType>
-                  <!-- Elements -->
-                    <xs:element name="texture2d" type="CT_Texture2D"/>
-                    <xs:element name="colorgroup" type="CT_ColorGroup"/>
-                    <xs:element name="color" type="CT_Color"/>
-                    <xs:element name="texture2dgroup" type="CT_Texture2DGroup"/>
-                    <xs:element name="tex2coord" type="CT_Tex2Coord"/>
-                    <xs:element name="compositematerials" type="CT_CompositeMaterials"/>
-                    <xs:element name="composite" type="CT_Composite"/>
-                    <xs:element name="multiproperties" type="CT_MultiProperties"/>
-                    <xs:element name="multi" type="CT_Multi"/>
-                  <xs:element name="pbspeculardisplayproperties" type="CT_PBSpecularDisplayProperties"/>
-                  <xs:element name="pbspecular" type="CT_PBSpecular"/>
-                  <xs:element name="pbmetallicdisplayproperties" type="CT_PBMetallicDisplayProperties"/>
-                  <xs:element name="pbmetallic" type="CT_PBMetallic"/>
-                  <xs:element name="pbmetallictexturedisplayproperties" type="CT_PBMetallicTextureDisplayProperties"/>
-                  <xs:element name="pbspeculartexturedisplayproperties" type="CT_PBSpecularTextureDisplayProperties"/>
-                  <xs:element name="translucentdisplayproperties" type="CT_TranslucentDisplayProperties"/>
-                  <xs:element name="translucent" type="CT_Translucent"/>
-                  <xs:attribute name="displaypropertiesid" type="ST_ResourceID"/>
-                </xs:schema>
+        ]]></xs:documentation>
+    </xs:annotation>
+    <!-- Complex Types -->
+    <xs:complexType name="CT_Texture2D">
+        <xs:attribute name="id" type="ST_ResourceID" use="required"/>
+        <xs:attribute name="path" type="ST_UriReference" use="required"/>
+        <xs:attribute name="contenttype" type="ST_ContentType" use="required"/>
+        <xs:attribute name="tilestyleu" type="ST_TileStyle" default="wrap"/>
+        <xs:attribute name="tilestylev" type="ST_TileStyle" default="wrap"/>
+        <xs:attribute name="filter" type="ST_Filter" default="auto"/>
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+    <xs:complexType name="CT_ColorGroup">
+        <xs:sequence>
+            <xs:element ref="color" maxOccurs="2147483647"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="ST_ResourceID" use="required"/>
+    <xs:attribute name="displaypropertiesid" type="ST_ResourceID" use="optional"/>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+  </xs:complexType>
+    <xs:complexType name="CT_Color">
+        <xs:attribute name="color" type="ST_ColorValue" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="CT_Texture2DGroup">
+        <xs:sequence>
+            <xs:element ref="tex2coord" maxOccurs="2147483647"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="ST_ResourceID" use="required"/>
+        <xs:attribute name="texid" type="ST_ResourceID" use="required"/>
+    <xs:attribute name="displaypropertiesid" type="ST_ResourceID" use="optional"/>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+    <xs:complexType name="CT_Tex2Coord">
+        <xs:attribute name="u" type="ST_Number" use="required"/>
+        <xs:attribute name="v" type="ST_Number" use="required"/>
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+    <xs:complexType name="CT_CompositeMaterials">
+        <xs:sequence>
+            <xs:element ref="composite" maxOccurs="2147483647"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="ST_ResourceID" use="required"/>
+        <xs:attribute name="matid" type="ST_ResourceID" use="required"/>
+        <xs:attribute name="matindices" type="ST_ResourceIndices" use="required"/>
+    <xs:attribute name="displaypropertiesid" type="ST_ResourceID" use="optional"/>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+    <xs:complexType name="CT_Composite">
+        <xs:attribute name="values" type=" ST_Numbers" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="CT_MultiProperties">
+        <xs:sequence>
+            <xs:element ref="multi" maxOccurs="2147483647"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="ST_ResourceID" use="required"/>
+        <xs:attribute name="pids" type="ST_ResourceIDs" use="required"/>
+    <xs:attribute name="blendmethods" type="ST_BlendMethods" use="optional" default="mix"/>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+    <xs:complexType name="CT_Multi">
+        <xs:attribute name="pindices" type="ST_ResourceIndices" use="required"/>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  <xs:complexType name="CT_PBSpecularDisplayProperties">
+    <xs:sequence>
+      <xs:element ref="pbspecular" maxOccurs="2147483647"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="ST_ResourceID" use="required"/>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="CT_PBSpecular">
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="specularcolor" type="ST_ColorValue" default="#383838"/>
+    <xs:attribute name="glossiness" type="ST_Number" default="0"/>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="CT_PBMetallicDisplayProperties">
+    <xs:sequence>
+      <xs:element ref="pbmetallic" maxOccurs="2147483647"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="ST_ResourceID" use="required"/>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="CT_PBMetallic">
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="metallicness" type="ST_Number" default="0"/>
+    <xs:attribute name="roughness" type="ST_Number" default="1"/>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="CT_PBSpecularTextureDisplayProperties">
+    <xs:attribute name="id" type="ST_ResourceID" use="required"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="speculartextureid" type="ST_ResourceID" use="required"/>
+    <xs:attribute name="glossinesstextureid" type="ST_ResourceID" use="required"/>
+    <xs:attribute name="diffusefactor" type="ST_ColorValue" default="#FFFFFF"/>
+    <xs:attribute name="specularfactor" type="ST_ColorValue" default="#FFFFFF"/>
+    <xs:attribute name="glossinessfactor" type="ST_Number" default="1"/>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="CT_PBMetallicTextureDisplayProperties">
+    <xs:attribute name="id" type="ST_ResourceID" use="required"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="metallictextureid" type="ST_ResourceID" use="required"/>
+    <xs:attribute name="roughnesstextureid" type="ST_ResourceID" use="required"/>
+    <xs:attribute name="metallicfactor" type="ST_Number" default="1"/>
+    <xs:attribute name="roughnessfactor" type="ST_Number" default="1"/>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="CT_Translucent">
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="attenuation" type="ST_Numbers" use="required"/>
+    <xs:attribute name="refractiveindex" type="ST_Numbers" default="1 1 1"/>
+    <xs:attribute name="roughness" type="ST_Number" default="0"/>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="CT_TranslucentDisplayProperties">
+    <xs:sequence>
+      <xs:element ref="translucent" maxOccurs="2147483647"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="ST_ResourceID" use="required"/>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="CT_BaseMaterials">
+    <xs:attribute name="displaypropertiesid" type="ST_ResourceID" use="optional"/>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+  </xs:complexType>
+  <!-- Simple Types -->
+    <xs:simpleType name="ST_ContentType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="image/jpeg"/>
+            <xs:enumeration value="image/png"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ST_TileStyle">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="clamp"/>
+            <xs:enumeration value="wrap"/>
+            <xs:enumeration value="mirror"/>
+      <xs:enumeration value="none"/>
+    </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ST_Filter">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="auto"/>
+            <xs:enumeration value="linear"/>
+            <xs:enumeration value="nearest"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ST_ColorValue">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="#[0-9|A-F|a-f][0-9|A-F|a-f][0-9|A-F|a-f][0-9|A-F|a-f][0-9|A-F|a-f][0-9|A-F|a-f]([0-9|A-F|a-f][0-9|A-F|a-f])?"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ST_UriReference">
+        <xs:restriction base="xs:anyURI">
+            <xs:pattern value="/.*"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ST_Number">
+        <xs:restriction base="xs:double">
+            <xs:whiteSpace value="collapse"/>
+            <xs:pattern value="((\-|\+)?(([0-9]+(\.[0-9]+)?)|(\.[0-9]+))((e|E)(\-|\+)?[0-9]+)?)"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ST_ZeroToOne">
+        <xs:restriction base="ST_Number">
+            <xs:minInclusive value="0.0"/>
+            <xs:maxInclusive value="1.0"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ST_Numbers">
+        <xs:restriction base="xs:string">
+            <xs:whiteSpace value="collapse"/>
+            <xs:pattern value="(((\-|\+)?(([0-9]+(\.[0-9]+)?)|(\.[0-9]+))((e|E)(\-|\+)?[0-9]+)?( )?)+)"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ST_ResourceID">
+        <xs:restriction base="xs:positiveInteger">
+            <xs:maxExclusive value="2147483648"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ST_ResourceIndex">
+        <xs:restriction base="xs:nonNegativeInteger">
+            <xs:maxExclusive value="2147483648"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ST_ResourceIndices">
+        <xs:restriction base="xs:string">
+            <xs:whiteSpace value="collapse"/>
+            <xs:pattern value="(([0-9]+)( )?)+"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ST_ResourceIDs">
+        <xs:restriction base="xs:string">
+            <xs:whiteSpace value="collapse"/>
+            <xs:pattern value="(([0-9]+)( )?)+"/>
+        </xs:restriction>
+    </xs:simpleType>
+  <xs:simpleType name="ST_BlendMethods">
+    <xs:restriction base="xs:string">
+      <xs:whiteSpace value="collapse"/>
+      <xs:pattern value="(mix|multiply)( (mix|multiply))*"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- Elements -->
+    <xs:element name="texture2d" type="CT_Texture2D"/>
+    <xs:element name="colorgroup" type="CT_ColorGroup"/>
+    <xs:element name="color" type="CT_Color"/>
+    <xs:element name="texture2dgroup" type="CT_Texture2DGroup"/>
+    <xs:element name="tex2coord" type="CT_Tex2Coord"/>
+    <xs:element name="compositematerials" type="CT_CompositeMaterials"/>
+    <xs:element name="composite" type="CT_Composite"/>
+    <xs:element name="multiproperties" type="CT_MultiProperties"/>
+    <xs:element name="multi" type="CT_Multi"/>
+  <xs:element name="pbspeculardisplayproperties" type="CT_PBSpecularDisplayProperties"/>
+  <xs:element name="pbspecular" type="CT_PBSpecular"/>
+  <xs:element name="pbmetallicdisplayproperties" type="CT_PBMetallicDisplayProperties"/>
+  <xs:element name="pbmetallic" type="CT_PBMetallic"/>
+  <xs:element name="pbmetallictexturedisplayproperties" type="CT_PBMetallicTextureDisplayProperties"/>
+  <xs:element name="pbspeculartexturedisplayproperties" type="CT_PBSpecularTextureDisplayProperties"/>
+  <xs:element name="translucentdisplayproperties" type="CT_TranslucentDisplayProperties"/>
+  <xs:element name="translucent" type="CT_Translucent"/>
+  <xs:attribute name="displaypropertiesid" type="ST_ResourceID"/>
+</xs:schema>
+```
 
 
 ## Appendix C. 3MF Samples
 
 ### C.1. Physically Based Material Sample
-
-    <?xml version="1.0" encoding="UTF-8"?>
-    <model unit="millimeter" xml:lang="en-US" xmlns:m="http://schemas.microsoft.com/3dmanufacturing/material/2015/02" xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02">
-      <resources>
-        <msft:pbmetallicdisplayproperties id="1000000000">
-          <msft:pbmetallic name="Metallic" metallicness="1" roughness="0.09" />
-        </msft:pbmetallicdisplayproperties>
-        <basematerials id="1">
-          <base name="Regular" displaycolor="#21BB4CFF" />
-        </basematerials>
-        <basematerials id="2" displaypropertiesid="1000000000">
-          <base name="Metallic" displaycolor="#F5F0F0FF" />
-        </basematerials>
-        <m:texture2d id="4" path="/3D/Texture/BorderedTexture083c5805.png" contenttype="image/png" tilestyleu="wrap" tilestylev="wrap" />
-        <m:texture2dgroup id="8" texid="4">
-          <m:tex2coord u="0" v="-5.96046e-008" />
-          <m:tex2coord u="1" v="-5.96046e-008" />
-          <m:tex2coord u="1" v="1" />
-          <m:tex2coord u="0" v="1" />
-        </m:texture2dgroup>
-        <object id="5" type="model">
-          <mesh>
-            <vertices>
-              <vertex x="0" y="42.998" z="39.998" />
-              <vertex x="39.998" y="42.998" z="39.998" />
-              <vertex x="0" y="82.998" z="39.998" />
-              <vertex x="39.998" y="82.998" z="0" />
-              <vertex x="0" y="42.998" z="0" />
-              <vertex x="0" y="82.998" z="0" />
-              <vertex x="39.998" y="42.998" z="0" />
-              <vertex x="39.998" y="82.998" z="39.998" />
-            </vertices>
-            <triangles>
-              <triangle v1="0" v2="1" v3="2" pid="1" p1="0" />
-              <triangle v1="3" v2="4" v3="5" pid="2" p1="0" />
-              <triangle v1="4" v2="3" v3="6" pid="2" p1="0" />
-              <triangle v1="7" v2="2" v3="1" pid="1" p1="0" />
-              <triangle v1="4" v2="6" v3="1" pid="8" p1="0" p2="1" p3="2" />
-              <triangle v1="4" v2="2" v3="5" pid="2" p1="0" />
-              <triangle v1="7" v2="1" v3="6" pid="2" p1="0" />
-              <triangle v1="5" v2="2" v3="7" pid="2" p1="0" />
-              <triangle v1="4" v2="0" v3="2" pid="2" p1="0" />
-              <triangle v1="6" v2="3" v3="7" pid="2" p1="0" />
-              <triangle v1="1" v2="0" v3="4" pid="8" p1="2" p2="3" p3="0" />
-              <triangle v1="7" v2="3" v3="5" pid="2" p1="0" />
-            </triangles>
-          </mesh>
-        </object>
-        <object id="6" type="model">
-          <components>
-            <component objectid="5" />
-          </components>
-        </object>
-      </resources>
-      <build>
-        <item objectid="6" transform="1 0 0 0 1 0 0 0 1 27.7814 52.0603 0" />
-      </build>
-    </model>
-
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<model unit="millimeter" xml:lang="en-US" xmlns:m="http://schemas.microsoft.com/3dmanufacturing/material/2015/02" xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02">
+  <resources>
+    <msft:pbmetallicdisplayproperties id="1000000000">
+      <msft:pbmetallic name="Metallic" metallicness="1" roughness="0.09" />
+    </msft:pbmetallicdisplayproperties>
+    <basematerials id="1">
+      <base name="Regular" displaycolor="#21BB4CFF" />
+    </basematerials>
+    <basematerials id="2" displaypropertiesid="1000000000">
+      <base name="Metallic" displaycolor="#F5F0F0FF" />
+    </basematerials>
+    <m:texture2d id="4" path="/3D/Texture/BorderedTexture083c5805.png" contenttype="image/png" tilestyleu="wrap" tilestylev="wrap" />
+    <m:texture2dgroup id="8" texid="4">
+      <m:tex2coord u="0" v="-5.96046e-008" />
+      <m:tex2coord u="1" v="-5.96046e-008" />
+      <m:tex2coord u="1" v="1" />
+      <m:tex2coord u="0" v="1" />
+    </m:texture2dgroup>
+    <object id="5" type="model">
+      <mesh>
+        <vertices>
+          <vertex x="0" y="42.998" z="39.998" />
+          <vertex x="39.998" y="42.998" z="39.998" />
+          <vertex x="0" y="82.998" z="39.998" />
+          <vertex x="39.998" y="82.998" z="0" />
+          <vertex x="0" y="42.998" z="0" />
+          <vertex x="0" y="82.998" z="0" />
+          <vertex x="39.998" y="42.998" z="0" />
+          <vertex x="39.998" y="82.998" z="39.998" />
+        </vertices>
+        <triangles>
+          <triangle v1="0" v2="1" v3="2" pid="1" p1="0" />
+          <triangle v1="3" v2="4" v3="5" pid="2" p1="0" />
+          <triangle v1="4" v2="3" v3="6" pid="2" p1="0" />
+          <triangle v1="7" v2="2" v3="1" pid="1" p1="0" />
+          <triangle v1="4" v2="6" v3="1" pid="8" p1="0" p2="1" p3="2" />
+          <triangle v1="4" v2="2" v3="5" pid="2" p1="0" />
+          <triangle v1="7" v2="1" v3="6" pid="2" p1="0" />
+          <triangle v1="5" v2="2" v3="7" pid="2" p1="0" />
+          <triangle v1="4" v2="0" v3="2" pid="2" p1="0" />
+          <triangle v1="6" v2="3" v3="7" pid="2" p1="0" />
+          <triangle v1="1" v2="0" v3="4" pid="8" p1="2" p2="3" p3="0" />
+          <triangle v1="7" v2="3" v3="5" pid="2" p1="0" />
+        </triangles>
+      </mesh>
+    </object>
+    <object id="6" type="model">
+      <components>
+        <component objectid="5" />
+      </components>
+    </object>
+  </resources>
+  <build>
+    <item objectid="6" transform="1 0 0 0 1 0 0 0 1 27.7814 52.0603 0" />
+  </build>
+</model>
+```
 ### C.2. Translucent Material Sample
 
 The following 3MF Sample demonstrates an object with Translucent display properties and a texture with transparent alpha channel.C.2. Translucent Material Sample
-
-    <?xml version="1.0" encoding="UTF-8"?>
-    <model unit="inch" xml:lang="en-US" xmlns:m="http://schemas.microsoft.com/3dmanufacturing/material/2015/02" xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02">
-      <resources>
-        <m:translucentdisplayproperties id="1">
-          <m:translucent name="TransparentResin" attenuation="0.5 0.5 0.5" refractiveindex="1.3 1.3 1.3" roughness="0.1" />
-        </m:translucentdisplayproperties>
-        <basematerials id="2" displaypropertiesid="1">
-          <base name="BaseMaterial" displaycolor="#FFFFFF" />
-        </basematerials>
-        <m:texture2d id="3" path="/3D/Texture/Sticker.png" contenttype="image/png" tilestyleu="clamp" tilestylev="clamp" />
-        <m:texture2dgroup id="4" texid="3">
-          <m:tex2coord u="0" v="1" />
-          <m:tex2coord u="1" v="1" />
-          <m:tex2coord u="0" v="0" />
-          <m:tex2coord u="1" v="0" />
-        </m:texture2dgroup>
-        <m:multiproperties id="5" pids="2 4">
-          <m:multi pindices="0 0" />
-          <m:multi pindices="0 1" />
-          <m:multi pindices="0 2" />
-          <m:multi pindices="0 3" />
-        </m:multiproperties>
-        <object id="6" type="model">
-          <mesh>
-            <vertices>
-              <vertex x="0" y="0" z="1" />
-              <vertex x="1" y="0" z="1" />
-              <vertex x="0" y="0" z="0" />
-              <vertex x="1" y="0" z="0" />
-              <vertex x="0" y="1" z="1" />
-              <vertex x="1" y="1" z="1" />
-              <vertex x="0" y="1" z="0" />
-              <vertex x="1" y="1" z="0" />
-            </vertices>
-            <triangles>
-              <triangle v1="0" v2="2" v3="1" pid="5" p1="0" p2="2" p3="1" />
-              <triangle v1="3" v2="1" v3="2" pid="5" p1="3" p2="1" p3="2" />
-              <triangle v1="1" v2="3" v3="5" pid="2" p1="0" />
-              <triangle v1="7" v2="5" v3="3" pid="2" p1="0" />
-              <triangle v1="5" v2="7" v3="4" pid="2" p1="0" />
-              <triangle v1="6" v2="4" v3="7" pid="2" p1="0" />
-              <triangle v1="4" v2="6" v3="0" pid="2" p1="0" />
-              <triangle v1="2" v2="0" v3="6" pid="2" p1="0" />
-              <triangle v1="4" v2="0" v3="5" pid="2" p1="0" />
-              <triangle v1="1" v2="5" v3="0" pid="2" p1="0" />
-              <triangle v1="2" v2="6" v3="3" pid="2" p1="0" />
-              <triangle v1="7" v2="3" v3="6" pid="2" p1="0" />
-            </triangles>
-          </mesh>
-        </object>
-        <object id="7" type="model">
-          <components>
-            <component objectid="6" />
-          </components>
-        </object>
-      </resources>
-      <build>
-        <item objectid="7" transform="1 0 0 0 1 0 0 0 1 0 0 0" />
-      </build>
-    </model>
-
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<model unit="inch" xml:lang="en-US" xmlns:m="http://schemas.microsoft.com/3dmanufacturing/material/2015/02" xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02">
+  <resources>
+    <m:translucentdisplayproperties id="1">
+      <m:translucent name="TransparentResin" attenuation="0.5 0.5 0.5" refractiveindex="1.3 1.3 1.3" roughness="0.1" />
+    </m:translucentdisplayproperties>
+    <basematerials id="2" displaypropertiesid="1">
+      <base name="BaseMaterial" displaycolor="#FFFFFF" />
+    </basematerials>
+    <m:texture2d id="3" path="/3D/Texture/Sticker.png" contenttype="image/png" tilestyleu="clamp" tilestylev="clamp" />
+    <m:texture2dgroup id="4" texid="3">
+      <m:tex2coord u="0" v="1" />
+      <m:tex2coord u="1" v="1" />
+      <m:tex2coord u="0" v="0" />
+      <m:tex2coord u="1" v="0" />
+    </m:texture2dgroup>
+    <m:multiproperties id="5" pids="2 4">
+      <m:multi pindices="0 0" />
+      <m:multi pindices="0 1" />
+      <m:multi pindices="0 2" />
+      <m:multi pindices="0 3" />
+    </m:multiproperties>
+    <object id="6" type="model">
+      <mesh>
+        <vertices>
+          <vertex x="0" y="0" z="1" />
+          <vertex x="1" y="0" z="1" />
+          <vertex x="0" y="0" z="0" />
+          <vertex x="1" y="0" z="0" />
+          <vertex x="0" y="1" z="1" />
+          <vertex x="1" y="1" z="1" />
+          <vertex x="0" y="1" z="0" />
+          <vertex x="1" y="1" z="0" />
+        </vertices>
+        <triangles>
+          <triangle v1="0" v2="2" v3="1" pid="5" p1="0" p2="2" p3="1" />
+          <triangle v1="3" v2="1" v3="2" pid="5" p1="3" p2="1" p3="2" />
+          <triangle v1="1" v2="3" v3="5" pid="2" p1="0" />
+          <triangle v1="7" v2="5" v3="3" pid="2" p1="0" />
+          <triangle v1="5" v2="7" v3="4" pid="2" p1="0" />
+          <triangle v1="6" v2="4" v3="7" pid="2" p1="0" />
+          <triangle v1="4" v2="6" v3="0" pid="2" p1="0" />
+          <triangle v1="2" v2="0" v3="6" pid="2" p1="0" />
+          <triangle v1="4" v2="0" v3="5" pid="2" p1="0" />
+          <triangle v1="1" v2="5" v3="0" pid="2" p1="0" />
+          <triangle v1="2" v2="6" v3="3" pid="2" p1="0" />
+          <triangle v1="7" v2="3" v3="6" pid="2" p1="0" />
+        </triangles>
+      </mesh>
+    </object>
+    <object id="7" type="model">
+      <components>
+        <component objectid="6" />
+      </components>
+    </object>
+  </resources>
+  <build>
+    <item objectid="7" transform="1 0 0 0 1 0 0 0 1 0 0 0" />
+  </build>
+</model>
+```
 ![Translucent Material with Texture Example](images/C.2.TranslucentExample.png)
 
 ## Appendix D. Micro-facet Surface Model and BRDF
