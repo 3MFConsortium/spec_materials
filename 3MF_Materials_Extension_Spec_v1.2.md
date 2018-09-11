@@ -119,15 +119,15 @@ This extension MUST be used only with Core specification 1.2.
 
 ## Document Conventions
 
-See [the standard 3MF Document Conventions documentation](https://github.com/3MFConsortium/spec_resources/blob/master/document_conventions.md).
+See [the 3MF Core Specification conventions](https://github.com/3MFConsortium/spec_core/blob/master/3MF%20Core%20Specification.md#document-conventions).
 
 ## Language Notes
 
-See [the standard 3MF Language Notes documentation](https://github.com/3MFConsortium/spec_resources/blob/master/language_notes.md).
+See [the 3MF Core Specification language notes](https://github.com/3MFConsortium/spec_core/blob/master/3MF%20Core%20Specification.md#language-notes).
 
 ## Software Conformance
 
-See [the standard 3MF Software Conformance documentation](https://github.com/3MFConsortium/spec_resources/blob/master/software_conformance.md).
+See [the 3MF Core Specification software conformance](https://github.com/3MFConsortium/spec_core/blob/master/3MF%20Core%20Specification.md#software-conformance).
 
 # Part I. 3MF Documents
 
@@ -776,9 +776,9 @@ For more information on the microfacet model, see Appendix D. Micro-facet Surfac
 
 # Part II. Appendixes
 
-## Appendix A. Glossary
+# Appendix A. Glossary
 
-See [the standard 3MF Glossary](https://github.com/3MFConsortium/spec_resources/blob/master/glossary.md).
+See [the 3MF Core Specification glossary](https://github.com/3MFConsortium/spec_core/blob/master/3MF%20Core%20Specification.md#appendix-a-glossary).
 
 ## Appendix B. 3MF XSD Schema for Material and Properties 
 
