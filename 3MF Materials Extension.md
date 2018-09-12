@@ -114,7 +114,7 @@ This equation MUST be applied separately to each channel in the C_linear  triple
 
 ### 1.3. Material Gradients and Interpolation Methods
 
-The 3MF core specification (Chapter 4.1.4: Triangles) describes properties e.g. color to be specified for each vertex of a triangle. Specifically, an sRGB triplet can be assigned to each vertex of a triangle. Color gradients within a triangle should be calculated by performing an interpolation in sRGB using a barycentric interpolation method. Performing color vertex interpolations in sRGB space corresponds to common practices in 2D and 3D imaging applications and is closer to an interpolation in a perceptual uniform space than an interpolation in a linear RGB space would be. 
+The 3MF core specification (Chapter 4.1.4: Triangles) describes properties e.g. color to be specified for each vertex of a triangle. Specifically, an sRGB triplet can be assigned to each vertex of a triangle. Color gradients within a triangle should be calculated by performing a linear interpolation in sRGB using barycentric coordinates. Performing color vertex interpolations in sRGB space corresponds to common practices in 2D and 3D imaging applications and is closer to an interpolation in a perceptual uniform space than an interpolation in a linear RGB space would be. 
 
 ### 1.4. Base Materials 
 
