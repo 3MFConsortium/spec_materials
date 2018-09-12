@@ -702,7 +702,7 @@ Refractive index is a measure of the bending of a beam of light when passing thr
 
 The relationship between angle of incidence (angle between the incoming ray and the surface normal) and angle of refraction (angle between the refracted ray and the surface normal) is described by Snell’s law. If i is the angle of incidence of a ray in vacuum and r is the angle of refraction, the refractive index n is defined as the ratio of the sine of the angle of incidence to the sine of the angle of refraction:
 
-	n = sin⁡(i) / sin(r)
+	n = sin(i) / sin(r)
 
 **roughness**
 
