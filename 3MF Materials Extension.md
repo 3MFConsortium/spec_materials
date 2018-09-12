@@ -234,6 +234,8 @@ The \<compositematerials> element defines materials derived by mixing 2 or more 
 
 The displaypropertiesid attribute references a \<displayproperties> group containing additional properties that describe how best to display the material when previewing a mesh with this material on a device display. For more information, refer to Chapter 7: Display Properties Overview.
 
+For visualization the displaycolor of the basematerials, when available, SHOULD be mixed in the same proportions as their individual contribution in the overall composite. 
+
 To avoid integer overflows, a composite group MUST contain less than 2^31 composites.
 
 ### 4.1. Composite
@@ -678,7 +680,8 @@ This implies that a translucent object is defined only by a material group or a 
 
 Translucent display properties MUST NOT be applied to \<texture2dgroup> or \<colorgroup> properties. A translucent effect is achieved by using a multi-properties group with a material containing translucent display properties and blending the subsequent layers.
 
-**Attenuation**
+**attenuation**
+
 Attenuation coefficient is a measure of how easily a beam of light can penetrate the material. A value of zero means that the material is completely transparent. Bigger values mean that the beam is correspondingly attenuated as it passes through the material. The unit of attenuation is the reciprocal meter (m−1). Attenuation represents the combined loss of energy due to absorption and scattering. Because different wavelengths are absorbed at different rates (which gives translucent materials their color tint), attenuation coefficient is defined as a triplet of values corresponding to red, green and blue color channels.
 
 The relationship between the decrease in light intensity and material thickness is described by Beer-Lambert law. According to this law, intensity decreases exponentially with the distance the light travels inside medium:
@@ -693,13 +696,16 @@ Where:
     a – attenuation coefficient
     t – distance (in meters) traveled inside the medium
 
-**Refractiveindex**
+**refractiveindex**
+
 Refractive index is a measure of the bending of a beam of light when passing through a boundary between vacuum and the translucent material. It can also be the factor by which the speed of light is reduced inside the material with respect to the speed of light in vacuum. Since the amount of refraction depends on wavelength, refractive index is defined as a triplet of values corresponding to red, green and blue color channels. This allows clients to render optical phenomena such as dispersion.
 
 The relationship between angle of incidence (angle between the incoming ray and the surface normal) and angle of refraction (angle between the refracted ray and the surface normal) is described by Snell’s law. If i is the angle of incidence of a ray in vacuum and r is the angle of refraction, the refractive index n is defined as the ratio of the sine of the angle of incidence to the sine of the angle of refraction:
-n =   sin⁡i/sin⁡r 
 
-**Roughness**
+	n = sin⁡(i) / sin(r)
+
+**roughness**
+
 A scalar value in 0..1 range that represents surface roughness. A value of (1 – roughness) has the same meaning as ‘glossiness’ described in Chapter 7.1.
 
 Roughness is used to parametrize the blurriness of surface reflections and to emulate surface scattering properties of the object.
@@ -1118,7 +1124,7 @@ Normal distribution function term describes the likelihood of micro-facet normal
 
     D(h)=α^2/(π((n.h)^2*(α^2-1)+1)^2 )
 
-#### D.2. Geometric Occlusion Term – G(l, v, h)
+### D.2. Geometric Occlusion Term – G(l, v, h)
 
 On any rough surface it is likely that some micro-facets will either not receive light due to them being occluded, or light reﬂected by them towards the viewer will be blocked by other micro-facets. This effect is apparent especially when the surface is illuminated at a grazing angle. Geometric occlusion term describes the likelihood that a micro-facet is occluded given a set of direction vectors l, v, h. The suggested pick for the geometric occlusion term is the Schlick approximation for Smith’s shadowing function:
 
@@ -1129,7 +1135,7 @@ On any rough surface it is likely that some micro-facets will either not receive
 
 As can be seen, the total geometric occlusion term is a product of two occlusion functions G_1applied for the light source direction as well as the view direction.
 
-#### D.3. Fresnel Term – F(l, h)
+### D.3. Fresnel Term – F(l, h)
 
 The Fresnel term is a physical term describing ratio of reflected to transmitted light energy on the material boundary. It models the real-world observation that surface reflections increase in intensity at grazing angles. The exact behavior of light when moving between media of differing refractive indices is described by the Fresnel equations. However, because of their complexity and relatively high computational cost, the suggested pick for the Fresnel term is the Schlick’s approximation commonly used in computer graphics:
     
