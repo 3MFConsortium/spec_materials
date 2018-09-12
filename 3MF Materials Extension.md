@@ -2,9 +2,9 @@
 
 # Materials and Properties Extension
 
-| **Version** | 1.2 |
+| **Version** | 1.2.0 |
 | --- | --- |
-| **Status** | Draft |
+| **Status** | Published |
 
 
 ## Disclaimer
