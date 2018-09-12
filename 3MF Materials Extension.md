@@ -549,9 +549,9 @@ A metallic property infers a base color from the color attribute of the specific
 
 In both cases, the inverse color component transfer function as described in Chapter 1.2 MUST be performed to obtain linear RGB values for lighting calculations. For arbitrary values of metallicness, the equivalent diffuse color and specular color values SHOULD be calculated according to the following formulas:
 
-    diffusecolor = (1 - metallicness) * (1 – sRgbToLinear(#383838)) * baseColor
+    diffusecolor = (1 - metallicness) * (1 – 0.04) * baseColor
     
-where sRgbToLinear(#383838) denotes a linear default specular reflectance value which equals roughly (0.04, 0.04, 0.04).
+where 0.04 denotes a linear default specular reflectance value, derived from applying the sRGB to linear formulae in Section 1.2 to #383838.
 
 **Name**
 The name attribute is intended to convey design intent. Producers SHOULD avoid machine-specific naming in favor of more portable descriptions.
