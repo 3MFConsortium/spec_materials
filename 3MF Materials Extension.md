@@ -683,12 +683,12 @@ Attenuation coefficient is a measure of how easily a beam of light can penetrate
 
 The relationship between the decrease in light intensity and material thickness is described by Beer-Lambert law. According to this law, intensity decreases exponentially with the distance the light travels inside medium:
     
-    〖〖RGB〗_out  = 〖RGB〗_in*e〗^(-at)
+    RGB_out  = RGB_in * e^(-at)
 
 Where:
 
-    〖RGB〗_out – output (transmitted) light intensity
-    〖RGB〗_in – input (incident) light intensity
+    RGB_out – output (transmitted) light intensity
+    RGB_in – input (incident) light intensity
     
     a – attenuation coefficient
     t – distance (in meters) traveled inside the medium
@@ -1114,9 +1114,9 @@ The terms D(h), G(l, v, h) and F(l, h) represent the normal distribution functio
 
 ### D.1. Normal Distribution Function – D(h)
 
-Normal distribution function term describes the likelihood of micro-facet normals being aligned in each direction. Integrating the normal distribution function over some solid angle above a small, flat surface patch gives the density of micro-facets within that patch whose normals fall within specified solid angle. The suggested pick for normal distribution function is Trowbridge-Reitz, commonly also called GGX. The distribution shape of the Trowbridge-Reitz formula resembles a truncated ellipsoid centered around a given direction vector. Roughness = 0 maps to a perfect mirror surface while roughness = 1 maps to a uniform hemispherical distribution. We adopt the reparametrization of α = 〖roughness〗^2 which results in visually uniform increments in roughness.
+Normal distribution function term describes the likelihood of micro-facet normals being aligned in each direction. Integrating the normal distribution function over some solid angle above a small, flat surface patch gives the density of micro-facets within that patch whose normals fall within specified solid angle. The suggested pick for normal distribution function is Trowbridge-Reitz, commonly also called GGX. The distribution shape of the Trowbridge-Reitz formula resembles a truncated ellipsoid centered around a given direction vector. Roughness = 0 maps to a perfect mirror surface while roughness = 1 maps to a uniform hemispherical distribution. We adopt the reparametrization of α = roughness^2 which results in visually uniform increments in roughness.
 
-    D(h)=α^2/(π〖((n.h)^2*(α^2-1)+1)〗^2 )
+    D(h)=α^2/(π((n.h)^2*(α^2-1)+1)^2 )
 
 #### D.2. Geometric Occlusion Term – G(l, v, h)
 
@@ -1133,7 +1133,7 @@ As can be seen, the total geometric occlusion term is a product of two occlusion
 
 The Fresnel term is a physical term describing ratio of reflected to transmitted light energy on the material boundary. It models the real-world observation that surface reflections increase in intensity at grazing angles. The exact behavior of light when moving between media of differing refractive indices is described by the Fresnel equations. However, because of their complexity and relatively high computational cost, the suggested pick for the Fresnel term is the Schlick’s approximation commonly used in computer graphics:
     
-    F(l,h)=F_0+(1-F_0 )*〖(1-l.h)〗^5
+    F(l,h)=F_0+(1-F_0 )*(1-l.h)^5
     
 where F_0 is the specular reflectance of the material at normal incidence (its specular color).
 
