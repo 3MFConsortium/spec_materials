@@ -745,6 +745,7 @@ See [the 3MF Core Specification glossary](https://github.com/3MFConsortium/spec_
 
 ## Appendix B. 3MF XSD Schema for Material and Properties 
 ```xml
+<?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns="http://schemas.microsoft.com/3dmanufacturing/material/2015/02"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xml="http://www.w3.org/XML/1998/namespace"
 	targetNamespace="http://schemas.microsoft.com/3dmanufacturing/material/2015/02"
