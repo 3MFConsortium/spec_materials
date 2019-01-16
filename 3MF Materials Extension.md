@@ -1001,9 +1001,9 @@ See [the 3MF Core Specification glossary](https://github.com/3MFConsortium/spec_
 <?xml version="1.0" encoding="UTF-8"?>
 <model unit="millimeter" xml:lang="en-US" xmlns:m="http://schemas.microsoft.com/3dmanufacturing/material/2015/02" xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02">
   <resources>
-    <msft:pbmetallicdisplayproperties id="1000000000">
-      <msft:pbmetallic name="Metallic" metallicness="1" roughness="0.09" />
-    </msft:pbmetallicdisplayproperties>
+    <m:pbmetallicdisplayproperties id="1000000000">
+      <m:pbmetallic name="Metallic" metallicness="1" roughness="0.09" />
+    </m:pbmetallicdisplayproperties>
     <basematerials id="1">
       <base name="Regular" displaycolor="#21BB4CFF" />
     </basematerials>
