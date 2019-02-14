@@ -97,7 +97,7 @@ This chapter describes new non-object resources. Each of these resources is OPTI
 
 As a general idea, the following resource groups will determine different ways of representing material properties of a part. The corresponding resource IDs MAY be referenced by triangle attributes defined in the core specification.
 
-As there are existing file formats and use cases which need multiple pieces of information per triangle, it is possible to define multiple properties per triangle (see chapter 5). Consumers MUST be strict in obeying the mixing rules as laid out in the corresponding paragraphs to avoid ambiguous interpretation of the design intent.
+As there are existing file formats and use cases which need multiple pieces of information per triangle, it is possible to define multiple properties per triangle (see [Chapter 5. Multiproperties](#chapter-5-multiproperties)). Consumers MUST be strict in obeying the mixing rules as laid out in the corresponding paragraphs to avoid ambiguous interpretation of the design intent.
 
 
 ### 1.1. Resources
@@ -110,7 +110,7 @@ All the new elements defined in this 3MF extension specification live under the 
 
 ### 1.2. sRGB and Linear Color Values
 
-The 3MF core specification (Chapter 5.1.1) mentions that whenever 3MF uses colors that are expressed as #RRGGBB hexadecimal quantities with 8 bits per color channel, they are assumed to be in sRGB color space. 3MF uses sRGB as specified by the World Wide Web Consortium (http://www.w3.org/Graphics/Color/sRGB).
+The 3MF core specification ([5.1. Base Material](https://github.com/3MFConsortium/spec_core/blob/master/3MF%20Core%20Specification.md#51-base-material)) mentions that whenever 3MF uses colors that are expressed as #RRGGBB hexadecimal quantities with 8 bits per color channel, they are assumed to be in sRGB color space. 3MF uses sRGB as specified by the World Wide Web Consortium (http://www.w3.org/Graphics/Color/sRGB).
 
 Since human perception of brightness changes approximately with the logarithm of object's actual brightness, color data is usually encoded using a non-linear color component transfer. Such encoding is used to optimize the usage of bits, especially when individual R, G, B color channels are expressed as 8-bit quantities, as is the case with JPEG and PNG formats.
 
@@ -140,11 +140,11 @@ This equation MUST be applied separately to each channel in the C_linear  triple
 
 ### 1.3. Material Gradients and Interpolation Methods
 
-The 3MF core specification (Chapter 4.1.4: Triangles) describes properties e.g. color to be specified for each vertex of a triangle. Specifically, an sRGB triplet can be assigned to each vertex of a triangle. Color gradients within a triangle should be calculated by performing a linear interpolation in sRGB using barycentric coordinates. Performing color vertex interpolations in sRGB space corresponds to common practices in 2D and 3D imaging applications and is closer to an interpolation in a perceptual uniform space than an interpolation in a linear RGB space would be. 
+The 3MF core specification ([4.1.4 Triangles](https://github.com/3MFConsortium/spec_core/blob/master/3MF%20Core%20Specification.md#414-triangles)) describes properties e.g. color to be specified for each vertex of a triangle. Specifically, an sRGB triplet can be assigned to each vertex of a triangle. Color gradients within a triangle should be calculated by performing a linear interpolation in sRGB using barycentric coordinates. Performing color vertex interpolations in sRGB space corresponds to common practices in 2D and 3D imaging applications and is closer to an interpolation in a perceptual uniform space than an interpolation in a linear RGB space would be. 
 
 ### 1.4. Base Materials 
 
-The 3MF core specification (Chapter 5: Material Resources) describes a base material type. This extension adds an additional attribute to the base material element representing display properties that allow realistic rendering of materials to a display.
+The 3MF core specification ([Chapter 5: Material Resources](https://github.com/3MFConsortium/spec_core/blob/master/3MF%20Core%20Specification.md#chapter-5-material-resources)) describes a base material type. This extension adds an additional attribute to the base material element representing display properties that allow realistic rendering of materials to a display.
 
 Element **\<basematerials>**
 
@@ -176,7 +176,7 @@ A producer MAY define multiple \<colorgroup> containers to help organize the fil
     
 The displaypropertiesid attribute references a \<displayproperties> group containing additional properties that describe how best to display a mesh with this material on a device display.
     
-A \<colorgroup> describes a set of surface color properties and SHOULD NOT reference translucent display properties. To achieve a translucent effect with surface color, a multi-properties group SHOULD be used instead. For more information, refer to Chapter 7: Display Properties Overview.
+A \<colorgroup> describes a set of surface color properties and SHOULD NOT reference translucent display properties. To achieve a translucent effect with surface color, a multi-properties group SHOULD be used instead. For more information, refer to [Chapter 7. Display Properties Overview](#chapter-7-display-properties-overview).
 
 To avoid integer overflows, a color group MUST contain less than 2^31 colors.
 
@@ -209,11 +209,11 @@ Element **\<texture2dgroup>**
 | displaypropertiesid | **ST_ResourceID** | optional | | Reference to a \<displayproperties> element providing additional information about how to display the material on a device display |
 | @anyAttribute | | | | |
     
-A \<texture2dgroup> element acts as a container for texture coordinate properties. The order of these elements forms an implicit 0-based index that is referenced by other elements, such as the \<object> and \<triangle> elements. It also specifies which image to use, via texid. The referenced \<texture2d> elements are described below in Chapter 6.
+A \<texture2dgroup> element acts as a container for texture coordinate properties. The order of these elements forms an implicit 0-based index that is referenced by other elements, such as the \<object> and \<triangle> elements. It also specifies which image to use, via texid. The referenced \<texture2d> elements are described below in [Chapter 6. Texture 2d](#chapter-6-texture-2d).
 
 The texture’s alpha channel is assumed to be fully opaque (alpha = #FF) unless specified otherwise.
 
-The displaypropertiesid attribute references a \<displayproperties> group containing additional properties that describe how best to display a mesh with this material on a device display. A \<texture2Dgroup> describes a set of surface color properties and MUST NOT reference translucent display properties. To achieve a translucent effect through a texture, a multi-properties group MUST be used instead. For more information, refer to Chapter 7: Display Properties Overview.
+The displaypropertiesid attribute references a \<displayproperties> group containing additional properties that describe how best to display a mesh with this material on a device display. A \<texture2Dgroup> describes a set of surface color properties and MUST NOT reference translucent display properties. To achieve a translucent effect through a texture, a multi-properties group MUST be used instead. For more information, refer to [Chapter 7. Display Properties Overview](#chapter-7-display-properties-overview).
 
 To avoid integer overflows, a texture coordinate group MUST contain less than 2^31 tex2coords.
 
@@ -232,7 +232,7 @@ Element **\<tex2coord>**
 
 Texture coordinates map a vertex of a triangle to a position in image space (U, V coordinates). Texture mapping allows high-resolution color bitmaps to be applied to any surface. The primary advantage of texture mapping over the vertex colors of the previous section is that the textures allow color at a much finer detail level than the underlying mesh, while vertex colors are always at the same resolution as the mesh.
 
-The lower left corner of the texture is the u, v coordinate (0,0), and the upper right coordinate is (1,1). The u,v values are not restricted to this range. When the u,v coordinates exceed the (0,0)-(1,1) range the tilestypeu, tilestypev will be applied according to chapter 6 Texture2d.
+The lower left corner of the texture is the u, v coordinate (0,0), and the upper right coordinate is (1,1). The u,v values are not restricted to this range. When the u,v coordinates exceed the (0,0)-(1,1) range the tilestypeu, tilestypev will be applied according to [Chapter 6. Texture 2d](#chapter-6-texture-2d).
 
 ## Chapter 4. Composite Materials
 
@@ -258,7 +258,7 @@ A \<compositematerials> element acts as a container for composite materials. The
 
 The \<compositematerials> element defines materials derived by mixing 2 or more base materials in defined ratios. This collective mixture is referred to as a composite material. The matid attribute specifies the material group that all constituents are from, which MUST be a \<basematerials> group. The matindices attribute specifies the indices of the materials to mix.
 
-The displaypropertiesid attribute references a \<displayproperties> group containing additional properties that describe how best to display the material when previewing a mesh with this material on a device display. For more information, refer to Chapter 7: Display Properties Overview.
+The displaypropertiesid attribute references a \<displayproperties> group containing additional properties that describe how best to display the material when previewing a mesh with this material on a device display. For more information, refer to [Chapter 7. Display Properties Overview](#chapter-7-display-properties-overview).
 
 For visualization the displaycolor of the basematerials, when available, SHOULD be mixed in the same proportions as their individual contribution in the overall composite. 
 
@@ -407,6 +407,8 @@ Element **\<texture2d>**
 
 A 2D texture resource provides information about texture image data, found via the provided path reference, which MUST also be the target of a 3D Texture relationship from the 3D Model part.
 
+**contenttype** - The only supported content types are JPEG and PNG, as more specifically specified in the 3MF core spec under the [6.1. Thumbnail](https://github.com/3MFConsortium/spec_core/blob/master/3MF%20Core%20Specification.md#61-thumbnail) section.
+
 The following table shows the logical interpretation of possible input pixel layouts. The meaning of symbols is as follows: R – red, G – green, B – blue, A – alpha, Y – grayscale.
 
 For example, if the specification says that a certain value is sampled from the texture’s R channel, but the referenced texture is only monochromatic then grayscale channel is interpreted as the R color channel. Similarly, color values sampled from a monochromatic texture are interpreted as if all R, G, B color channels shared the same grayscale value.
@@ -421,13 +423,12 @@ Logical interpretation as a RGBA value:
 | Y | Y | Y | Y | #FF |
 * *These pixel layouts are only supported by the PNG format.
 
-If there is no alpha channel present in the texture, the default value #FF SHOULD be used. Unless specified otherwise, alpha channel is assumed to be in linear space while color and grayscale channels are assumed to be in sRGB color space. Texture filtering should be performed in sRGB, but a client SHOULD perform conversion to linear RGB (see Chapter 1.2.) before linear operations such as multi property blending take place.
+If there is no alpha channel present in the texture, the default value #FF SHOULD be used. Unless specified otherwise, alpha channel is assumed to be in linear space while color and grayscale channels are assumed to be in sRGB color space. Texture filtering should be performed in sRGB, but a client SHOULD perform conversion to linear RGB (see [1.2. sRGB and Linear Color Values](#12-srgb-and-linear-color-values)) before linear operations such as multi property blending take place.
 
 The box attribute was DEPRECATED in version 1.2. Producers SHOULD NOT generate it and consumer SHOULD ignore it.
 
 **tilestyleu, tilestylev** - The tile style of wrap essentially means that the same texture SHOULD be repeated in the specified axis (both in the positive and negative directions), for the axis value. The tile style of mirror means that each time the texture width or height is exceeded, the next repetition of the texture SHOULD be reflected across a plane perpendicular to the axis in question. The tile style of clamp means all Texture 2D Coordinates outside of the range zero to one will be assigned the color of the nearest edge pixel. The tile style of none means that all Texture 2D Coordinates outside the range zero to one will be assigned the color of the default object color. If the default object color is not defined the choice for the color is left to the consumer.
 
-The only supported content types are JPEG and PNG, as more specifically specified in the 3MF core spec under the Thumbnails section.
 
 **filter** - The producer MAY require the use of a specific filter type by specifying either “linear” for bilinear interpolation or “nearest” for nearest neighbor interpolation. The producer SHOULD use “auto” to indicate to the consumer to use the highest quality filter available. If source texture is scaled with the model, the specified filter type MUST be applied to the scaling operation. The default value is “auto”.
 
@@ -511,7 +512,7 @@ The \<pbspecular> element infers a diffuse color from the color attribute of the
  
 The diffuse color describes the surface color. It is an sRGB color triplet that specifies diffuse reflectance of the surface. It represents the proportion of light which is reflected off the surface in diffuse fashion in respective red, green and blue wavelength regions. Diffuse reflection is an idealized concept in which the incident light scatters in all directions independently of the angle at which it arrives. 
     
-In order to obtain RGB coefficients in the 0..1 range that can be used in lighting calculations, the inverse color component transfer function (see  Chapter 1.2. sRGB and linear RGB color values) MUST be applied to convert colors from sRGB color space to linear RGB space.
+In order to obtain RGB coefficients in the 0..1 range that can be used in lighting calculations, the inverse color component transfer function (see  [1.2. sRGB and Linear Color Values](#12-srgb-and-linear-color-values)) MUST be applied to convert colors from sRGB color space to linear RGB space.
 
 **Name**
     
@@ -523,7 +524,7 @@ Specular color is a sRGB color triplet that specifies specular reflectance of th
 
 The default value #383838 corresponds to a linear specular reflectance value of (0.04, 0.04, 0.04) common for plastics and other dielectric materials.
 
-In order to obtain linear RGB coefficients in the 0..1 range that can be used for lighting calculations, the inverse color component transfer function (see  Chapter 1.2. sRGB and linear RGB color values) MUST be applied.
+In order to obtain linear RGB coefficients in the 0..1 range that can be used for lighting calculations, the inverse color component transfer function (see [1.2. sRGB and Linear Color Values](#12-srgb-and-linear-color-values)) MUST be applied.
 
 **Glossiness**
 
@@ -572,14 +573,14 @@ Element **\<pbmetallic>**
 
 A metallic property infers a base color from the color attribute of the specific material it is associated with (displaycolor from a base material, for example):
 
-1.	For metallicness = 0 it represents ‘diffusecolor’ as described in Chapter 7.1.1. Specular reflectance defaults to (0.04, 0.04, 0.04) in this case.
-2.	For metallicness = 1 it represents ‘specularcolor’ as described in Chapter 7.1.1. In this case diffuse reflectance defaults to (0, 0, 0).
+1.	For metallicness = 0 it represents ‘diffusecolor’ as described in [7.1.1. Specular](#711-specular) reflectance defaults to (0.04, 0.04, 0.04) in this case.
+2.	For metallicness = 1 it represents ‘specularcolor’ as described in [7.1.1. Specular](#711-specular). In this case diffuse reflectance defaults to (0, 0, 0).
 
-In both cases, the inverse color component transfer function as described in Chapter 1.2 MUST be performed to obtain linear RGB values for lighting calculations. For arbitrary values of metallicness, the equivalent diffuse color and specular color values SHOULD be calculated according to the following formulas:
+In both cases, the inverse color component transfer function as described in [1.2. sRGB and Linear Color Values](#12-srgb-and-linear-color-values) MUST be performed to obtain linear RGB values for lighting calculations. For arbitrary values of metallicness, the equivalent diffuse color and specular color values SHOULD be calculated according to the following formulas:
 
     diffusecolor = (1 - metallicness) * (1 – 0.04) * baseColor
     
-where 0.04 denotes a linear default specular reflectance value, derived from applying the sRGB to linear formulae in Section 1.2 to #383838.
+where 0.04 denotes a linear default specular reflectance value, derived from applying the sRGB to linear formulae in [1.2. sRGB and Linear Color Values](#12-srgb-and-linear-color-values) to #383838.
 
 **Name**
 The name attribute is intended to convey design intent. Producers SHOULD avoid machine-specific naming in favor of more portable descriptions.
@@ -588,7 +589,7 @@ The name attribute is intended to convey design intent. Producers SHOULD avoid m
 Metallicness is a scalar value in 0..1 range that describes the quality of material being metallic. A value of 1 means pure metal while a value of 0 represents non-metallic (dielectric) surface. The use of intermediate values is possible but discouraged, unless the design intent is to represent composite materials or metallic materials with impurities.
 
 **Roughness**
-A scalar value in 0..1 range that represents surface roughness. A value of (1 – roughness) has the same meaning as ‘glossiness’ described in Chapter 7.1.1.
+A scalar value in 0..1 range that represents surface roughness. A value of (1 – roughness) has the same meaning as ‘glossiness’ described in [7.1.1. Specular](#711-specular).
 
 
 ### 7.3. Specular Texture Display Properties
