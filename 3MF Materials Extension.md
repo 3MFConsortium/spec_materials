@@ -36,13 +36,13 @@ THESE MATERIALS ARE PROVIDED "AS IS." The contributors expressly disclaim any wa
   * [Chapter 6. Texture 2d](#chapter-6-texture-2d)
   * [Chapter 7. Display Properties Overview](#chapter-7-display-properties-overview)
     + [7.1. Specular Display Properties](#71-specular-display-properties)
-    + [7.1.1. Specular](#711-specular)
+      - [7.1.1. Specular](#711-specular)
     + [7.2. Metallic Display Properties](#72-metallic-display-properties)
-    + [7.2.1. Metallic](#721-metallic)
+      - [7.2.1. Metallic](#721-metallic)
     + [7.3. Specular Texture Display Properties](#73-specular-texture-display-properties)
     + [7.4. Metallic Texture Display Properties](#74-metallic-texture-display-properties)
     + [7.5. Translucent Display Properties](#75-translucent-display-properties)
-    + [7.5.1. Translucent](#751-translucent)
+      - [7.5.1. Translucent](#751-translucent)
 - [Part II. Appendixes](#part-ii-appendixes)
   * [Appendix A. Glossary](#appendix-a-glossary)
   * [Appendix B. 3MF XSD Schema for Material and Properties](#appendix-b-3mf-xsd-schema-for-material-and-properties)
@@ -114,7 +114,7 @@ The 3MF core specification ([5.1. Base Material](https://github.com/3MFConsortiu
 
 Since human perception of brightness changes approximately with the logarithm of object's actual brightness, color data is usually encoded using a non-linear color component transfer. Such encoding is used to optimize the usage of bits, especially when individual R, G, B color channels are expressed as 8-bit quantities, as is the case with JPEG and PNG formats.
 
-For inverse transformation to take place, it is necessary to obtain a normalized C_sRGB color triplet by dividing each channel by 255 (or 2^n-1, where n is the number of bits per channel):
+For inverse transformation to take place, it is necessary to obtain a normalized C_sRGB color triplet by dividing each channel by 255 (or 2<sup>n</sup>-1, where n is the number of bits per channel):
 
     C_sRGB = {R_sRGB, G_sRGB, B_sRGB} = { #RR/255, #GG/255, #BB/255 }
 
