@@ -319,6 +319,7 @@ For example, if the accumulated alpha value indicates 70% opacity, it implies th
 The initial accumulated alpha value, as well as the first layer opacity, is assumed to be fully opaque. However, in instances where the first layer is skipped, the second layer’s RGB is used to initialize the accumulated RGB color and alpha is initialized depending on the blend method:
     
 •	For “mix” blend method the second layer’s actual alpha is used.
+
 •	For “multiply” blend method a fully opaque alpha is used.
 
 Blending starts with the third layer in this case.
@@ -332,6 +333,8 @@ Linear “mix” interpolation is defined by the following operation on RGB and 
 
     accumulatedColor.rgb = newLayer.rgb * accumulatedColor.rgb
     accumulatedColor.a = newLayer.a * accumulatedColor.a
+
+For the Blending operations the alpha values are supposed to be between 0 and 1. For an 8 bit encoding the actual encoded value needs to be divided by 255.
 
 Blending operations should be performed in linear RGB space. Thus, the inverse color component transfer function needs to be applied to each component of the source and destination color. In Computer Graphics, blending operations are typically performed in linear RGB space.
 
@@ -423,7 +426,7 @@ Logical interpretation as a RGBA value:
 | Y | Y | Y | Y | #FF |
 * *These pixel layouts are only supported by the PNG format.
 
-If there is no alpha channel present in the texture, the default value #FF SHOULD be used. Unless specified otherwise, alpha channel is assumed to be in linear space while color and grayscale channels are assumed to be in sRGB color space. Texture filtering should be performed in sRGB, but a client SHOULD perform conversion to linear RGB (see [1.2. sRGB and Linear Color Values](#12-srgb-and-linear-color-values)) before linear operations such as multi property blending take place.
+If there is no alpha channel present in the texture, the default value #FF (opaque) SHOULD be used. Unless specified otherwise, alpha channel is assumed to be in linear space while color and grayscale channels are assumed to be in sRGB color space. Texture filtering should be performed in sRGB, but a client SHOULD perform conversion to linear RGB (see [1.2. sRGB and Linear Color Values](#12-srgb-and-linear-color-values)) before linear operations such as multi property blending take place.
 
 The box attribute was DEPRECATED in version 1.2. Producers SHOULD NOT generate it and consumer SHOULD ignore it.
 
