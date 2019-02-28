@@ -406,7 +406,7 @@ Element **\<texture2d>**
 | tilestyleu | **ST_TileStyle** |  | wrap | Specifies how tiling should occur in the u axis in order to fill the overall requested area. Valid values are wrap, mirror, clamp, none. |
 | tilestylev | **ST_TileStyle** |  | wrap | Specifies how tiling should occur in the v axis in order to fill the overall requested area. Valid values are wrap, mirror, clamp, none. |
 | filter | **ST_Filter** |  | auto | Specifies the texture filter to apply when scaling the source texture.  Allowed values are “auto”, “linear”, “nearest” |
-| bordercolor | **ST_ColorValue** |  |  | Color for the tilestyle of "none" |
+| bordercolor | **ST_ColorValue** |  |  | Border color for the tilestyle of "none" |
 | @anyAttribute | | | | |
 
 A 2D texture resource provides information about texture image data, found via the provided path reference, which MUST also be the target of a 3D Texture relationship from the 3D Model part.
@@ -431,7 +431,7 @@ If there is no alpha channel present in the texture, the default value #FF (opaq
 
 The box attribute was DEPRECATED in version 1.2. Producers SHOULD NOT generate it and consumer SHOULD ignore it.
 
-**tilestyleu, tilestylev** - The tile style of "wrap" essentially means that the same texture SHOULD be repeated in the specified axis (both in the positive and negative directions), for the axis value. The tile style of "mirror" means that each time the texture width or height is exceeded, the next repetition of the texture SHOULD be reflected across a plane perpendicular to the axis in question. The tile style of "clamp" means all Texture 2D Coordinates outside of the range zero to one will be assigned the color of the nearest edge pixel. The tile style of "none" means that all Texture 2D Coordinates outside the range zero to one will be assigned the color specified by bordercolor. If border color is not specified, the color of the default object color. If neither is specified, the choice for the color is left to the consumer.
+**tilestyleu, tilestylev** - The tile style of "wrap" essentially means that the same texture SHOULD be repeated in the specified axis (both in the positive and negative directions), for the axis value. The tile style of "mirror" means that each time the texture width or height is exceeded, the next repetition of the texture SHOULD be reflected across a plane perpendicular to the axis in question. The tile style of "clamp" means all Texture 2D Coordinates outside of the range zero to one will be assigned the color of the nearest edge pixel. The tile style of "none" means that all Texture 2D Coordinates outside the range zero to one will be assigned the color specified by border color.
 
 **filter** - The producer MAY require the use of a specific filter type by specifying either “linear” for bilinear interpolation or “nearest” for nearest neighbor interpolation. The producer SHOULD use “auto” to indicate to the consumer to use the highest quality filter available. If source texture is scaled with the model, the specified filter type MUST be applied to the scaling operation. The default value is “auto”.
 
@@ -445,6 +445,8 @@ Finally, Figure 6-2 shows the nearest and the linear filters output by filling t
 *Figure 6-2:  Texture filtering of a 3 x 2 image (Figure 1a) with tilestyleu=WRAP and tilestylev=MIRROR.
 
 ![Figure 6-2 part 1](images/6.1.Figure6-2p1.png)![Figure 6-2 part 2](images/6.1.Figure6-2p2.png)
+
+**bordercolor** - It specifies an optional border color in conjunction with the tiltstyle of "none" to define the color to assign outside of the range zero to one.  If border color is not specified, it will be assigned the default object color. If neither is specified, the choice for the color is left to the consumer.
 
 ## Chapter 7. Display Properties Overview
 
