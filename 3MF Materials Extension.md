@@ -217,6 +217,8 @@ The texture’s alpha channel is assumed to be fully opaque (alpha = #FF) except
 
 The \<displaypropertiesid> attribute references a \<displayproperties> group containing additional properties that describe how best to display a mesh with this material on a device display. A \<texture2Dgroup> describes a set of surface color properties and MUST NOT reference translucent display properties. To achieve a translucent effect through a texture, a multi-properties group MUST be used instead. For more information, refer to [Chapter 7. Display Properties Overview](#chapter-7-display-properties-overview).
 
+A Texture 2D could be assigned assigned to an object as a property. In this case the uv mapping defined by \<tex2coord> selects the color assigned to the object.
+
 To avoid integer overflows, a texture coordinate group MUST contain less than 2^31 tex2coords.
 
 ### 3.1. Texture 2D Coordinate
@@ -293,7 +295,7 @@ Element **\<multiproperties>**
 | --- | --- | --- | --- | --- |
 | id | **ST_ResourceID** | required |  | Unique ID among all resources (which could include elements from extensions to the spec). |
 | pids | **ST_ResourceID** | required |  | A space-delimited list of ST_ResourceID values representing the property group of each constituent |
-| blendmethods | **ST_BlendMethods** | optional | mix | Defines the list of equation(s) to use when blending each layer with the previous layer: “mix” or “multiply”. Where the first blending method defines how to blend the first layer with the object property. |
+| blendmethods | **ST_BlendMethods** | optional | mix | Defines the list of equation(s) to use when blending each layer with the previous layer: “mix” or “multiply”, starting with the second layer. The number of blend methods specified in the list should be the number of layers minus one. |
 | displaypropertiesid | **ST_ResourceID** | optional | | Reference to a \<displayproperties> element providing additional information about how to display the material on a device display |
 | @anyAttribute | | | | |
 
@@ -306,20 +308,19 @@ A \<multiproperties> element acts as a container for \<multi> elements which are
 
 The \<pids> list enumerates property group IDs in the order in which they are layered and blended. The pids list MUST NOT contain more than one reference to a material (base or composite). The pids list MUST NOT contain more than one reference to a colorgroup. The pids list MUST NOT contain any references to a multiproperties. A producer MAY define multiple \<multiproperties> containers, for instance to layer textures in a different order or to specify a different material.
 
-A material, if included, MUST be positioned as the first element in the list forming the first layer, with color information – texture or colors, in subsequent layers. This arrangement describes the composition of an object by defining the enclosed “shell” on top of which the other layers in the multi-properties are blended.
+A material (basematerial or composite), if included, MUST be positioned as the first element in the list forming the first layer, with color information – texture or colors, in subsequent layers. This arrangement describes the composition of an object by defining the enclosed “shell” on top of which the other layers in the multi-properties are blended.
 
-Opposite to other color properties which are treated as opaque, multi-properties are intended to show the opacity defined by the alpha channel over object material, when referenced by an \<object> element, or over the object or material properties, when referenced by a \<triangle> element.
+When a multi-property is assigned to an object as the object property, the blending of the multi-property, defined by the uv mapping in \<tex2coord> in each texture layer, selects the color assigned to the object. If the multi-property defines a material layer the accumulated color and alpha is blended on top of the material as specified later in this section.
+
+Opposite to other color properties which are treated as opaque, multi-properties are intended to show the opacity defined by the alpha channel over the object property when referenced by a \<triangle> element, by performing a "mix" blending.
 
 #### Table 5-1: Triangle multi-property interaction with object property
 
 | Object property type | Triangle multi-property with material 1st layer | Triangle multi-property with no material layer |
 | :---: | :--- | :--- |
-| ****No property defined**** | Blend multi-property layers on top of the material layer. | Blend multi-property layers on top of the object, as consumer dependent material. |
-| ****Material (base material or composite)**** | Object material property is ignored. Blend multi-property layers on top of the material layer. | Blend multi-property layers on top of the object material. |
-| ****Color group**** | Object color property is ignored. <br>Blend multi-property layers on top of the material layer. | Start blending the multi-property by the object color as an initial single color layer. <br>The blending to the object is defined by first blend method. <br>The resultant accumulated color is opaque. |
-| ****Texture 2D**** | Object texture property is ignored. <br>Blend multi-property layers on top of the material layer. | Start blending the multi-property by the object color, from the texture UV mapping, as an initial single color layer. <br>The blending to the object is defined by first blend method. <br>The resultant accumulated color is opaque. |
-| ****Multi-property with no material layer**** | Object multi-property is ignored. Blend multi-property layers on top of the material layer. | Start blending the multi-property by the object color and alpha, from the object's multi-property, as an initial single color layer. <br>The blending to the object is defined by first blend method. <br>The accumulated color and alpha is blended onto consumer dependent material. |
-| ****Multi-property with a material layer**** | Object multi-property is ignored. Blend multi-property layers on top of the material layer. | Start blending the multi-property by the object color and alpha, from the object's multi-property, as an initial single color layer.  <br>The blending to the object is defined by first blend method. <br>The accumulated color and alpha is blended onto the object’s multi-property material layer. |
+| ****Material**** | Object material property is ignored. Blend multi-property layers on top of the material layer. | Blend multi-property layers on top of the object material. |
+| ****Color**** | Object color is ignored. Blend multi-property layers on top of the material layer. | Start blending the multi-property by the object color as an initial single color layer with a "mix" blending. <br>The resultant accumulated color is treated as opaque. |
+| ****Material and Color**** | Object multi-property is ignored. Blend multi-property layers on top of the material layer. | Start blending the multi-property by the object color and alpha, as an initial single color layer, with a "mix" blending. <br>The accumulated color and alpha is blended onto the object’s multi-property material layer. |
 
 First, the properties are independently sampled and linearly interpolated on a triangle, then layered using the order specified within the pids attribute. To determine the resulting color, the individual contributions of all layers are accumulated by considering their opacity and blending mode. When a layer is processed, it is blended with the already accumulated result of previous blending operations, forming a new accumulated value.
 
@@ -459,7 +460,7 @@ The box attribute was DEPRECATED in version 1.2. Producers SHOULD NOT generate i
 
 **tilestyleu, tilestylev** - The tile style of "wrap" essentially means that the same texture SHOULD be repeated in the specified axis (both in the positive and negative directions), for the axis value. The tile style of "mirror" means that each time the texture width or height is exceeded, the next repetition of the texture SHOULD be reflected across a plane perpendicular to the axis in question. The tile style of "clamp" means all Texture 2D Coordinates outside of the range zero to one will be assigned the color of the nearest edge pixel. The tile style of "none" means that all Texture 2D Coordinates outside the range zero to one have the intent to allow seeing through it.
 
-When tile style "none" is used as a single property, all Texture 2D Coordinates outside of the range zero to one will be assigned the color of the object’s default property. If not color defined it will be assigned the material’s color which is consumer dependent.
+When tile style "none" is used as a single property, all Texture 2D Coordinates outside of the range zero to one will be assigned the color of the object’s default property. If not color defined it will be assigned the material’s color, which is consumer dependent.
 
 When tile style "none" is used in multi-properties, all Texture 2D Coordinates outside of the range zero to one will be assigned the RGB color of the nearest edge pixel with fully transparent alpha (#RRGGBB00).
 
