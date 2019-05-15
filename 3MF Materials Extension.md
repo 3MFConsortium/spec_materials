@@ -195,7 +195,7 @@ Element **\<color>**
 
 Colors are used to represent rich color, specifically what most 3D formats call “vertex colors”. These elements are used when color is the only property of interest for the material, and a large number will be needed. The format is the same sRGB color as defined in the core 3MF specification.
 
-Colors are assumed to be fully opaque (alpha = #FF) except when used inside a \<multiproperties> element.	
+Colors are assumed to be fully opaque (alpha = #FF) except when used as a non-base layer inside a \<multiproperties> element.	
 
 ## Chapter 3. Texture 2D Groups
 
@@ -213,7 +213,7 @@ Element **\<texture2dgroup>**
     
 A \<texture2dgroup> element acts as a container for texture coordinate properties. The order of these elements forms an implicit 0-based index that is referenced by other elements, such as the \<object> and \<triangle> elements. It also specifies which image to use, via texid. The referenced \<texture2d> elements are described below in [Chapter 6. Texture 2d](#chapter-6-texture-2d).
 
-The texture’s alpha channel is assumed to be fully opaque (alpha = #FF) except when used inside a <multiproperties> element.
+The texture’s alpha channel is assumed to be fully opaque (alpha = #FF) except when used as a non-base layer inside a \<multiproperties> element.
 
 The displaypropertiesid attribute references a \<displayproperties> group containing additional properties that describe how best to display a mesh with this material on a device display. A \<texture2Dgroup> describes a set of surface color properties and MUST NOT reference translucent display properties. To achieve a translucent effect through a texture, a multi-properties group MUST be used instead. For more information, refer to [Chapter 7. Display Properties Overview](#chapter-7-display-properties-overview).
 
@@ -295,7 +295,7 @@ Element **\<multiproperties>**
 | --- | --- | --- | --- | --- |
 | id | **ST_ResourceID** | required |  | Unique ID among all resources (which could include elements from extensions to the spec). |
 | pids | **ST_ResourceID** | required |  | A space-delimited list of ST_ResourceID values representing the property group of each constituent |
-| blendmethods | **ST_BlendMethods** | optional | mix | Defines the list of equation(s) to use when blending each layer with the previous layer: “mix” or “multiply”, starting with the second layer. The number of blend methods specified in the list should be the number of layers minus one. |
+| blendmethods | **ST_BlendMethods** | optional | mix | Defines the list of equation(s) to use when blending each layer with the previous layer: “mix” or “multiply”. One value should be specified for each layer minus the first layer which is ignored. |
 | displaypropertiesid | **ST_ResourceID** | optional | | Reference to a \<displayproperties> element providing additional information about how to display the material on a device display |
 | @anyAttribute | | | | |
 
@@ -308,45 +308,23 @@ A \<multiproperties> element acts as a container for \<multi> elements which are
 
 The pids list enumerates property group IDs in the order in which they are layered and blended. The pids list MUST NOT contain more than one reference to a material (base or composite). The pids list MUST NOT contain more than one reference to a colorgroup. The pids list MUST NOT contain any references to a multiproperties. A producer MAY define multiple \<multiproperties> containers, for instance to layer textures in a different order or to specify a different material.
 
-A material (basematerial or composite), if included, MUST be positioned as the first element in the list forming the first layer, with color information – texture or colors, in subsequent layers. This arrangement describes the composition of an object by defining the enclosed “shell” on top of which the other layers in the multi-properties are blended.
-
-When a multi-property is assigned to an object as the object property, the blending of the multi-property, defined by the uv mapping in \<tex2coord> in each texture layer, selects the color assigned to the object. If the multi-property defines a material layer the accumulated color and alpha is blended on top of the material as specified later in this section.
-
-Opposite to other color properties which are treated as opaque, multi-properties are intended to show the opacity defined by the alpha channel over the object property when referenced by a \<triangle> element, by performing a "mix" blending.
-
-#### Table 5-1: Triangle multi-property interaction with object property
-
-| Object property type | Triangle multi-property with material 1st layer | Triangle multi-property with no material layer |
-| :---: | :--- | :--- |
-| ****Material**** | Object material property is ignored. Blend multi-property layers on top of the material layer. | Blend multi-property layers on top of the object material. |
-| ****Color**** | Object color is ignored. Blend multi-property layers on top of the material layer. | Start blending the multi-property by the object color as an initial single color layer with a "mix" blending. <br>The resultant accumulated color is treated as opaque. |
-| ****Material and Color**** | Object multi-property is ignored. Blend multi-property layers on top of the material layer. | Start blending the multi-property by the object color and alpha, as an initial single color layer, with a "mix" blending. <br>The accumulated color and alpha is blended onto the object’s multi-property material layer. |
+A material, if included, MUST be positioned as the first element in the list forming the first layer, with color information – texture or colors, in subsequent layers. This arrangement describes the composition of an object by defining the enclosed “shell” on top of which the other layers in the multi-properties are blended.
 
 First, the properties are independently sampled and linearly interpolated on a triangle, then layered using the order specified within the pids attribute. To determine the resulting color, the individual contributions of all layers are accumulated by considering their opacity and blending mode. When a layer is processed, it is blended with the already accumulated result of previous blending operations, forming a new accumulated value.
 
-The blendmethods attribute allows the producer to specify the equation to use when blending the colors between two layers. The blendmethods attribute provides a list of “mix” or “multiply” values associated with each layer in the group describing how to be blended with the previous layer results. Since the blendmethod works in pair of layers, the blendmethod for the first layer MUST be omitted. If there are more layers than blendmethods values + 1 specified in the list, “mix” is assumed to be the default operation. There MUST NOT be more blend methods than layers – 1. A "mix" blend method is automatically assigned when blending the multi-property on top an object color.
+The blendmethods attribute allows the producer to specify the equation to use when blending the colors between two layers. The blendmethods attribute provides a list of “mix” or “multiply” values associated with each layer in the group describing how to be blended with the previous layer results. Since the blendmethod works in pair of layers, the blendmethod for the first layer MUST be omitted. If there are more layers than blendmethods values + 1 specified in the list, “mix” is assumed to be the default operation. There MUST NOT be more blendmethods than layers – 1.
 
 For each blending method an equation which specifies the operation on RGB values is provided. The initial accumulated RGB value is taken from the first layer and the process of blending starts with the second layer and continues until all subsequent layers are processed.
 
-Once the resulting alpha value is known, the accumulated RGB color is applied to material surface, defined by the material layer or, if not specified, by the object property, using the accumulated alpha value as opacity.
-
-Blending over a material layer it might not always be possible to determine the initial accumulated RGB value. For instance, the print ticket might indicate the use of a metallic material or there might be a display property indicating translucent appearance. Therefore, if the material layer is present the consumer SHOULD skip the first layer (including the first entry in the \<blendmethods> list) and accumulate not only RGB but also opacity contributions of subsequent layers. For this purpose, each blending method specifies a second equation which is used to accumulate alpha. 
+If the first layer is a material layer it might not always be possible to determine the initial accumulated RGB value. For instance, the print ticket might indicate the use of a metallic material or there might be a display property indicating translucent appearance. Therefore, if the material layer is present the consumer SHOULD skip the first layer (including the first entry in the \<blendmethods> list) and accumulate not only RGB but also opacity contributions of subsequent layers. For this purpose, each blending method specifies a second equation which is used to accumulate alpha. Once the resulting alpha value is known, the accumulated RGB color is applied to material surface using the accumulated alpha value as opacity.
 
 For example, if the accumulated alpha value indicates 70% opacity, it implies that RGB color is applied in such way that 30% of the underlying surface shows through. If we imagine the surface as a set of infinitesimally small micro-facets, the new layer should statistically cover 70% of the micro-facet area. This might be consumer dependent. For example, a viewing consumer might take the material’s displaycolor as underlying surface color to alpha blend the accumulated color on, or a color printing consumer might spray the color on top of the actual material with a density depending on the accumulated alpha.
 
-The first layer defined the initial accumulated alpha value, as well as the first layer opacity is initialized depending on the blend method:
-
-•	For “mix” blend method the first layer’s actual alpha is used.
-
-•	For “multiply” blend method a fully opaque alpha is used.
-
-Blending starts with the second layer in this case.
-
-However, in instances where the first layer is skipped, the second layer’s RGB is used to initialize the accumulated RGB color and alpha is initialized depending on the blend method:
+The initial accumulated alpha value, as well as the first layer opacity, is assumed to be fully opaque. However, in instances where the first layer is skipped, the second layer’s RGB is used to initialize the accumulated RGB color and alpha is initialized depending on the blend method:
     
 •	For “mix” blend method the second layer’s actual alpha is used.
 
-•	For “multiply” blend method a fully opaque alpha is used. 
+•	For “multiply” blend method a fully opaque alpha is used.
 
 Blending starts with the third layer in this case.
 
@@ -397,9 +375,10 @@ A similar situation might arise when the first layer has a display property indi
 
 When physically printing, display properties MUST be ignored. But when rendering on screen, the display color and display properties SHOULD be blended to provide a realistic preview. In cases where it is not obvious how to blend display properties (e.g. “multiply” blend between regular and metallic color) the consumer MAY ignore display properties and reduce both values to plain RGB.
 
-Printers MAY simulate the spraying of color on a material base color by printing the accumulated color after blending the accumulated color with the accumulated alpha on top of the material color. The blending is an implicit “mix”, overriding the method specified in the blendmethods, as:
+Printers MAY simulate the spraying of color on a material by printing the resulting color after blending the accumulated color with the accumulated alpha on top of the material actual color. The blending is an implicit “mix”, overriding the method specified in the blendmethods, as:
 
-    printColor.rgb = accumulatedColor.rgb * accumulatedColor.a + baseColor.rgb * (1 – accumulatedColor.a)
+
+    printColor.rgb = accumulatedColor.rgb * accumulatedColor.a + materialColor.rgb * (1 – accumulatedColor.a)
 
 Note that the actual material color is not specified in the 3MF document, but it MAY be known by the printer by other means.
 
@@ -460,9 +439,9 @@ The box attribute was DEPRECATED in version 1.2. Producers SHOULD NOT generate i
 
 **tilestyleu, tilestylev** - The tile style of "wrap" essentially means that the same texture SHOULD be repeated in the specified axis (both in the positive and negative directions), for the axis value. The tile style of "mirror" means that each time the texture width or height is exceeded, the next repetition of the texture SHOULD be reflected across a plane perpendicular to the axis in question. The tile style of "clamp" means all Texture 2D Coordinates outside of the range zero to one will be assigned the color of the nearest edge pixel. The tile style of "none" means that all Texture 2D Coordinates outside the range zero to one have the intent to allow seeing through it.
 
-When tile style "none" is used as a single property, all Texture 2D Coordinates outside of the range zero to one will be assigned the color of the object’s default property. If not color defined it will be assigned the material’s color, which is consumer dependent.
+When tile style "none" is used as a single property or as the base layer of a multi-property, all Texture 2D Coordinates outside of the range zero to one will be assigned the color of the object’s default property. If no color is defined it will be assigned the material’s color, which is consumer dependent.
 
-When tile style "none" is used in multi-properties, all Texture 2D Coordinates outside of the range zero to one will be assigned the RGB color of the nearest edge pixel with fully transparent alpha (#RRGGBB00).
+When tile style "none" is used in a non-base layer of a multi-property, all Texture 2D Coordinates outside of the range zero to one will be assigned the RGB color of the nearest edge pixel with fully transparent alpha (#RRGGBB00).
 
 Note: when rendering on screen, the display color specifies the material color and display properties SHOULD be blended to provide a realistic preview. When printing, the actual material color is not specified in the 3MF document, but it MAY be known by the printer by other means.
 
