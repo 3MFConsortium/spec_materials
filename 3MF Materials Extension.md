@@ -195,7 +195,7 @@ Element **\<color>**
 
 Colors are used to represent rich color, specifically what most 3D formats call “vertex colors”. These elements are used when color is the only property of interest for the material, and a large number will be needed. The format is the same sRGB color as defined in the core 3MF specification.
 
-Colors are assumed to be fully opaque (alpha = #FF) unless specified otherwise.
+Colors are assumed to be fully opaque (alpha = #FF) except when used as a non-base layer inside a \<multiproperties> element.	
 
 ## Chapter 3. Texture 2D Groups
 
