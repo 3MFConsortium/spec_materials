@@ -437,13 +437,9 @@ If there is no alpha channel present in the texture, the default value #FF (opaq
 
 The box attribute was DEPRECATED in version 1.2. Producers SHOULD NOT generate it and consumer SHOULD ignore it.
 
-**tilestyleu, tilestylev** - The tile style of "wrap" essentially means that the same texture SHOULD be repeated in the specified axis (both in the positive and negative directions), for the axis value. The tile style of "mirror" means that each time the texture width or height is exceeded, the next repetition of the texture SHOULD be reflected across a plane perpendicular to the axis in question. The tile style of "clamp" means all Texture 2D Coordinates outside of the range zero to one will be assigned the color of the nearest edge pixel. The tile style of "none" means that all Texture 2D Coordinates outside the range zero to one have the intent to allow seeing through.
+**tilestyleu, tilestylev** - The tile style of "wrap" essentially means that the same texture SHOULD be repeated in the specified axis (both in the positive and negative directions), for the axis value. The tile style of "mirror" means that each time the texture width or height is exceeded, the next repetition of the texture SHOULD be reflected across a plane perpendicular to the axis in question. The tile style of "clamp" means all Texture 2D Coordinates outside of the range zero to one will be assigned the color of the nearest edge pixel. The tile style of "none", similarly to "clamp", means that all Texture 2D Coordinates outside the range zero to one will be assigned the color of the nearest edge pixel but with fully transparent alpha (#RRGGBB00) to see through the layer below when used in multi-properties.
 
-When tile style "none" is used as a single property or as the base layer of a multi-property, all Texture 2D Coordinates outside of the range zero to one will be assigned the color of the object’s default property. If no color is defined it will be assigned the material’s color, which is consumer dependent.
-
-When tile style "none" is used in a non-base layer of a multi-property, all Texture 2D Coordinates outside of the range zero to one will be assigned the RGB color of the nearest edge pixel with fully transparent alpha (#RRGGBB00).
-
-Note: when rendering on screen, the display color specifies the material color and display properties SHOULD be blended to provide a realistic preview. When printing, the actual material color is not specified in the 3MF document, but it MAY be known by the printer by other means.
+When tile style "none" is used as a single property or as the base layer of a multi-property, the alpha is ignored and it behaves as "clamp".
 
 **filter** - The producer MAY require the use of a specific filter type by specifying either “linear” for bilinear interpolation or “nearest” for nearest neighbor interpolation. The producer SHOULD use “auto” to indicate to the consumer to use the highest quality filter available. If source texture is scaled with the model, the specified filter type MUST be applied to the scaling operation. The default value is “auto”.
 
