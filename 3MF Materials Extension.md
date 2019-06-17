@@ -296,7 +296,6 @@ Element **\<multiproperties>**
 | id | **ST_ResourceID** | required |  | Unique ID among all resources (which could include elements from extensions to the spec). |
 | pids | **ST_ResourceID** | required |  | A space-delimited list of ST_ResourceID values representing the property group of each constituent |
 | blendmethods | **ST_BlendMethods** | optional | mix | Defines the list of equation(s) to use when blending each layer with the previous layer: “mix” or “multiply”. One value should be specified for each layer minus the first layer which is ignored. |
-| displaypropertiesid | **ST_ResourceID** | optional | | Reference to a \<displayproperties> element providing additional information about how to display the material on a device display |
 | @anyAttribute | | | | |
 
 ##### Elements
@@ -343,8 +342,6 @@ For the Blending operations the alpha values are supposed to be between 0 and 1.
 Blending operations should be performed in linear RGB space. Thus, the inverse color component transfer function needs to be applied to each component of the source and destination color. In Computer Graphics, blending operations are typically performed in linear RGB space.
 
 >**Note:** Users coming from a Graphic Arts background who prefer color blending to be performed in sRGB or any other color space are advised to perform the composition in a 2D imaging application and then apply the blended 2D textures to an object.
-
-The displaypropertiesid attribute references a \<displayproperties> group containing additional properties that describe how best to display the material when previewing a mesh with this material on a device display. For more information, refer to [Chapter 7. Display Properties Overview](#chapter-7-display-properties-overview).
 
 Let us consider the following example:
 
@@ -832,7 +829,6 @@ See [the 3MF Core Specification glossary](https://github.com/3MFConsortium/spec_
 		<xs:attribute name="id" type="ST_ResourceID" use="required"/>
 		<xs:attribute name="pids" type="ST_ResourceIDs" use="required"/>
 		<xs:attribute name="blendmethods" type="ST_BlendMethods" use="optional" default="mix"/>
-		<xs:attribute name="displaypropertiesid" type="ST_ResourceID" use="optional"/>
 		<xs:anyAttribute namespace="##other" processContents="lax"/>
 	</xs:complexType>
 	<xs:complexType name="CT_Multi">
