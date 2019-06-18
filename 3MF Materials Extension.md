@@ -319,13 +319,7 @@ If the first layer is a material layer it might not always be possible to determ
 
 For example, if the accumulated alpha value indicates 70% opacity, it implies that RGB color is applied in such way that 30% of the underlying surface shows through. If we imagine the surface as a set of infinitesimally small micro-facets, the new layer should statistically cover 70% of the micro-facet area. This might be consumer dependent. For example, a viewing consumer might take the material’s displaycolor as underlying surface color to alpha blend the accumulated color on, or a color printing consumer might spray the color on top of the actual material with a density depending on the accumulated alpha.
 
-The initial accumulated alpha value, as well as the first layer opacity, is assumed to be fully opaque. However, in instances where the first layer is skipped, the second layer’s RGB is used to initialize the accumulated RGB color and alpha is initialized depending on the blend method:
-    
-•	For “mix” blend method the second layer’s actual alpha is used.
-
-•	For “multiply” blend method a fully opaque alpha is used.
-
-Blending starts with the third layer in this case.
+The initial accumulated alpha value, as well as the first layer opacity, is assumed to be fully opaque. However, in instances where the first layer is skipped, the second layer’s RGBA is used to initialize the accumulated RGB color and alpha. Blending starts with the third layer in this case.
 
 Linear “mix” interpolation is defined by the following operation on RGB and alpha:
 
