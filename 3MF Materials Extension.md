@@ -315,11 +315,11 @@ The blendmethods attribute allows the producer to specify the equation to use wh
 
 For each blending method an equation which specifies the operation on RGB values is provided. The initial accumulated RGB value is taken from the first layer and the process of blending starts with the second layer and continues until all subsequent layers are processed.
 
-If the first layer is a material layer it might not always be possible to determine the initial accumulated RGB value. For instance, the print ticket might indicate the use of a metallic material or there might be a display property indicating translucent appearance. Therefore, if the material layer is present the consumer SHOULD skip the first layer (including the first entry in the \<blendmethods> list) and accumulate not only RGB but also opacity contributions of subsequent layers. For this purpose, each blending method specifies a second equation which is used to accumulate alpha. Once the resulting alpha value is known, the accumulated RGB color is applied to material surface using the accumulated alpha value as opacity.
+If the first layer is a material layer it might not always be possible to determine the initial accumulated RGB value. For instance, a user print option might indicate the use of a metallic material or there might be a display property indicating translucent appearance. Therefore, if the material layer is present the consumer SHOULD skip the first layer (including the first entry in the \<blendmethods> list) and accumulate not only RGB but also opacity contributions of subsequent layers. For this purpose, each blending method specifies a second equation which is used to accumulate alpha. Once the resulting alpha value is known, the accumulated RGB color is applied to material surface using the accumulated alpha value as opacity.
 
 For example, if the accumulated alpha value indicates 70% opacity, it implies that RGB color is applied in such way that 30% of the underlying surface shows through. If we imagine the surface as a set of infinitesimally small micro-facets, the new layer should statistically cover 70% of the micro-facet area. This might be consumer dependent. For example, a viewing consumer might take the material’s displaycolor as underlying surface color to alpha blend the accumulated color on, or a color printing consumer might spray the color on top of the actual material with a density depending on the accumulated alpha.
 
-The initial accumulated alpha value, as well as the first layer opacity, is assumed to be fully opaque. However, in instances where the first layer is skipped, the second layer’s RGBA is used to initialize the accumulated RGB color and alpha. Blending starts with the third layer in this case.
+The initial accumulated alpha value, as well as the first layer opacity, is assumed to be fully opaque. However, in instances where the first layer is skipped (as described above), the second layer’s RGBA is used to initialize the accumulated RGB color and alpha. Blending starts with the third layer in this case.
 
 Linear “mix” interpolation is defined by the following operation on RGB and alpha:
 
@@ -331,7 +331,7 @@ Linear “mix” interpolation is defined by the following operation on RGB and 
     accumulatedColor.rgb = newLayer.rgb * accumulatedColor.rgb
     accumulatedColor.a = newLayer.a * accumulatedColor.a
 
-For the Blending operations the alpha values are supposed to be between 0 and 1. For an 8 bit encoding the actual encoded value needs to be divided by 255.
+For the blending operations the alpha values MUST be between 0 and 1. For an 8 bit encoding the actual encoded value needs to be divided by 255.
 
 Blending operations should be performed in linear RGB space. Thus, the inverse color component transfer function needs to be applied to each component of the source and destination color. In Computer Graphics, blending operations are typically performed in linear RGB space.
 
