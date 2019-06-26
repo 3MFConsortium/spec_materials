@@ -217,7 +217,7 @@ The texture’s alpha channel is assumed to be fully opaque (alpha = #FF) except
 
 The displaypropertiesid attribute references a \<displayproperties> group containing additional properties that describe how best to display a mesh with this material on a device display. A \<texture2Dgroup> describes a set of surface color properties and MUST NOT reference translucent display properties. To achieve a translucent effect through a texture, a multi-properties group MUST be used instead. For more information, refer to [Chapter 7. Display Properties Overview](#chapter-7-display-properties-overview).
 
-A Texture 2D could be assigned assigned to an object as a property. In this case the uv mapping defined by \<tex2coord> selects the color assigned to the object.
+A Texture 2D could be assigned to an object as a property. In this case the uv mapping, defined by \<tex2coord>, selects the color assigned to the object.
 
 To avoid integer overflows, a texture coordinate group MUST contain less than 2^31 tex2coords.
 
@@ -236,7 +236,7 @@ Element **\<tex2coord>**
 
 Texture coordinates map a vertex of a triangle to a position in image space (U, V coordinates). Texture mapping allows high-resolution color bitmaps to be applied to any surface. The primary advantage of texture mapping over the vertex colors of the previous section is that the textures allow color at a much finer detail level than the underlying mesh, while vertex colors are always at the same resolution as the mesh.
 
-The lower left corner of the texture is the u, v coordinate (0,0), and the upper right coordinate is (1,1). The u,v values are not restricted to this range. When the u,v coordinates exceed the (0,0)-(1,1) range the tilestypeu, tilestypev will be applied according to [Chapter 6. Texture 2d](#chapter-6-texture-2d).
+The lower left corner of the texture is the u, v coordinate (0,0), and the upper right coordinate is (1,1). The u,v values are not restricted to this range. When the u,v coordinates exceed the (0,0)-(1,1) range the tilestyleu, tilestylev will be applied according to [Chapter 6. Texture 2d](#chapter-6-texture-2d).
 
 ## Chapter 4. Composite Materials
 
@@ -408,7 +408,7 @@ Element **\<texture2d>**
 
 A 2D texture resource provides information about texture image data, found via the provided path reference, which MUST also be the target of a 3D Texture relationship from the 3D Model part.
 
-**contenttype** - The only supported content types are JPEG and PNG, as more specifically specified in the 3MF core spec under the [6.1. Thumbnail](https://github.com/3MFConsortium/spec_core/blob/master/3MF%20Core%20Specification.md#61-thumbnail) section.
+**contenttype** - The only supported content types are JPEG and PNG, as described in the 3MF Core Specification under the [6.1. Thumbnail](https://github.com/3MFConsortium/spec_core/blob/master/3MF%20Core%20Specification.md#61-thumbnail) section.
 
 The following table shows the logical interpretation of possible input pixel layouts. The meaning of symbols is as follows: R – red, G – green, B – blue, A – alpha, Y – grayscale.
 
