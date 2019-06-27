@@ -74,17 +74,17 @@ This extension MUST be used only with Core specification 1.2.
 
 ## Document Conventions
 
-See [the 3MF Core Specification conventions](https://github.com/3MFConsortium/spec_core/blob/master/3MF%20Core%20Specification.md#document-conventions).
+See [the 3MF Core Specification conventions](https://github.com/3MFConsortium/spec_core/blob/1.2.3/3MF%20Core%20Specification.md#document-conventions).
 
 In this extension specification, as an example, the prefix "m" maps to the xml-namespace "http://schemas.microsoft.com/3dmanufacturing/material/2015/02". See Appendix [E.3 Namespaces](#e3-namespaces).
 
 ## Language Notes
 
-See [the 3MF Core Specification language notes](https://github.com/3MFConsortium/spec_core/blob/master/3MF%20Core%20Specification.md#language-notes).
+See [the 3MF Core Specification language notes](https://github.com/3MFConsortium/spec_core/blob/1.2.3/3MF%20Core%20Specification.md#language-notes).
 
 ## Software Conformance
 
-See [the 3MF Core Specification software conformance](https://github.com/3MFConsortium/spec_core/blob/master/3MF%20Core%20Specification.md#software-conformance).
+See [the 3MF Core Specification software conformance](https://github.com/3MFConsortium/spec_core/blob/1.2.3/3MF%20Core%20Specification.md#software-conformance).
 
 # Part I. 3MF Documents
 
@@ -110,7 +110,7 @@ All the new elements defined in this 3MF extension specification live under the 
 
 ### 1.2. sRGB and Linear Color Values
 
-The 3MF core specification ([5.1. Base Material](https://github.com/3MFConsortium/spec_core/blob/master/3MF%20Core%20Specification.md#51-base-material)) mentions that whenever 3MF uses colors that are expressed as #RRGGBB hexadecimal quantities with 8 bits per color channel, they are assumed to be in sRGB color space. 3MF uses sRGB as specified by the World Wide Web Consortium (http://www.w3.org/Graphics/Color/sRGB).
+The 3MF core specification ([5.1. Base Material](https://github.com/3MFConsortium/spec_core/blob/1.2.3/3MF%20Core%20Specification.md#51-base-material)) mentions that whenever 3MF uses colors that are expressed as #RRGGBB hexadecimal quantities with 8 bits per color channel, they are assumed to be in sRGB color space. 3MF uses sRGB as specified by the World Wide Web Consortium (http://www.w3.org/Graphics/Color/sRGB).
 
 Since human perception of brightness changes approximately with the logarithm of object's actual brightness, color data is usually encoded using a non-linear color component transfer. Such encoding is used to optimize the usage of bits, especially when individual R, G, B color channels are expressed as 8-bit quantities, as is the case with JPEG and PNG formats.
 
@@ -140,11 +140,11 @@ This equation MUST be applied separately to each channel in the C_linear  triple
 
 ### 1.3. Material Gradients and Interpolation Methods
 
-The 3MF core specification ([4.1.4 Triangles](https://github.com/3MFConsortium/spec_core/blob/master/3MF%20Core%20Specification.md#414-triangles)) describes properties e.g. color to be specified for each vertex of a triangle. Specifically, an sRGB triplet can be assigned to each vertex of a triangle. Color gradients within a triangle should be calculated by performing a linear interpolation in sRGB using barycentric coordinates. Performing color vertex interpolations in sRGB space corresponds to common practices in 2D and 3D imaging applications and is closer to an interpolation in a perceptual uniform space than an interpolation in a linear RGB space would be. 
+The 3MF core specification ([4.1.4 Triangles](https://github.com/3MFConsortium/spec_core/blob/1.2.3/3MF%20Core%20Specification.md#414-triangles)) describes properties e.g. color to be specified for each vertex of a triangle. Specifically, an sRGB triplet can be assigned to each vertex of a triangle. Color gradients within a triangle should be calculated by performing a linear interpolation in sRGB using barycentric coordinates. Performing color vertex interpolations in sRGB space corresponds to common practices in 2D and 3D imaging applications and is closer to an interpolation in a perceptual uniform space than an interpolation in a linear RGB space would be. 
 
 ### 1.4. Base Materials 
 
-The 3MF core specification ([Chapter 5: Material Resources](https://github.com/3MFConsortium/spec_core/blob/master/3MF%20Core%20Specification.md#chapter-5-material-resources)) describes a base material type. This extension adds an additional attribute to the base material element representing display properties that allow realistic rendering of materials to a display.
+The 3MF core specification ([Chapter 5: Material Resources](https://github.com/3MFConsortium/spec_core/blob/1.2.3/3MF%20Core%20Specification.md#chapter-5-material-resources)) describes a base material type. This extension adds an additional attribute to the base material element representing display properties that allow realistic rendering of materials to a display.
 
 Element **\<basematerials>**
 
@@ -408,7 +408,7 @@ Element **\<texture2d>**
 
 A 2D texture resource provides information about texture image data, found via the provided path reference, which MUST also be the target of a 3D Texture relationship from the 3D Model part.
 
-**contenttype** - The only supported content types are JPEG and PNG, as described in the 3MF Core Specification under the [6.1. Thumbnail](https://github.com/3MFConsortium/spec_core/blob/master/3MF%20Core%20Specification.md#61-thumbnail) section.
+**contenttype** - The only supported content types are JPEG and PNG, as described in the 3MF Core Specification under the [6.1. Thumbnail](https://github.com/3MFConsortium/spec_core/blob/1.2.3/3MF%20Core%20Specification.md#61-thumbnail) section.
 
 The following table shows the logical interpretation of possible input pixel layouts. The meaning of symbols is as follows: R – red, G – green, B – blue, A – alpha, Y – grayscale.
 
@@ -746,7 +746,7 @@ For more information on the microfacet model, see Appendix D. Micro-facet Surfac
 
 ## Appendix A. Glossary
 
-See [the 3MF Core Specification glossary](https://github.com/3MFConsortium/spec_core/blob/master/3MF%20Core%20Specification.md#appendix-a-glossary).
+See [the 3MF Core Specification glossary](https://github.com/3MFConsortium/spec_core/blob/1.2.3/3MF%20Core%20Specification.md#appendix-a-glossary).
 
 ## Appendix B. 3MF XSD Schema for Material and Properties 
 ```xml
@@ -1189,7 +1189,7 @@ Advanced Materials	http://schemas.microsoft.com/3dmanufacturing/material/2015/02
 
 # References
 
-See [the 3MF Core Specification references](https://github.com/3MFConsortium/spec_core/blob/master/3MF%20Core%20Specification.md#references).
+See [the 3MF Core Specification references](https://github.com/3MFConsortium/spec_core/blob/1.2.3/3MF%20Core%20Specification.md#references).
 
 
 Copyright 3MF Consortium 2018.
