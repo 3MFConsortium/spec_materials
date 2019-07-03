@@ -364,7 +364,7 @@ A similar situation might arise when the first layer has a display property indi
 
 ![Multiproperties example 6](images/5.1.MultiPropertiesExp6.png)
 
-Display properties MAY be on multiple layers. In this case, it is up to the Consumer to determine how to render. It is recommended that the first layer defines the display properties for subsequent layers. Display properties should be ignored on layers > 1 where colors are blended according to the blending rule and applied as a uniform color value. However, more advanced applications may choose to blend display properties to provide a more realistic view.
+Display properties MAY be defined on multiple layers of multiproperties. In this case, it is up to the consumer to determine how to render the display properties of a multiproperties element. It is RECOMMENDED that the display properties of the first layer are used as the display properties of the multiproperties element. However, more advanced applications MAY choose to blend display properties of the individual layers to provide a more realistic view.
 
 When physically printing, display properties MUST be ignored. But when rendering on screen, the display color and display properties SHOULD be blended to provide a realistic preview. In cases where it is not obvious how to blend display properties (e.g. “multiply” blend between regular and metallic color) the consumer MAY ignore display properties and reduce both values to plain RGB.
 
