@@ -4,7 +4,7 @@
 
 | **Version** | 1.2.1 |
 | --- | --- |
-| **Status** | Draft |
+| **Status** | Published |
 
 
 ## Disclaimer
