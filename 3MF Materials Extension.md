@@ -34,7 +34,7 @@ THESE MATERIALS ARE PROVIDED "AS IS." The contributors expressly disclaim any wa
   * [Chapter 5. Multiproperties](#chapter-5-multiproperties)
     + [5.1. Multi](#51-multi)
   * [Chapter 6. Texture 2d](#chapter-6-texture-2d)
-  * [Chapter 7. Display Properties Overview](#chapter-7-display-properties-overview)
+  * [Chapter 7. Display Properties Overview (Deprecated)](#chapter-7-display-properties-overview)
     + [7.1. Specular Display Properties](#71-specular-display-properties)
       - [7.1.1. Specular](#711-specular)
     + [7.2. Metallic Display Properties](#72-metallic-display-properties)
@@ -43,12 +43,15 @@ THESE MATERIALS ARE PROVIDED "AS IS." The contributors expressly disclaim any wa
     + [7.4. Metallic Texture Display Properties](#74-metallic-texture-display-properties)
     + [7.5. Translucent Display Properties](#75-translucent-display-properties)
       - [7.5.1. Translucent](#751-translucent)
+  * [Chapter 8. Material Translucency](#chapter-8-material-translucency)
+    + [8.1. Translucency](#81-translucency)
 - [Part II. Appendixes](#part-ii-appendixes)
   * [Appendix A. Glossary](#appendix-a-glossary)
   * [Appendix B. 3MF XSD Schema for Material and Properties](#appendix-b-3mf-xsd-schema-for-material-and-properties)
   * [Appendix C. 3MF Samples](#appendix-c-3mf-samples)
     + [C.1. Physically Based Material Sample](#c1-physically-based-material-sample)
     + [C.2. Translucent Material Sample](#c2-translucent-material-sample)
+    + [C.3. One-Parameter Translucency Sample](#c3-one-parameter-translucency-sample)
   * [Appendix D. Micro-facet Surface Model and BRDF](#appendix-d-micro-facet-surface-model-and-brdf)
     + [D.1. Normal Distribution Function – D(h)](#d1-normal-distribution-function-%E2%80%93-dh)
     + [D.2. Geometric Occlusion Term – G(l, v, h)](#d2-geometric-occlusion-term-%E2%80%93-gl-v-h)
@@ -153,9 +156,9 @@ Element **\<basematerials>**
 ##### Attributes
 | Name | Type | Use | Default | Annotation |
 | --- | --- | --- | --- | --- |
-| displaypropertiesid | **ST_ResourceID** | optional | | Reference to a \<displayproperties> element providing additional information about how to display the material on a device display |
+| displaypropertiesid | **ST_ResourceID** | optional | | DEPRECATED (see [Chapter 7](#chapter-7-display-properties-overview)). Reference to a \<displayproperties> element providing additional information about how to display the material on a device display |
 
-The displaypropertiesid attribute references a \<displayproperties> group containing additional properties that describe how best to display a mesh with this material on a device display.
+The displaypropertiesid attribute is DEPRECATED (see [Chapter 7. Display Properties Overview](#chapter-7-display-properties-overview)); producers SHOULD NOT generate it and consumers SHOULD support it only for backward compatibility with existing documents. The displaypropertiesid attribute references a \<displayproperties> group containing additional properties that describe how best to display a mesh with this material on a device display.
 
 ## Chapter 2. Color Groups
 
@@ -167,7 +170,7 @@ Element **\<colorgroup>**
 | Name | Type | Use | Default | Annotation |
 | --- | --- | --- | --- | --- |
 | id | **ST_ResourceID** | required |  | Unique ID among all resources (which could include elements from extensions to the spec). |
-| displaypropertiesid | **ST_ResourceID** | optional | | Reference to a \<displayproperties> element providing additional information about how to display the material on a device display |
+| displaypropertiesid | **ST_ResourceID** | optional | | DEPRECATED (see [Chapter 7](#chapter-7-display-properties-overview)). Reference to a \<displayproperties> element providing additional information about how to display the material on a device display |
 | @anyAttribute | | | | |
     
 A \<colorgroup> element acts as a container for color properties.
@@ -176,7 +179,7 @@ The order of the color elements forms an implicit 0-based index that is referenc
 
 A producer MAY define multiple \<colorgroup> containers to help organize the file, for instance by grouping colors related to specific objects.
     
-The displaypropertiesid attribute references a \<displayproperties> group containing additional properties that describe how best to display a mesh with this material on a device display.
+The displaypropertiesid attribute is DEPRECATED (see [Chapter 7. Display Properties Overview](#chapter-7-display-properties-overview)); producers SHOULD NOT generate it and consumers SHOULD support it only for backward compatibility with existing documents. The displaypropertiesid attribute references a \<displayproperties> group containing additional properties that describe how best to display a mesh with this material on a device display.
     
 A \<colorgroup> describes a set of surface color properties and SHOULD NOT reference translucent display properties. To achieve a translucent effect with surface color, a multi-properties group SHOULD be used instead. For more information, refer to [Chapter 7. Display Properties Overview](#chapter-7-display-properties-overview).
 
@@ -208,14 +211,14 @@ Element **\<texture2dgroup>**
 | --- | --- | --- | --- | --- |
 | id | **ST_ResourceID** | required |  | Unique ID among all resources (which could include elements from extensions to the spec). |
 | texid | **ST_ResourceID** | required |  | Reference to the \<texture2d> element with the matching id attribute value. |
-| displaypropertiesid | **ST_ResourceID** | optional | | Reference to a \<displayproperties> element providing additional information about how to display the material on a device display |
+| displaypropertiesid | **ST_ResourceID** | optional | | DEPRECATED (see [Chapter 7](#chapter-7-display-properties-overview)). Reference to a \<displayproperties> element providing additional information about how to display the material on a device display |
 | @anyAttribute | | | | |
     
 A \<texture2dgroup> element acts as a container for texture coordinate properties. The order of these elements forms an implicit 0-based index that is referenced by other elements, such as the \<object> and \<triangle> elements. It also specifies which image to use, via texid. The referenced \<texture2d> elements are described below in [Chapter 6. Texture 2d](#chapter-6-texture-2d).
 
 The texture’s alpha channel is assumed to be fully opaque (alpha = #FF) except when used as a non-base layer inside a \<multiproperties> element.
 
-The displaypropertiesid attribute references a \<displayproperties> group containing additional properties that describe how best to display a mesh with this material on a device display. A \<texture2Dgroup> describes a set of surface color properties and MUST NOT reference translucent display properties. To achieve a translucent effect through a texture, a multi-properties group MUST be used instead. For more information, refer to [Chapter 7. Display Properties Overview](#chapter-7-display-properties-overview).
+The displaypropertiesid attribute is DEPRECATED (see [Chapter 7. Display Properties Overview](#chapter-7-display-properties-overview)); producers SHOULD NOT generate it and consumers SHOULD support it only for backward compatibility with existing documents. The displaypropertiesid attribute references a \<displayproperties> group containing additional properties that describe how best to display a mesh with this material on a device display. A \<texture2Dgroup> describes a set of surface color properties and MUST NOT reference translucent display properties. To achieve a translucent effect through a texture, a multi-properties group MUST be used instead. For more information, refer to [Chapter 7. Display Properties Overview](#chapter-7-display-properties-overview).
 
 A Texture 2D could be assigned to an object as a property. In this case the uv mapping, defined by \<tex2coord>, selects the color assigned to the object.
 
@@ -250,7 +253,7 @@ Element **\<compositematerials>**
 | id | **ST_ResourceID** | required |  | Unique ID among all resources (which could include elements from extensions to the spec). |
 | matid | **ST_ResourceID** | required |  | Reference to the base material group element with the matching id attribute value (e.g. \<basematerials>). |
 | matindices | **ST_ResourceIndices** | required |  | A space-delimited list of ST_ResourceIndex values of the material constituents |
-| displaypropertiesid | **ST_ResourceID** | optional |  | Reference to a \<displayproperties> element providing additional information about how to display the material on a device display |
+| displaypropertiesid | **ST_ResourceID** | optional |  | DEPRECATED (see [Chapter 7](#chapter-7-display-properties-overview)). Reference to a \<displayproperties> element providing additional information about how to display the material on a device display |
 | @anyAttribute | | | | |
 
 ##### Elements
@@ -262,7 +265,7 @@ A \<compositematerials> element acts as a container for composite materials. The
 
 The \<compositematerials> element defines materials derived by mixing 2 or more base materials in defined ratios. This collective mixture is referred to as a composite material. The matid attribute specifies the material group that all constituents are from, which MUST be a \<basematerials> group. The matindices attribute specifies the indices of the materials to mix.
 
-The displaypropertiesid attribute references a \<displayproperties> group containing additional properties that describe how best to display the material when previewing a mesh with this material on a device display. For more information, refer to [Chapter 7. Display Properties Overview](#chapter-7-display-properties-overview).
+The displaypropertiesid attribute is DEPRECATED (see [Chapter 7. Display Properties Overview](#chapter-7-display-properties-overview)); producers SHOULD NOT generate it and consumers SHOULD support it only for backward compatibility with existing documents. The displaypropertiesid attribute references a \<displayproperties> group containing additional properties that describe how best to display the material when previewing a mesh with this material on a device display. For more information, refer to [Chapter 7. Display Properties Overview](#chapter-7-display-properties-overview).
 
 For visualization the displaycolor of the basematerials, when available, SHOULD be mixed in the same proportions as their individual contribution in the overall composite. 
 
@@ -448,6 +451,8 @@ Finally, Figure 6-2 shows the nearest and the linear filters output by filling t
 ![Figure 6-2 part 1](images/6.1.Figure6-2p1.png)![Figure 6-2 part 2](images/6.1.Figure6-2p2.png)
 
 ## Chapter 7. Display Properties Overview
+
+>**DEPRECATED:** The entire display properties mechanism described in this chapter – including \<pbspeculardisplayproperties>, \<pbmetallicdisplayproperties>, \<pbspeculartexturedisplayproperties>, \<pbmetallictexturedisplayproperties>, and \<translucentdisplayproperties>, together with the displaypropertiesid attribute that references them – is DEPRECATED. Producers SHOULD NOT generate these elements, and consumers SHOULD continue to support them only for backward compatibility with existing documents. The chapter is retained for reference. For representing translucency, producers SHOULD use the material translucency property defined in [Chapter 8. Material Translucency](#chapter-8-material-translucency) instead of \<translucentdisplayproperties>.
 
 Display properties contain extra information about the material to help how to describe it so that a material can be realistically and consistently rendered on the screen. For example, a metal material will be highly shiny and reflective, where a translucent material will allow light to pass through. This information is useful mainly for display purposes.
 
@@ -743,12 +748,55 @@ Roughness is used to parametrize the blurriness of surface reflections and to em
 
 For more information on the microfacet model, see Appendix D. Micro-facet Surface Model and BRDF.
 
+## Chapter 8. Material Translucency
+
+Element **\<materialtranslucency>**
+
+A \<materialtranslucency> element acts as a container for translucency properties. It is a material property in its own right, analogous to a \<colorgroup>, and is referenced by other elements – such as the \<object> and \<triangle> elements – through the property indexing mechanism defined in the core specification (pid, p1, p2, p3) and by \<multiproperties>.
+
+The order of the \<translucency> elements forms an implicit 0-based index that is referenced by other elements. A producer MAY define multiple \<materialtranslucency> containers to help organize the file.
+
+This material translucency property is distinct from, and MUST NOT be confused with, the translucency expressed through \<translucentdisplayproperties> described in [Chapter 7. Display Properties Overview](#chapter-7-display-properties-overview). Whereas \<translucentdisplayproperties> (now DEPRECATED, see Chapter 7) describes translucency through a set of physically based parameters intended primarily for on-screen display, \<materialtranslucency> expresses translucency as a single, measurement-based material property suitable for appearance-based color and translucency reproduction workflows. Producers SHOULD use \<materialtranslucency> rather than \<translucentdisplayproperties> to specify translucency. A producer SHOULD NOT specify both kinds of translucency for the same material; if both are present, a consumer SHOULD treat \<materialtranslucency> as authoritative.
+
+To avoid integer overflows, a material translucency group MUST contain less than 2^31 \<translucency> elements.
+
+##### Attributes
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| id | **ST_ResourceID** | required |  | Unique ID among all resources (which could include elements from extensions to the spec). |
+| @anyAttribute | | | | |
+
+##### Elements
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| translucency | **CT_Translucency** | required |   |   |
+
+### 8.1. Translucency
+
+Element **\<translucency>**
+
+##### Attributes
+| Name | Type | Use | Default | Annotation |
+| --- | --- | --- | --- | --- |
+| translucencyalpha | **ST_Number** | required |  | One-parameter representation of translucency ("translucency alpha") as defined by ISO 19307:2026. |
+| @anyAttribute | | | | |
+
+The translucencyalpha attribute provides a one-dimensional, measurement-based representation of the material’s translucency, termed “translucency alpha” and defined by ISO 19307:2026, *Graphic technology — Measurement and one-parameter representation of translucency*. It approximates the overall translucency magnitude of a flat, light-absorbing and light-scattering material with a single scalar value. The numeric value, its valid range, and the measurement conditions used to obtain it are defined normatively by ISO 19307:2026.
+
+Because translucency is inherently a homogeneous volumetric property of a material, the material translucency of a mesh MUST be constant across each connected component ("shell") of that mesh. A connected component is a maximal set of triangles connected through shared edges. That is, all \<triangle> elements belonging to the same connected component MUST resolve, through their ‘p1’, ‘p2’, and ‘p3’ attributes, to a \<translucency> property whose translucencyalpha value is identical. Equivalently, the property MAY be specified once at the object level. A consumer encountering differing translucencyalpha values within a single connected component MUST treat the document as invalid for the purpose of translucency reproduction.
+
+>**Note:** As a local property, translucency alpha describes the material itself and is therefore scale-invariant: it does not change when the object is scaled. The visual appearance of the printed object, however, depends on the distance light travels through the material — that is, on the object’s final wall thickness — and therefore on the world transform applied to the object during the build. Two objects sharing the same translucency alpha but built at different scales will consequently differ in appearance.
+
 
 # Part II. Appendixes
 
 ## Appendix A. Glossary
 
 See [the 3MF Core Specification glossary](https://github.com/3MFConsortium/spec_core/blob/1.2.3/3MF%20Core%20Specification.md#appendix-a-glossary).
+
+**Translucency alpha** – A one-dimensional, measurement-based material property that approximates the translucency magnitude of a flat, light-absorbing and light-scattering material with a single scalar value, as defined by ISO 19307:2026. It is a local, scale-invariant property of the material and is exposed in this extension through the translucencyalpha attribute of the \<translucency> element (see [Chapter 8. Material Translucency](#chapter-8-material-translucency)).
+
+**Connected component (shell)** – A maximal set of triangles of an object’s mesh that are connected through shared edges. An object’s mesh MAY consist of one or more connected components. Material translucency MUST be constant across each connected component.
 
 ## Appendix B. 3MF XSD Schema for Material and Properties 
 ```xml
@@ -883,6 +931,17 @@ See [the 3MF Core Specification glossary](https://github.com/3MFConsortium/spec_
 		<xs:attribute name="roughness" type="ST_Number" default="0"/>
 		<xs:anyAttribute namespace="##other" processContents="lax"/>
 	</xs:complexType>
+	<xs:complexType name="CT_MaterialTranslucency">
+		<xs:sequence>
+			<xs:element ref="translucency" maxOccurs="2147483647"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="ST_ResourceID" use="required"/>
+		<xs:anyAttribute namespace="##other" processContents="lax"/>
+	</xs:complexType>
+	<xs:complexType name="CT_Translucency">
+		<xs:attribute name="translucencyalpha" type="ST_Number" use="required"/>
+		<xs:anyAttribute namespace="##other" processContents="lax"/>
+	</xs:complexType>
 	<xs:complexType name="CT_TranslucentDisplayProperties">
 		<xs:sequence>
 			<xs:element ref="translucent" maxOccurs="2147483647"/>
@@ -993,6 +1052,8 @@ See [the 3MF Core Specification glossary](https://github.com/3MFConsortium/spec_
 	<xs:element name="pbspeculartexturedisplayproperties"	type="CT_PBSpecularTextureDisplayProperties"/>
 	<xs:element name="translucentdisplayproperties" type="CT_TranslucentDisplayProperties"/>
 	<xs:element name="translucent" type="CT_Translucent"/>
+	<xs:element name="materialtranslucency" type="CT_MaterialTranslucency"/>
+	<xs:element name="translucency" type="CT_Translucency"/>
 	<xs:attribute name="displaypropertiesid" type="ST_ResourceID"/>
 </xs:schema>
 ```
@@ -1127,6 +1188,52 @@ The following 3MF Sample demonstrates an object with Translucent display propert
 ```
 ![Translucent Material with Texture Example](images/C.2.TranslucentExample.png)
 
+### C.3. One-Parameter Translucency Sample
+
+The following 3MF Sample demonstrates an object that uses the material translucency property (translucency alpha) defined in [Chapter 8. Material Translucency](#chapter-8-material-translucency), as specified by ISO 19307:2026. The \<materialtranslucency> group is referenced at the object level (pid, pindex), so its translucencyalpha value is necessarily constant across every connected component ("shell") of the object’s mesh.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<model unit="millimeter" xml:lang="en-US" xmlns:m="http://schemas.microsoft.com/3dmanufacturing/material/2015/02" xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02">
+  <resources>
+    <m:materialtranslucency id="1">
+      <m:translucency translucencyalpha="0.62" />
+    </m:materialtranslucency>
+    <object id="3" type="model" pid="1" pindex="0">
+      <mesh>
+        <vertices>
+          <vertex x="0" y="0" z="0" />
+          <vertex x="10" y="0" z="0" />
+          <vertex x="10" y="10" z="0" />
+          <vertex x="0" y="10" z="0" />
+          <vertex x="0" y="0" z="10" />
+          <vertex x="10" y="0" z="10" />
+          <vertex x="10" y="10" z="10" />
+          <vertex x="0" y="10" z="10" />
+        </vertices>
+        <triangles>
+          <triangle v1="0" v2="2" v3="1" />
+          <triangle v1="0" v2="3" v3="2" />
+          <triangle v1="4" v2="5" v3="6" />
+          <triangle v1="4" v2="6" v3="7" />
+          <triangle v1="0" v2="1" v3="5" />
+          <triangle v1="0" v2="5" v3="4" />
+          <triangle v1="1" v2="2" v3="6" />
+          <triangle v1="1" v2="6" v3="5" />
+          <triangle v1="2" v2="3" v3="7" />
+          <triangle v1="2" v2="7" v3="6" />
+          <triangle v1="3" v2="0" v3="4" />
+          <triangle v1="3" v2="4" v3="7" />
+        </triangles>
+      </mesh>
+    </object>
+  </resources>
+  <build>
+    <item objectid="3" transform="1 0 0 0 1 0 0 0 1 0 0 0" />
+  </build>
+</model>
+```
+
 ## Appendix D. Micro-facet Surface Model and BRDF
 
 The rendering of realistic images requires a mathematical model of how object’s surface reflects light. Given a point on the surface, a light source and an observer, the model determines the color and intensity of light reaching the observer. Most real-world surfaces exhibit a combination of diffuse reflection (in which the light is uniformly scattered in all directions) and specular reflection (in which the light is concentrated around the mirror direction).
@@ -1192,6 +1299,8 @@ Advanced Materials	http://schemas.microsoft.com/3dmanufacturing/material/2015/02
 # References
 
 See [the 3MF Core Specification references](https://github.com/3MFConsortium/spec_core/blob/1.2.3/3MF%20Core%20Specification.md#references).
+
+ISO 19307:2026, *Graphic technology — Measurement and one-parameter representation of translucency*. https://www.iso.org/standard/64088.html
 
 
 Copyright 3MF Consortium 2018.
